@@ -1,0 +1,5 @@
+lib
+node_modules
+public/js
+public/css
+*.log

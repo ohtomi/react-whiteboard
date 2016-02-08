@@ -1,0 +1,8 @@
+{
+  "main": {
+    "js": "./src/main/js/"
+  },
+  "dest": {
+    "js": "./public/js/"
+  }
+}
