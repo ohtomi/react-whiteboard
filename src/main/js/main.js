@@ -23,7 +23,9 @@ var Whiteboard = React.createClass({
 
         var that = this;
         this.svg.on('click.whiteboard', function() {
-            that.props.listener(d3.event);
+            if (that.props.listener) {
+                that.props.listener(d3.event);
+            }
         });
     },
 
