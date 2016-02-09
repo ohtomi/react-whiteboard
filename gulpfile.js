@@ -14,57 +14,26 @@ gulp.task('del', function(done) {
     ], done);
 });
 
-function compile(doMinify, doWatch) {
-    var watchify = require('watchify');
-    var browserify = require('browserify');
-    var babelify = require('babelify');
-    var source = require('vinyl-source-stream');
-    var buffer = require('vinyl-buffer');
+function compile(doSourceMap, doMinify) {
+    var babel = require('gulp-babel');
+    var concat = require('gulp-concat');
     var uglify = require('gulp-uglify');
     var sourcemaps = require('gulp-sourcemaps');
     var gulpif = require('gulp-if');
 
-    var opts = {
-        entries: [paths.main.js + '/main.js'],
-        transform: [[babelify, {presets: ['es2015', 'react']}]],
-        debug: true
-    };
-    var b = doWatch ? watchify(browserify(opts)) : browserify(opts);
-
-    function bundle() {
-        return b.bundle()
-            .on('error', function(err) {
-                console.log(err.toString());
-            })
-            .pipe(source('react-whiteboard.js'))
-            .pipe(buffer())
-            .pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(gulpif(doMinify, uglify()))
-            .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest(paths.dest.js));
-    }
-
-    b.on('update', bundle);
-    b.on('log', function(msg) {
-        console.log(msg);
-    });
-
-    return bundle();
+    return gulp.src(paths.main.js + '/**/*.js')
+        .pipe(gulpif(doSourceMap, sourcemaps.init()))
+        .pipe(babel({
+            presets: ['es2015', 'react']
+        }))
+        .pipe(concat('react-whiteboard.js'))
+        .pipe(gulpif(doMinify, uglify()))
+        .pipe(gulpif(doSourceMap, sourcemaps.write('.')))
+        .pipe(gulp.dest(paths.dest.js));
 }
 
-gulp.task('browserify', function() {
+gulp.task('babel', function() {
     return compile(false, true);
-});
-
-gulp.task('karma', function(done) {
-    var karma = require('karma').server;
-
-    karma.start({
-        configFile: __dirname + '/karma.conf.js',
-        singleRun: true
-        }, function(exitStatus) {
-            done(exitStatus ? 'There are failing unit tests' : undefined);
-        });
 });
 
 gulp.task('jsxhint', function() {
@@ -85,11 +54,17 @@ gulp.task('sass', function() {
         .pipe(gulp.dest(paths.dest.css));
 });
 
-gulp.task('watch', ['browserify'], function() {
-    gulp.watch([paths.test.js + '/**/*.js'], ['karma']);
-    gulp.watch([paths.main.css + '/**/*.scss'], ['sass']);
+gulp.task('watch', ['babel', 'sass'], function() {
+    var watch = require('gulp-watch');
+
+    watch(paths.main.js + '/**/*.js', function() {
+        gulp.start('babel');
+    });
+    watch(paths.main.css + '/**/*.scss', function() {
+        gulp.start('sass');
+    });
 });
 
 gulp.task('build', ['sass'], function() {
-    return compile(true, false);
+    return compile(true, true);
 });
