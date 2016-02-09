@@ -1,4 +1,4 @@
-# reactjs-whiteboard
+# react-whiteboard
 
 ## Description
 

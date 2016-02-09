@@ -36,7 +36,7 @@ function compile(doMinify, doWatch) {
             .on('error', function(err) {
                 console.log(err.toString());
             })
-            .pipe(source('bundle.js'))
+            .pipe(source('react-whiteboard.js'))
             .pipe(buffer())
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(gulpif(doMinify, uglify()))

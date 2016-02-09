@@ -4,14 +4,18 @@
 'use strict';
 
 var React = require('react');
-var Whiteboard = require('../../../../../lib/js/react-whiteboard');
+var Whiteboard = require('react-whiteboard');
 
 var App = React.createClass({
+
+    handleEvent: function(ev) {
+        console.log(ev);
+    },
 
     render: function() {
         return (
             <div>
-                <Whiteboard width={600} height={400} />
+                <Whiteboard width={600} height={400} listener={this.handleEvent} />
             </div>
         );
     }

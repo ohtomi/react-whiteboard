@@ -4,7 +4,6 @@
 'use strict';
 
 var React = require('react');
-var EventEmitter = require('events').EventEmitter;
 var d3 = require('d3');
 
 var Whiteboard = React.createClass({
@@ -13,23 +12,23 @@ var Whiteboard = React.createClass({
 
     propTypes: {
         width: React.PropTypes.number,
-        height: React.PropTypes.number
-    },
-
-    getInitialState: function() {
-        return {
-            emitter: new EventEmitter()
-        };
+        height: React.PropTypes.number,
+        listener: React.PropTypes.func
     },
 
     componentDidMount: function() {
-        this.svg = d3.select(this.refs.whiteboad).append('svg')
+        this.svg = d3.select(this.refs.whiteboard).append('svg')
             .attr('width', this.props.width)
             .attr('height', this.props.height);
+
+        var that = this;
+        this.svg.on('click.whiteboard', function() {
+            that.props.listener(d3.event);
+        });
     },
 
     render: function() {
-        return (<div ref="whiteboad"></div>);
+        return (<div ref="whiteboard"></div>);
     }
 
 });

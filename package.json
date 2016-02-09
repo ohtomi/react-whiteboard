@@ -4,7 +4,11 @@
   "description": "Whiteboard component based on D3.js for React.js",
   "main": "lib/js/react-whiteboard.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "ulimit -n 2560; gulp build",
+    "clean": "gulp del",
+    "lint": "gulp jsxhint",
+    "test": "ulimit -n 2560; gulp karma",
+    "watch": "ulimit -n 2560; gulp watch"
   },
   "repository": {
     "type": "git",
@@ -21,6 +25,7 @@
   "author": "Kenichi Ohtomi",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.5.1",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
