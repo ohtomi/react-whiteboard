@@ -2,7 +2,7 @@
   "name": "react-whiteboard",
   "version": "0.0.1",
   "description": "Whiteboard component based on D3.js for React.js",
-  "main": "lib/js/react-whiteboard.js",
+  "main": "lib/js/main.js",
   "scripts": {
     "build": "ulimit -n 2560; gulp build",
     "clean": "gulp del",
@@ -31,7 +31,6 @@
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.2",
-    "gulp-concat": "^2.6.0",
     "gulp-if": "^2.0.0",
     "gulp-jshint": "^2.0.0",
     "gulp-sass": "^2.2.0",

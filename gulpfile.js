@@ -16,7 +16,6 @@ gulp.task('del', function(done) {
 
 function compile(doSourceMap, doMinify) {
     var babel = require('gulp-babel');
-    var concat = require('gulp-concat');
     var uglify = require('gulp-uglify');
     var sourcemaps = require('gulp-sourcemaps');
     var gulpif = require('gulp-if');
@@ -26,14 +25,13 @@ function compile(doSourceMap, doMinify) {
         .pipe(babel({
             presets: ['es2015', 'react']
         }))
-        .pipe(concat('react-whiteboard.js'))
         .pipe(gulpif(doMinify, uglify()))
         .pipe(gulpif(doSourceMap, sourcemaps.write('.')))
         .pipe(gulp.dest(paths.dest.js));
 }
 
 gulp.task('babel', function() {
-    return compile(false, true);
+    return compile(false, false);
 });
 
 gulp.task('jsxhint', function() {
