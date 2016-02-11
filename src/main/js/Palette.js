@@ -1,19 +1,13 @@
 // Pallete.js
-(function() {
-
 'use strict';
 
-var React = require('react');
-var d3 = require('d3');
+import React from 'react';
+import d3 from 'd3';
 
-var Pallete = React.createClass({
+export default class Pallete extends React.Component {
 
-    render: function() {
+    render() {
         return (<div></div>);
     }
 
-});
-
-module.exports = Pallete;
-
-})();
+}

@@ -1,18 +1,16 @@
 // App.js
-(function() {
-
 'use strict';
 
-var React = require('react');
-var Whiteboard = require('react-whiteboard');
+import React from 'react';
+import Whiteboard from 'react-whiteboard';
 
-var App = React.createClass({
+export default class App extends React.Component {
 
-    handleEvent: function(ev) {
+    handleEvent(ev) {
         console.log(ev);
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div>
                 <Whiteboard width={600} height={400} listener={this.handleEvent} />
@@ -20,8 +18,4 @@ var App = React.createClass({
         );
     }
 
-});
-
-module.exports = App;
-
-})();
+}

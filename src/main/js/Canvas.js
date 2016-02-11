@@ -1,19 +1,13 @@
 // Canvas.js
-(function() {
-
 'use strict';
 
-var React = require('react');
-var d3 = require('d3');
+import React from 'react';
+import d3 from 'd3';
 
-var Canvas = React.createClass({
+export default class Canvas extends React.Component {
 
-    render: function() {
+    render() {
         return (<div></div>);
     }
 
-});
-
-module.exports = Canvas;
-
-})();
+}
