@@ -3,12 +3,10 @@
 
 import React from 'react';
 import {EventEmitter} from 'events';
-import d3 from 'd3';
 import Canvas from './Canvas';
 import Pallete from './Palette';
 
-var svg = null;
-var emitter = new EventEmitter();
+const emitter = new EventEmitter();
 
 export default class Whiteboard extends React.Component {
 
@@ -32,24 +30,28 @@ export default class Whiteboard extends React.Component {
         };
     }
 
-    componentDidMount() {
-        svg = d3.select(this.refs.whiteboard).append('svg')
-            .attr('width', this.props.width)
-            .attr('height', this.props.height);
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataset: []
+        };
+    }
 
-        var that = this;
-        svg.on('click.whiteboard', function() {
-            if (that.props.listener) {
-                that.props.listener(d3.event);
-            }
+    componentDidMount() {
+        let that = this;
+        emitter.on('click.canvas', function(ev) {
+            const point = [ev.x, ev.y];
+            const dataset = that.state.dataset;
+            dataset.push(point);
+            that.setState({dataset: dataset});
         });
     }
 
     render() {
         return (
             <div ref="whiteboard">
-                <Canvas {...this.state} />
-                <Pallete {...this.state} />
+                <Canvas {...this.props} {...this.state} />
+                <Pallete {...this.props} {...this.state} />
             </div>
         );
     }
