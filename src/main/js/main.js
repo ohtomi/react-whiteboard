@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {EventEmitter} from 'events';
+import d3 from 'd3';
 import Canvas from './Canvas';
 import Pallete from './Palette';
 
@@ -33,16 +34,45 @@ export default class Whiteboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataset: []
+            dataset: [
+                {
+                    width: 1,
+                    values: []
+                }
+            ]
         };
     }
 
     componentDidMount() {
+        d3.select('body').on('keydown.body', function() {
+            emitter.emit('keydown.body', d3.event);
+        });
+
         let that = this;
+        emitter.on('keydown.body', function(ev) {
+            const width = ev.keyCode - 48;
+            if (width === 0) {
+                const dataset = that.state.dataset;
+                dataset.push({
+                    widht: 1,
+                    values: []
+                });
+                that.setState({dataset: dataset});
+            }
+            if (width >= 1 && width <= 9) {
+                const dataset = that.state.dataset;
+                dataset.push({
+                    width: width,
+                    values: []
+                });
+                that.setState({dataset: dataset});
+            }
+        });
         emitter.on('click.canvas', function(ev) {
             const point = [ev.x, ev.y];
             const dataset = that.state.dataset;
-            dataset.push(point);
+            const current = dataset[dataset.length - 1];
+            current.values.push(point);
             that.setState({dataset: dataset});
         });
     }
