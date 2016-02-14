@@ -9,6 +9,9 @@ import Pallete from './Palette';
 
 const emitter = new EventEmitter();
 
+const handMode = {};
+const lineMode = {};
+
 export default class Whiteboard extends React.Component {
 
     static get propTypes() {
@@ -34,12 +37,10 @@ export default class Whiteboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataset: [
-                {
-                    width: 1,
-                    values: []
-                }
-            ]
+            dataset: [],
+            mode: handMode,
+            strokeWidth: 1,
+            strokeColor: 'black'
         };
     }
 
@@ -52,28 +53,74 @@ export default class Whiteboard extends React.Component {
         let that = this;
         emitter.on('keydown.body', function(width) {
             if (width === 0) {
-                const dataset = that.state.dataset;
-                dataset.push({
-                    widht: 1,
-                    values: []
-                });
-                that.setState({dataset: dataset});
+                that.toggleMode();
             }
             if (width >= 1 && width <= 9) {
-                const dataset = that.state.dataset;
-                dataset.push({
-                    width: width,
-                    values: []
-                });
-                that.setState({dataset: dataset});
+                that.changeStrokeWidth(width);
+            }
+            if (width === 19) { // 'c'
+                that.toggleStrokeColor();
             }
         });
         emitter.on('mousemove.canvas', function(point) {
-            const dataset = that.state.dataset;
-            const current = dataset[dataset.length - 1];
-            current.values.push(point);
-            that.setState({dataset: dataset});
+            that.pushPoint(point);
         });
+    }
+
+    toggleMode() {
+        if (this.state.mode === lineMode) {
+            this.setState({mode: handMode});
+        } else {
+            const dataset = this.state.dataset;
+            dataset.push({
+                strokeWidth: this.state.strokeWidth,
+                strokeColor: this.state.strokeColor,
+                values: []
+            });
+            this.setState({
+                mode: lineMode,
+                dataset: dataset
+            });
+        }
+    }
+
+    changeStrokeWidth(width) {
+        this.setState({strokeWidth: width});
+    }
+
+    toggleStrokeColor() {
+        if (this.state.strokeColor === 'black') {
+            this.setState({strokeColor: 'red'});
+        } else if (this.state.strokeColor === 'red') {
+            this.setState({strokeColor: 'green'});
+        } else if (this.state.strokeColor === 'green') {
+            this.setState({strokeColor: 'blue'});
+        } else {
+            this.setState({strokeColor: 'black'});
+        }
+    }
+
+    pushPoint(point) {
+        if (this.state.mode === handMode) {
+            return;
+        }
+
+        const dataset = this.state.dataset;
+        const current = dataset[dataset.length - 1];
+
+        if (current &&
+                current.strokeWidth === this.state.strokeWidth &&
+                current.strokeColor === this.state.strokeColor) {
+            current.values.push(point);
+            this.setState({dataset: dataset});
+        } else {
+            dataset.push({
+                strokeWidth: this.state.strokeWidth,
+                strokeColor: this.state.strokeColor,
+                values: [point]
+            });
+            this.setState({dataset: dataset});
+        }
     }
 
     render() {
@@ -81,6 +128,21 @@ export default class Whiteboard extends React.Component {
             <div ref="whiteboard">
                 <Canvas {...this.props} {...this.state} />
                 <Pallete {...this.props} {...this.state} />
+                {this.renderDebugInfo()}
+            </div>
+        );
+    }
+
+    renderDebugInfo() {
+        const mode = this.state.mode === handMode ? 'hand' : 'line';
+        const strokeWidth = this.state.strokeWidth;
+        const strokeColor = this.state.strokeColor;
+
+        return (
+            <div>
+                <span>mode: {mode} </span>
+                <span>stroke-width: {strokeWidth} </span>
+                <span>stroke-color: {strokeColor} </span>
             </div>
         );
     }

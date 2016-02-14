@@ -59,8 +59,8 @@ export default class Canvas extends React.Component {
                 .classed('line', true)
                 .attr('d', line)
                 .attr('fill', 'none')
-                .attr('stroke', 'black')
-                .attr('stroke-width', d.width);
+                .attr('stroke', d.strokeColor)
+                .attr('stroke-width', d.strokeWidth);
         }
     }
 
