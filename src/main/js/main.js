@@ -45,12 +45,12 @@ export default class Whiteboard extends React.Component {
 
     componentDidMount() {
         d3.select('body').on('keydown.body', function() {
-            emitter.emit('keydown.body', d3.event);
+            const width = d3.event.keyCode - 48;
+            emitter.emit('keydown.body', width);
         });
 
         let that = this;
-        emitter.on('keydown.body', function(ev) {
-            const width = ev.keyCode - 48;
+        emitter.on('keydown.body', function(width) {
             if (width === 0) {
                 const dataset = that.state.dataset;
                 dataset.push({
@@ -68,8 +68,7 @@ export default class Whiteboard extends React.Component {
                 that.setState({dataset: dataset});
             }
         });
-        emitter.on('click.canvas', function(ev) {
-            const point = [ev.x, ev.y];
+        emitter.on('mousemove.canvas', function(point) {
             const dataset = that.state.dataset;
             const current = dataset[dataset.length - 1];
             current.values.push(point);

@@ -30,8 +30,9 @@ export default class Canvas extends React.Component {
             .attr('height', this.props.height);
 
         let that = this;
-        svg.on('click.canvas', function() {
-            that.context.emitter.emit('click.canvas', d3.event);
+        svg.on('mousemove.canvas', function() {
+            const point = [d3.event.x, d3.event.y];
+            that.context.emitter.emit('mousemove.canvas', point);
         });
 
         this.renderCanvas();
