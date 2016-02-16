@@ -31,7 +31,7 @@ export default class Canvas extends React.Component {
 
         let that = this;
         svg.on('mousemove.canvas', function() {
-            const point = [d3.event.x, d3.event.y];
+            const point = [d3.event.x - 6, d3.event.y + 18];
             that.context.emitter.emit('mousemove.canvas', point);
         });
 
@@ -43,7 +43,14 @@ export default class Canvas extends React.Component {
     }
 
     render() {
-        return (<div ref="canvas"></div>);
+        let canvasStyle = {
+            width: this.props.width,
+            height: this.props.height,
+            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
+        };
+        return (
+            <div ref="canvas" style={canvasStyle}></div>
+        );
     }
 
     renderCanvas() {
