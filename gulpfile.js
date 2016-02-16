@@ -52,7 +52,12 @@ gulp.task('sass', function() {
         .pipe(gulp.dest(paths.dest.css));
 });
 
-gulp.task('watch', ['babel', 'sass'], function() {
+gulp.task('icons', function() {
+    return gulp.src(paths.main.css + '/*.svg')
+        .pipe(gulp.dest(paths.dest.css));
+});
+
+gulp.task('watch', ['babel', 'sass', 'icons'], function() {
     var watch = require('gulp-watch');
 
     watch(paths.main.js + '/**/*.js', function() {
@@ -61,8 +66,11 @@ gulp.task('watch', ['babel', 'sass'], function() {
     watch(paths.main.css + '/**/*.scss', function() {
         gulp.start('sass');
     });
+    watch(paths.main.css + '/**/*.svg', function() {
+        gulp.start('icons');
+    });
 });
 
-gulp.task('build', ['sass'], function() {
+gulp.task('build', ['sass', 'icons'], function() {
     return compile(true, true);
 });

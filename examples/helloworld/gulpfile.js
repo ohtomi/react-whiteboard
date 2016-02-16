@@ -46,7 +46,13 @@ gulp.task('browserify', function() {
     return compile(false, true);
 });
 
-gulp.task('watch', ['browserify'], function() {
+gulp.task('icons', function() {
+    return gulp.src(paths.main.icons + '/*.svg')
+        .pipe(gulp.dest(paths.dest.icons));
+});
+
+gulp.task('watch', ['browserify', 'icons'], function() {
+    gulp.watch(paths.main.icons + '/*.svg', ['icons']);
 });
 
 gulp.task('build', function() {

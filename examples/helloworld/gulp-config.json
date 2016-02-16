@@ -1,8 +1,10 @@
 {
   "main": {
-    "js": "./src/main/js/"
+    "js": "./src/main/js/",
+    "icons": "./node_modules/react-whiteboard/lib/css/"
   },
   "dest": {
-    "js": "./public/js/"
+    "js": "./public/js/",
+    "icons": "./public/css/"
   }
 }
