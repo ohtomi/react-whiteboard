@@ -39,7 +39,7 @@ export default class Whiteboard extends React.Component {
         this.state = {
             dataset: [],
             mode: handMode,
-            strokeWidth: 1,
+            strokeWidth: 5,
             strokeColor: 'black'
         };
     }

@@ -46,7 +46,9 @@ export default class Canvas extends React.Component {
         let canvasStyle = {
             width: this.props.width,
             height: this.props.height,
-            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
+            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default',
+            border: 'solid 2px #333',
+            backgroundColor: '#f6f6f6'
         };
         return (
             <div ref="canvas" style={canvasStyle}></div>
