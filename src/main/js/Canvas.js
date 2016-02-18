@@ -31,7 +31,7 @@ export default class Canvas extends React.Component {
 
         let that = this;
         svg.on('mousemove.canvas', function() {
-            const point = [d3.event.x - 6, d3.event.y + 18];
+            const point = [d3.event.offsetX, d3.event.offsetY + 24];
             that.context.emitter.emit('mousemove.canvas', point);
         });
 
