@@ -8,6 +8,8 @@ const line = d3.svg.line()
     .x(d => d[0])
     .y(d => d[1]);
 
+const layerAdjust = 20;
+
 export default class Canvas extends React.Component {
 
     static get propTypes() {
@@ -25,13 +27,13 @@ export default class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        let svg = d3.select(this.refs.canvas).append('svg')
+        d3.select(this.refs.canvas).append('svg')
             .attr('width', this.props.width)
             .attr('height', this.props.height);
 
         let that = this;
-        svg.on('mousemove.canvas', function() {
-            const point = [d3.event.offsetX, d3.event.offsetY + 24];
+        d3.select(this.refs.layer).on('mousemove.canvas', function() {
+            const point = [d3.event.offsetX, d3.event.offsetY + 24 - layerAdjust];
             that.context.emitter.emit('mousemove.canvas', point);
         });
 
@@ -43,15 +45,32 @@ export default class Canvas extends React.Component {
     }
 
     render() {
-        let canvasStyle = {
+        let wrapperStyle = {
+            position: 'relative',
+            width: this.props.width,
+            height: this.props.height
+        };
+        let cursorLayerStyle = {
+            position: 'absolute',
+            top: -layerAdjust,
+            zIndex: 9999,
             width: this.props.width,
             height: this.props.height,
-            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default',
+            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
+        };
+        let canvasStyle = {
+            position: 'absolute',
+            top: 0,
+            width: this.props.width,
+            height: this.props.height,
             border: 'solid 2px #333',
             backgroundColor: '#f6f6f6'
         };
         return (
-            <div ref="canvas" style={canvasStyle}></div>
+            <div style={wrapperStyle}>
+                <div ref="layer" style={cursorLayerStyle}></div>
+                <div ref="canvas" style={canvasStyle}></div>
+            </div>
         );
     }
 
