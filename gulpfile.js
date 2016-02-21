@@ -18,9 +18,11 @@ function compile(doSourceMap, doMinify) {
     var babel = require('gulp-babel');
     var uglify = require('gulp-uglify');
     var sourcemaps = require('gulp-sourcemaps');
+    var plumber = require('gulp-plumber');
     var gulpif = require('gulp-if');
 
     return gulp.src(paths.main.js + '/**/*.js')
+        .pipe(plumber())
         .pipe(gulpif(doSourceMap, sourcemaps.init()))
         .pipe(babel({
             presets: ['es2015', 'react']
