@@ -80,7 +80,7 @@ export default class Canvas extends React.Component {
         for (var i = 0; i < this.props.dataset.length; i++) {
             var d = this.props.dataset[i];
             if (d.values.length <= 1) {
-                return;
+                continue;
             }
             svg.append('path')
                 .datum(d.values)
