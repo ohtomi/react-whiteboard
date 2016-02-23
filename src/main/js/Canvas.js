@@ -16,7 +16,8 @@ export default class Canvas extends React.Component {
         return {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
-            dataset: React.PropTypes.array
+            dataset: React.PropTypes.array,
+            style: React.PropTypes.object
         };
     }
 
@@ -58,14 +59,14 @@ export default class Canvas extends React.Component {
             height: this.props.height,
             cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
         };
-        let canvasStyle = {
+        let canvasStyle = Object.assign({}, {
             position: 'absolute',
             top: 0,
             width: this.props.width,
             height: this.props.height,
             border: 'solid 2px #333',
             backgroundColor: '#f6f6f6'
-        };
+        }, this.props.style);
         return (
             <div style={wrapperStyle}>
                 <div ref="layer" style={cursorLayerStyle}></div>

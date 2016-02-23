@@ -18,7 +18,9 @@ export default class Whiteboard extends React.Component {
         return {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
-            listener: React.PropTypes.func
+            listener: React.PropTypes.func,
+            style: React.PropTypes.object,
+            renderDebugInfo: React.PropTypes.bool
         };
     }
 
@@ -134,6 +136,10 @@ export default class Whiteboard extends React.Component {
     }
 
     renderDebugInfo() {
+        if (!this.props.renderDebugInfo) {
+            return;
+        }
+
         const mode = this.state.mode === handMode ? 'hand' : 'line';
         const strokeWidth = this.state.strokeWidth;
         const strokeColor = this.state.strokeColor;

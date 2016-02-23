@@ -13,7 +13,11 @@ export default class App extends React.Component {
     render() {
         return (
             <div style={{margin: 30}}>
-                <Whiteboard width={800} height={600} listener={this.handleEvent} />
+                <Whiteboard
+                    width={800} height={600} listener={this.handleEvent}
+                    style={{backgroundColor: 'lightyellow'}}
+                    renderDebugInfo={true}
+                />
             </div>
         );
     }
