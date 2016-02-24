@@ -4,13 +4,12 @@
 import React from 'react';
 import {EventEmitter} from 'events';
 import d3 from 'd3';
+import {handMode, lineMode} from './Constant';
 import Canvas from './Canvas';
 import Pallete from './Palette';
+import Debug from './Debug';
 
 const emitter = new EventEmitter();
-
-const handMode = {};
-const lineMode = {};
 
 export default class Whiteboard extends React.Component {
 
@@ -20,6 +19,7 @@ export default class Whiteboard extends React.Component {
             height: React.PropTypes.number,
             listener: React.PropTypes.func,
             style: React.PropTypes.object,
+            renderPallete: React.PropTypes.bool,
             renderDebugInfo: React.PropTypes.bool
         };
     }
@@ -128,10 +128,26 @@ export default class Whiteboard extends React.Component {
     render() {
         return (
             <div ref="whiteboard">
-                <Canvas {...this.props} {...this.state} />
-                <Pallete {...this.props} {...this.state} />
+                {this.renderCanvas()}
+                {this.renderPallete()}
                 {this.renderDebugInfo()}
             </div>
+        );
+    }
+
+    renderCanvas() {
+        return (
+            <Canvas {...this.props} {...this.state} />
+        );
+    }
+
+    renderPallete() {
+        if (!this.props.renderPallete) {
+            return;
+        }
+
+        return (
+            <Pallete {...this.props} {...this.state} />
         );
     }
 
@@ -140,16 +156,8 @@ export default class Whiteboard extends React.Component {
             return;
         }
 
-        const mode = this.state.mode === handMode ? 'hand' : 'line';
-        const strokeWidth = this.state.strokeWidth;
-        const strokeColor = this.state.strokeColor;
-
         return (
-            <div>
-                <span>mode: {mode} </span>
-                <span>stroke-width: {strokeWidth} </span>
-                <span>stroke-color: {strokeColor} </span>
-            </div>
+            <Debug {...this.props} {...this.state} />
         );
     }
 

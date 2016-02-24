@@ -2,12 +2,17 @@
 'use strict';
 
 import React from 'react';
-import d3 from 'd3';
 
 export default class Pallete extends React.Component {
 
     render() {
-        return (<div></div>);
+        return (
+            <div>
+                <span><a href="#">Line</a> </span>
+                <span><a href="#">Bucket Fill</a> </span>
+                <span><a href="#">Color</a></span>
+            </div>
+        );
     }
 
 }
