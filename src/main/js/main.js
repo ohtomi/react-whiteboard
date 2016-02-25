@@ -48,19 +48,18 @@ export default class Whiteboard extends React.Component {
 
     componentDidMount() {
         d3.select('body').on('keydown.body', function() {
-            const width = d3.event.keyCode - 48;
-            emitter.emit('keydown.body', width);
+            emitter.emit('keydown.body', d3.event.keyCode);
         });
 
         let that = this;
-        emitter.on('keydown.body', function(width) {
-            if (width === 0) {
+        emitter.on('keydown.body', function(keyCode) {
+            if (keyCode === 48) { // 0'
                 that.toggleMode();
             }
-            if (width >= 1 && width <= 9) {
-                that.changeStrokeWidth(width);
+            if (keyCode >= 49 && keyCode <= 57) { // '1' - '9'
+                that.changeStrokeWidth(keyCode - 48);
             }
-            if (width === 19) { // 'c'
+            if (keyCode === 67) { // 'c'
                 that.toggleStrokeColor();
             }
         });
