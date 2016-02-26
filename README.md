@@ -2,19 +2,35 @@
 
 ## Description
 
-TODO
+A whiteboard component based on D3.js for React.js
 
 ## Requirements
 
-TODO
+- React.js v0.14.7+
 
 ## How to use
 
-TODO
+```javascript
+render() {
+    return (
+        <div style={{margin: 30}}>
+            <Whiteboard
+                width={800} height={600} listener={function() {}}
+                style={{backgroundColor: 'lightyellow'}}
+                renderPallete={true} renderDebugInfo={true}
+            />
+        </div>
+    );
+}
+```
+See [examples](examples).
 
 ## How to build
 
-TODO
+```bash
+$ npm install
+$ npm run build
+```
 
 ## Contributing
 
