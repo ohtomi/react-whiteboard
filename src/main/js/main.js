@@ -19,6 +19,7 @@ export default class Whiteboard extends React.Component {
             height: React.PropTypes.number,
             listener: React.PropTypes.func,
             style: React.PropTypes.object,
+            renderCell: React.PropTypes.bool,
             renderPallete: React.PropTypes.bool,
             renderDebugInfo: React.PropTypes.bool
         };

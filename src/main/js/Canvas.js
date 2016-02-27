@@ -78,6 +78,31 @@ export default class Canvas extends React.Component {
     renderCanvas() {
         let svg = d3.select('svg');
         svg.selectAll('path').remove();
+
+        if (this.props.renderCell) {
+            let xCount = this.props.width / 20;
+            for (var x = 0; x < xCount; x++) {
+                svg.append('path')
+                    .datum([[x * 20, 0], [x * 20, this.props.height]])
+                    .classed('line', true)
+                    .attr('d', line)
+                    .attr('fill', 'none')
+                    .attr('stroke', 'gray')
+                    .attr('stroke-width', 1);
+            }
+
+            let yCount = this.props.height / 20;
+            for (var y = 0; y < yCount; y++) {
+                svg.append('path')
+                    .datum([[0, y * 20], [this.props.width, y * 20]])
+                    .classed('line', true)
+                    .attr('d', line)
+                    .attr('fill', 'none')
+                    .attr('stroke', 'gray')
+                    .attr('stroke-width', 1);
+            }
+        }
+
         for (var i = 0; i < this.props.dataset.length; i++) {
             var d = this.props.dataset[i];
             if (d.values.length <= 1) {
