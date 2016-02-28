@@ -15,9 +15,9 @@ render() {
     return (
         <div style={{margin: 30}}>
             <Whiteboard
-                width={800} height={600} listener={function() {}}
+                width={800} height={600} listener={this.handleEvent}
                 style={{backgroundColor: 'lightyellow'}}
-                renderPallete={true} renderDebugInfo={true}
+                renderCell={true} renderPallete={true} renderDebugInfo={true}
             />
         </div>
     );
