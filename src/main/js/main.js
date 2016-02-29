@@ -41,6 +41,7 @@ export default class Whiteboard extends React.Component {
         super(props);
         this.state = {
             dataset: [],
+            undoStack: [],
             mode: handMode,
             strokeWidth: 5,
             strokeColor: 'black'
@@ -66,6 +67,12 @@ export default class Whiteboard extends React.Component {
         });
         emitter.on('mousemove.canvas', function(point) {
             that.pushPoint(point);
+        });
+        emitter.on('undo.pallete', function() {
+            that.undoPoint();
+        });
+        emitter.on('redo.pallete', function() {
+            that.redoPoint();
         });
     }
 
@@ -114,14 +121,48 @@ export default class Whiteboard extends React.Component {
                 current.strokeWidth === this.state.strokeWidth &&
                 current.strokeColor === this.state.strokeColor) {
             current.values.push(point);
-            this.setState({dataset: dataset});
+            this.setState({
+                dataset: dataset,
+                undoStack: []
+            });
         } else {
             dataset.push({
                 strokeWidth: this.state.strokeWidth,
                 strokeColor: this.state.strokeColor,
                 values: [point]
             });
-            this.setState({dataset: dataset});
+            this.setState({
+                dataset: dataset,
+                undoStack: []
+            });
+        }
+    }
+
+    undoPoint() {
+        const dataset = this.state.dataset;
+        const current = dataset[dataset.length - 1];
+        const undoStack = this.state.undoStack;
+
+        if (current && current.values.length > 1) {
+            undoStack.push(current.values.pop());
+            this.setState({
+                dataset: dataset,
+                undoStack: undoStack
+            });
+        }
+    }
+
+    redoPoint() {
+        const dataset = this.state.dataset;
+        const current = dataset[dataset.length - 1];
+        const undoStack = this.state.undoStack;
+
+        if (current) {
+            current.values.push(undoStack.pop());
+            this.setState({
+                dataset: dataset,
+                undoStack: undoStack
+            });
         }
     }
 
