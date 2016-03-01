@@ -17,7 +17,8 @@ export default class Canvas extends React.Component {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
             dataset: React.PropTypes.array,
-            style: React.PropTypes.object
+            style: React.PropTypes.object,
+            renderGrid: React.PropTypes.bool
         };
     }
 
@@ -79,7 +80,7 @@ export default class Canvas extends React.Component {
         let svg = d3.select('svg');
         svg.selectAll('path').remove();
 
-        if (this.props.renderCell) {
+        if (this.props.renderGrid) {
             let xCount = this.props.width / 20;
             for (var x = 0; x < xCount; x++) {
                 svg.append('path')

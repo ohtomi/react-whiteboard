@@ -35,6 +35,12 @@ export default class Pallete extends React.Component {
         this.context.emitter.emit('redo.pallete', doing);
     }
 
+    grid(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        this.context.emitter.emit('grid.pallete');
+    }
+
     componentDidUpdate() {
         if (this.props.doingUndo) {
             d3.select(this.refs.undo).on('mouseleave.pallete', ev => this.undo(ev, false));
@@ -55,6 +61,7 @@ export default class Pallete extends React.Component {
             <div>
                 <span><a href="#" ref="undo" onMouseEnter={ev => this.undo(ev, true)}>Undo</a> </span>
                 <span><a href="#" ref="redo" onMouseEnter={ev => this.redo(ev, true)}>Redo</a> </span>
+                <span><a href="#" ref="grid" onClick={ev => this.grid(ev)}>Grid</a> </span>
             </div>
         );
     }

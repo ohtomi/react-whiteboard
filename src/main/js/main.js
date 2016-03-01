@@ -19,7 +19,6 @@ export default class Whiteboard extends React.Component {
             height: React.PropTypes.number,
             listener: React.PropTypes.func,
             style: React.PropTypes.object,
-            renderCell: React.PropTypes.bool,
             renderPallete: React.PropTypes.bool,
             renderDebugInfo: React.PropTypes.bool
         };
@@ -46,7 +45,8 @@ export default class Whiteboard extends React.Component {
             strokeWidth: 5,
             strokeColor: 'black',
             doingUndo: false,
-            doingRedo: false
+            doingRedo: false,
+            renderGrid: false
         };
     }
 
@@ -75,6 +75,9 @@ export default class Whiteboard extends React.Component {
         });
         emitter.on('redo.pallete', function(doing) {
             that.redoPoint(doing);
+        });
+        emitter.on('grid.pallete', function() {
+            that.toggleGrid();
         });
     }
 
@@ -153,6 +156,8 @@ export default class Whiteboard extends React.Component {
                     undoStack: undoStack,
                     doingUndo: true
                 });
+            } else {
+                this.setState({doingUndo: false});
             }
         } else {
             this.setState({doingUndo: false});
@@ -164,19 +169,25 @@ export default class Whiteboard extends React.Component {
             const dataset = this.state.dataset;
             const current = dataset[dataset.length - 1];
             const undoStack = this.state.undoStack;
-            const undoPoint = undoStack.pop();
+            const pointFromStack = undoStack.pop();
 
-            if (current && undoPoint) {
-                current.values.push(undoPoint);
+            if (current && pointFromStack) {
+                current.values.push(pointFromStack);
                 this.setState({
                     dataset: dataset,
                     undoStack: undoStack,
                     doingRedo: true
                 });
+            } else {
+                this.setState({doingRedo: false});
             }
         } else {
             this.setState({doingRedo: false});
         }
+    }
+
+    toggleGrid() {
+        this.setState({renderGrid: !this.state.renderGrid});
     }
 
     render() {

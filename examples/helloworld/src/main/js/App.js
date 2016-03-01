@@ -16,7 +16,7 @@ export default class App extends React.Component {
                 <Whiteboard
                     width={800} height={600} listener={this.handleEvent}
                     style={{backgroundColor: 'lightyellow'}}
-                    renderCell={true} renderPallete={true} renderDebugInfo={true}
+                    renderPallete={true} renderDebugInfo={true}
                 />
             </div>
         );
