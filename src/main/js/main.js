@@ -44,7 +44,9 @@ export default class Whiteboard extends React.Component {
             undoStack: [],
             mode: handMode,
             strokeWidth: 5,
-            strokeColor: 'black'
+            strokeColor: 'black',
+            doingUndo: false,
+            doingRedo: false
         };
     }
 
@@ -68,11 +70,11 @@ export default class Whiteboard extends React.Component {
         emitter.on('mousemove.canvas', function(point) {
             that.pushPoint(point);
         });
-        emitter.on('undo.pallete', function() {
-            that.undoPoint();
+        emitter.on('undo.pallete', function(doing) {
+            that.undoPoint(doing);
         });
-        emitter.on('redo.pallete', function() {
-            that.redoPoint();
+        emitter.on('redo.pallete', function(doing) {
+            that.redoPoint(doing);
         });
     }
 
@@ -138,31 +140,42 @@ export default class Whiteboard extends React.Component {
         }
     }
 
-    undoPoint() {
-        const dataset = this.state.dataset;
-        const current = dataset[dataset.length - 1];
-        const undoStack = this.state.undoStack;
+    undoPoint(doing) {
+        if (doing) {
+            const dataset = this.state.dataset;
+            const current = dataset[dataset.length - 1];
+            const undoStack = this.state.undoStack;
 
-        if (current && current.values.length > 1) {
-            undoStack.push(current.values.pop());
-            this.setState({
-                dataset: dataset,
-                undoStack: undoStack
-            });
+            if (current && current.values.length > 1) {
+                undoStack.push(current.values.pop());
+                this.setState({
+                    dataset: dataset,
+                    undoStack: undoStack,
+                    doingUndo: true
+                });
+            }
+        } else {
+            this.setState({doingUndo: false});
         }
     }
 
-    redoPoint() {
-        const dataset = this.state.dataset;
-        const current = dataset[dataset.length - 1];
-        const undoStack = this.state.undoStack;
+    redoPoint(doing) {
+        if (doing) {
+            const dataset = this.state.dataset;
+            const current = dataset[dataset.length - 1];
+            const undoStack = this.state.undoStack;
+            const undoPoint = undoStack.pop();
 
-        if (current) {
-            current.values.push(undoStack.pop());
-            this.setState({
-                dataset: dataset,
-                undoStack: undoStack
-            });
+            if (current && undoPoint) {
+                current.values.push(undoPoint);
+                this.setState({
+                    dataset: dataset,
+                    undoStack: undoStack,
+                    doingRedo: true
+                });
+            }
+        } else {
+            this.setState({doingRedo: false});
         }
     }
 
