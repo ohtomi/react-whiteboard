@@ -150,12 +150,36 @@ export default class Whiteboard extends React.Component {
             const undoStack = this.state.undoStack;
 
             if (current && current.values.length > 1) {
-                undoStack.push(current.values.pop());
+                const point = current.values.pop();
+                const undoOperation = (newState) => {
+                    const dataset = this.state.dataset;
+                    const current = dataset[dataset.length - 1];
+                    current.values.push(point);
+                    newState.dataset = dataset;
+                    this.setState(newState);
+                };
+                undoStack.push(undoOperation);
                 this.setState({
                     dataset: dataset,
                     undoStack: undoStack,
                     doingUndo: true
                 });
+
+            } else if (current && current.values.length === 1) {
+                dataset.pop();
+                const undoOperation = (newState) => {
+                    const dataset = this.state.dataset;
+                    dataset.push(current);
+                    newState.dataset = dataset;
+                    this.setState(newState);
+                };
+                undoStack.push(undoOperation);
+                this.setState({
+                    dataset: dataset,
+                    undoStack: undoStack,
+                    doingUndo: true
+                });
+
             } else {
                 this.setState({doingUndo: false});
             }
@@ -166,15 +190,10 @@ export default class Whiteboard extends React.Component {
 
     redoPoint(doing) {
         if (doing) {
-            const dataset = this.state.dataset;
-            const current = dataset[dataset.length - 1];
             const undoStack = this.state.undoStack;
-            const pointFromStack = undoStack.pop();
-
-            if (current && pointFromStack) {
-                current.values.push(pointFromStack);
-                this.setState({
-                    dataset: dataset,
+            const redoOperation = undoStack.pop();
+            if (redoOperation) {
+                redoOperation({
                     undoStack: undoStack,
                     doingRedo: true
                 });
