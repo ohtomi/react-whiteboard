@@ -38,6 +38,10 @@ export default class Canvas extends React.Component {
             const point = [d3.event.offsetX, d3.event.offsetY + 24 - layerAdjust];
             that.context.emitter.emit('mousemove.canvas', point);
         });
+        d3.select(this.refs.layer).on('click', function() {
+            const point = [d3.event.offsetX, d3.event.offsetY + 24 - layerAdjust];
+            that.context.emitter.emit('click.canvas', point);
+        });
 
         this.renderCanvas();
     }

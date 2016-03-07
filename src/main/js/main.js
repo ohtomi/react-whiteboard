@@ -70,6 +70,9 @@ export default class Whiteboard extends React.Component {
         emitter.on('mousemove.canvas', function(point) {
             that.pushPoint(point);
         });
+        emitter.on('click.canvas', function(point) {
+            that.toggleMode(point);
+        });
         emitter.on('undo.pallete', function(doing) {
             that.undoPoint(doing);
         });
@@ -81,7 +84,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    toggleMode() {
+    toggleMode(point) {
         if (this.state.mode === lineMode) {
             this.setState({mode: handMode});
         } else {
@@ -89,7 +92,7 @@ export default class Whiteboard extends React.Component {
             dataset.push({
                 strokeWidth: this.state.strokeWidth,
                 strokeColor: this.state.strokeColor,
-                values: []
+                values: point ? [point] : []
             });
             this.setState({
                 mode: lineMode,
