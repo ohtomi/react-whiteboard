@@ -3,6 +3,7 @@
 
 import React from 'react';
 import d3 from 'd3';
+import downloadable from './d3-downloadable';
 
 const line = d3.svg.line()
     .x(d => d[0])
@@ -82,6 +83,7 @@ export default class Canvas extends React.Component {
 
     renderCanvas() {
         let svg = d3.select('svg');
+        svg.call(downloadable().filename('fig'));
         svg.selectAll('path').remove();
 
         if (this.props.renderGrid) {
