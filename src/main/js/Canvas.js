@@ -30,9 +30,15 @@ export default class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        d3.select(this.refs.canvas).append('svg')
+        let svg = d3.select(this.refs.canvas).append('svg')
             .attr('width', this.props.width)
             .attr('height', this.props.height);
+
+        if (this.props.style && this.props.style.backgroundColor) {
+            svg.attr('style', 'background: ' + this.props.style.backgroundColor);
+        } else {
+            svg.attr('style', 'background: ' + '#f6f6f6');
+        }
 
         let that = this;
         d3.select(this.refs.layer).on('mousemove.canvas', function() {
@@ -65,14 +71,13 @@ export default class Canvas extends React.Component {
             height: this.props.height,
             cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
         };
-        let canvasStyle = Object.assign({}, {
+        let canvasStyle = {
             position: 'absolute',
             top: 0,
             width: this.props.width,
             height: this.props.height,
-            border: 'solid 2px #333',
-            backgroundColor: '#f6f6f6'
-        }, this.props.style);
+            border: 'solid 2px #333'
+        };
         return (
             <div style={wrapperStyle}>
                 <div ref="layer" style={cursorLayerStyle}></div>
