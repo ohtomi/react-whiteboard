@@ -1,9 +1,11 @@
 // Constant.js
 'use strict';
 
-export const handMode = {};
-export const lineMode = {};
+export const MODE = {
+    HAND: {id: 'hand'},
+    LINE: {id: 'line'}
+};
 
-export const cursorLayerRelativeTop = 20;
-export const svgDefaultBackgroundColor = '#f6f6f6';
-export const gridSize = 20;
+export const CURSOR_LAYER_RELATIVE_TOP = 20;
+export const SVG_BACKGROUND_COLOR = '#f6f6f6';
+export const GRID_SIZE = 20;

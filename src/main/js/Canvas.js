@@ -4,7 +4,7 @@
 import React from 'react';
 import d3 from 'd3';
 import downloadable from './d3-downloadable';
-import {cursorLayerRelativeTop, svgDefaultBackgroundColor, gridSize} from './Constant';
+import {CURSOR_LAYER_RELATIVE_TOP, SVG_BACKGROUND_COLOR, GRID_SIZE} from './Constant';
 
 const line = d3.svg.line()
     .x(d => d[0])
@@ -36,16 +36,16 @@ export default class Canvas extends React.Component {
         if (this.props.style && this.props.style.backgroundColor) {
             svg.attr('style', 'background: ' + this.props.style.backgroundColor);
         } else {
-            svg.attr('style', 'background: ' + svgDefaultBackgroundColor);
+            svg.attr('style', 'background: ' + SVG_BACKGROUND_COLOR);
         }
 
         let that = this;
         d3.select(this.refs.layer).on('mousemove.canvas', function() {
-            const point = [d3.event.offsetX, d3.event.offsetY + 24 - cursorLayerRelativeTop];
+            const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('mousemove.canvas', point);
         });
         d3.select(this.refs.layer).on('click', function() {
-            const point = [d3.event.offsetX, d3.event.offsetY + 24 - cursorLayerRelativeTop];
+            const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('click.canvas', point);
         });
 
@@ -64,7 +64,7 @@ export default class Canvas extends React.Component {
         };
         let cursorLayerStyle = {
             position: 'absolute',
-            top: -cursorLayerRelativeTop,
+            top: -CURSOR_LAYER_RELATIVE_TOP,
             zIndex: 9999,
             width: this.props.width,
             height: this.props.height,
@@ -90,10 +90,10 @@ export default class Canvas extends React.Component {
         svg.selectAll('path').remove();
 
         if (this.props.renderGrid) {
-            let xCount = this.props.width / gridSize;
+            let xCount = this.props.width / GRID_SIZE;
             for (var x = 0; x < xCount; x++) {
                 svg.append('path')
-                    .datum([[x * gridSize, 0], [x * gridSize, this.props.height]])
+                    .datum([[x * GRID_SIZE, 0], [x * GRID_SIZE, this.props.height]])
                     .classed('line', true)
                     .attr('d', line)
                     .attr('fill', 'none')
@@ -101,10 +101,10 @@ export default class Canvas extends React.Component {
                     .attr('stroke-width', 1);
             }
 
-            let yCount = this.props.height / gridSize;
+            let yCount = this.props.height / GRID_SIZE;
             for (var y = 0; y < yCount; y++) {
                 svg.append('path')
-                    .datum([[0, y * gridSize], [this.props.width, y * gridSize]])
+                    .datum([[0, y * GRID_SIZE], [this.props.width, y * GRID_SIZE]])
                     .classed('line', true)
                     .attr('d', line)
                     .attr('fill', 'none')

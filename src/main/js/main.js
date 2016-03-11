@@ -4,7 +4,7 @@
 import React from 'react';
 import {EventEmitter} from 'events';
 import d3 from 'd3';
-import {handMode, lineMode} from './Constant';
+import {MODE} from './Constant';
 import Canvas from './Canvas';
 import Pallete from './Palette';
 import Debug from './Debug';
@@ -41,7 +41,7 @@ export default class Whiteboard extends React.Component {
         this.state = {
             dataset: [],
             undoStack: [],
-            mode: handMode,
+            mode: MODE.HAND,
             strokeWidth: 5,
             strokeColor: 'black',
             doingUndo: false,
@@ -85,8 +85,10 @@ export default class Whiteboard extends React.Component {
     }
 
     toggleMode(point) {
-        if (this.state.mode === lineMode) {
-            this.setState({mode: handMode});
+        if (this.state.mode === MODE.LINE) {
+            this.setState({
+                mode: MODE.HAND
+            });
         } else {
             const dataset = this.state.dataset;
             dataset.push({
@@ -95,7 +97,7 @@ export default class Whiteboard extends React.Component {
                 values: point ? [point] : []
             });
             this.setState({
-                mode: lineMode,
+                mode: MODE.LINE,
                 dataset: dataset
             });
         }
@@ -118,7 +120,7 @@ export default class Whiteboard extends React.Component {
     }
 
     pushPoint(point) {
-        if (this.state.mode === handMode) {
+        if (this.state.mode === MODE.HAND) {
             return;
         }
 

@@ -2,7 +2,6 @@
 'use strict';
 
 import React from 'react';
-import {handMode} from './Constant';
 
 export default class Debug extends React.Component {
 
@@ -34,7 +33,7 @@ export default class Debug extends React.Component {
     }
 
     render() {
-        const mode = this.props.mode === handMode ? 'hand' : 'line';
+        const mode = this.props.mode.id;
         const strokeWidth = this.props.strokeWidth;
         const strokeColor = this.props.strokeColor;
 
