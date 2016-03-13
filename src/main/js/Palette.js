@@ -41,6 +41,12 @@ export default class Pallete extends React.Component {
         this.context.emitter.emit('grid.pallete');
     }
 
+    clear(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        this.context.emitter.emit('clear.pallete');
+    }
+
     download(ev) {
         ev.preventDefault();
         ev.stopPropagation();
@@ -66,7 +72,11 @@ export default class Pallete extends React.Component {
             <div>
                 <span><a href="#" ref="undo" onMouseEnter={ev => this.undo(ev, true)}>Undo</a> </span>
                 <span><a href="#" ref="redo" onMouseEnter={ev => this.redo(ev, true)}>Redo</a> </span>
+                <span>| </span>
                 <span><a href="#" ref="grid" onClick={ev => this.grid(ev)}>Grid</a> </span>
+                <span>| </span>
+                <span><a href="#" ref="clear" onClick={ev => this.clear(ev)}>Clear</a> </span>
+                <span>| </span>
                 <span><a href="#" ref="download" id="xxxlayer" onClick={ev => this.download(ev)}>Save</a> </span>
             </div>
         );

@@ -82,6 +82,9 @@ export default class Whiteboard extends React.Component {
         emitter.on('grid.pallete', function() {
             that.toggleGrid();
         });
+        emitter.on('clear.pallete', function() {
+            that.clearPoint();
+        });
     }
 
     toggleMode(point) {
@@ -212,6 +215,13 @@ export default class Whiteboard extends React.Component {
 
     toggleGrid() {
         this.setState({renderGrid: !this.state.renderGrid});
+    }
+
+    clearPoint() {
+        this.setState({
+            dataset: [],
+            undoStack: []
+        });
     }
 
     render() {
