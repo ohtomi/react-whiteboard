@@ -35,4 +35,4 @@ export function toDownloadLinks(svg, svgLink, pngLink, jpegLink) {
     };
     let imageSource = 'data:image/svg+xml;charset=utf-8;base64,' + base64EncodedText;
     imageNode.src = imageSource;
-};
+}
