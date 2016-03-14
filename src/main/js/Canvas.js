@@ -3,7 +3,7 @@
 
 import React from 'react';
 import d3 from 'd3';
-import downloadable from './d3-downloadable';
+import {toDownloadLinks} from './SvgConverter';
 import {CURSOR_LAYER_RELATIVE_TOP, SVG_BACKGROUND_COLOR, GRID_SIZE} from './Constant';
 
 const line = d3.svg.line()
@@ -18,7 +18,8 @@ export default class Canvas extends React.Component {
             height: React.PropTypes.number,
             dataset: React.PropTypes.array,
             style: React.PropTypes.object,
-            renderGrid: React.PropTypes.bool
+            renderGrid: React.PropTypes.bool,
+            renderDownloadMenu: React.PropTypes.bool
         };
     }
 
@@ -26,6 +27,12 @@ export default class Canvas extends React.Component {
         return {
             emitter: React.PropTypes.object
         };
+    }
+
+    cancelDownload(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        this.context.emitter.emit('canceldownload.canvas');
     }
 
     componentDidMount() {
@@ -40,20 +47,23 @@ export default class Canvas extends React.Component {
         }
 
         let that = this;
-        d3.select(this.refs.layer).on('mousemove.canvas', function() {
+        d3.select(this.refs.cursorLayer).on('mousemove.canvas', function() {
             const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('mousemove.canvas', point);
         });
-        d3.select(this.refs.layer).on('click', function() {
+        d3.select(this.refs.cursorLayer).on('click', function() {
+            that.context.emitter.emit('canceldownload.canvas');
             const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('click.canvas', point);
         });
 
-        this.renderCanvas();
+        this.drawWhiteboardCanvas();
+        this.createDownloadLinks();
     }
 
     componentDidUpdate() {
-        this.renderCanvas();
+        this.drawWhiteboardCanvas();
+        this.createDownloadLinks();
     }
 
     render() {
@@ -62,10 +72,17 @@ export default class Canvas extends React.Component {
             width: this.props.width,
             height: this.props.height
         };
+        let downloadMenuStyle = {
+            position: 'absolute',
+            top: 0,
+            zIndex: this.props.renderDownloadMenu ? 3000 : 1000,
+            width: this.props.width,
+            height: this.props.height
+        };
         let cursorLayerStyle = {
             position: 'absolute',
             top: -CURSOR_LAYER_RELATIVE_TOP,
-            zIndex: 9999,
+            zIndex: 2000,
             width: this.props.width,
             height: this.props.height,
             cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
@@ -78,15 +95,33 @@ export default class Canvas extends React.Component {
         };
         return (
             <div style={wrapperStyle}>
-                <div ref="layer" style={cursorLayerStyle}></div>
+                <div ref="downloadMenu" style={downloadMenuStyle}>{this.renderDownloadMenu()}</div>
+                <div ref="cursorLayer" style={cursorLayerStyle}></div>
                 <div ref="canvas" style={canvasStyle}></div>
             </div>
         );
     }
 
-    renderCanvas() {
+    renderDownloadMenu() {
+        if (this.props.renderDownloadMenu) {
+            let linkStyle = {
+                position: 'absolute',
+                top: '50px',
+                left: '50px'
+            };
+            return (
+                <div style={linkStyle}>
+                    <span><a ref="svgLink" download="whiteboard.svg">[Save as SVG]</a> </span>
+                    <span><a ref="pngLink" download="whiteboard.png">[Save as PNG]</a> </span>
+                    <span><a ref="jpegLink" download="whiteboard.jpg">[Save as JPEG]</a> </span>
+                    <span><a ref="cancelLink" href="#" onClick={ev => this.cancelDownload(ev)}>[X]</a> </span>
+                </div>
+            );
+        }
+    }
+
+    drawWhiteboardCanvas() {
         let svg = d3.select('svg');
-        svg.call(downloadable().filename('fig'));
         svg.selectAll('path').remove();
 
         if (this.props.renderGrid) {
@@ -125,6 +160,16 @@ export default class Canvas extends React.Component {
                 .attr('fill', 'none')
                 .attr('stroke', d.strokeColor)
                 .attr('stroke-width', d.strokeWidth);
+        }
+    }
+
+    createDownloadLinks() {
+        if (this.props.renderDownloadMenu) {
+            let svg = d3.select('svg');
+            let svgLink = d3.select(this.refs.svgLink);
+            let pngLink = d3.select(this.refs.pngLink);
+            let jpegLink = d3.select(this.refs.jpegLink);
+            toDownloadLinks(svg, svgLink, pngLink, jpegLink);
         }
     }
 

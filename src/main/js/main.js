@@ -46,7 +46,8 @@ export default class Whiteboard extends React.Component {
             strokeColor: 'black',
             doingUndo: false,
             doingRedo: false,
-            renderGrid: false
+            renderGrid: false,
+            renderDownloadMenu: false
         };
     }
 
@@ -70,6 +71,9 @@ export default class Whiteboard extends React.Component {
         emitter.on('mousemove.canvas', function(point) {
             that.pushPoint(point);
         });
+        emitter.on('canceldownload.canvas', function() {
+            that.showDownloadMenu(false);
+        });
         emitter.on('click.canvas', function(point) {
             that.toggleMode(point);
         });
@@ -84,6 +88,9 @@ export default class Whiteboard extends React.Component {
         });
         emitter.on('clear.pallete', function() {
             that.clearPoint();
+        });
+        emitter.on('download.pallete', function() {
+            that.showDownloadMenu(true);
         });
     }
 
@@ -222,6 +229,10 @@ export default class Whiteboard extends React.Component {
             dataset: [],
             undoStack: []
         });
+    }
+
+    showDownloadMenu(doing) {
+        this.setState({renderDownloadMenu: doing});
     }
 
     render() {
