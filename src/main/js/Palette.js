@@ -50,7 +50,7 @@ export default class Pallete extends React.Component {
     download(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        this.context.emitter.emit('download.pallete');
+        this.context.emitter.emit('open.download.menu');
     }
 
     componentDidUpdate() {

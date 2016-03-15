@@ -29,10 +29,10 @@ export default class Canvas extends React.Component {
         };
     }
 
-    cancelDownload(ev) {
+    closeDownload(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        this.context.emitter.emit('canceldownload.canvas');
+        this.context.emitter.emit('close.download.menu');
     }
 
     componentDidMount() {
@@ -52,7 +52,7 @@ export default class Canvas extends React.Component {
             that.context.emitter.emit('mousemove.canvas', point);
         });
         d3.select(this.refs.cursorLayer).on('click', function() {
-            that.context.emitter.emit('canceldownload.canvas');
+            that.context.emitter.emit('close.download.menu');
             const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('click.canvas', point);
         });
