@@ -36,7 +36,7 @@ export default class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        let svg = d3.select(this.refs.canvas).append('svg')
+        let svg = d3.select(this.refs.canvasLayer).append('svg')
             .attr('width', this.props.width)
             .attr('height', this.props.height);
 
@@ -72,12 +72,13 @@ export default class Canvas extends React.Component {
             width: this.props.width,
             height: this.props.height
         };
-        let downloadMenuStyle = {
+        let menuLayerStyle = {
             position: 'absolute',
             top: 0,
             zIndex: this.props.renderDownloadMenu ? 3000 : 1000,
             width: this.props.width,
-            height: this.props.height
+            height: this.props.height,
+            backgroundColor: this.props.renderDownloadMenu ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0)'
         };
         let cursorLayerStyle = {
             position: 'absolute',
@@ -87,7 +88,7 @@ export default class Canvas extends React.Component {
             height: this.props.height,
             cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
         };
-        let canvasStyle = {
+        let canvasLayerStyle = {
             position: 'absolute',
             top: 0,
             width: this.props.width,
@@ -95,26 +96,39 @@ export default class Canvas extends React.Component {
         };
         return (
             <div style={wrapperStyle}>
-                <div ref="downloadMenu" style={downloadMenuStyle}>{this.renderDownloadMenu()}</div>
+                <div ref="menuLayer" style={menuLayerStyle}>{this.renderDownloadMenu()}</div>
                 <div ref="cursorLayer" style={cursorLayerStyle}></div>
-                <div ref="canvas" style={canvasStyle}></div>
+                <div ref="canvasLayer" style={canvasLayerStyle}></div>
             </div>
         );
     }
 
     renderDownloadMenu() {
         if (this.props.renderDownloadMenu) {
-            let linkStyle = {
+            let menuDialogStyle = {
                 position: 'absolute',
-                top: '50px',
-                left: '50px'
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                margin: 'auto',
+                padding: 10,
+                width: 200,
+                height: 120,
+                backgroundColor: 'rgb(255, 255, 255)'
             };
             return (
-                <div style={linkStyle}>
-                    <span><a ref="svgLink" download="whiteboard.svg">[Save as SVG]</a> </span>
-                    <span><a ref="pngLink" download="whiteboard.png">[Save as PNG]</a> </span>
-                    <span><a ref="jpegLink" download="whiteboard.jpg">[Save as JPEG]</a> </span>
-                    <span><a ref="cancelLink" href="#" onClick={ev => this.cancelDownload(ev)}>[X]</a> </span>
+                <div style={menuDialogStyle}>
+                    <div style={{'textAlign': 'right'}}>
+                        <span><a href="#" onClick={ev => this.closeDownload(ev)}>[X]</a></span>
+                    </div>
+                    <div>
+                        <span><a ref="svgLink" download="whiteboard.svg">[Save as SVG]</a></span>
+                        <br />
+                        <span><a ref="pngLink" download="whiteboard.png">[Save as PNG]</a></span>
+                        <br />
+                        <span><a ref="jpegLink" download="whiteboard.jpg">[Save as JPEG]</a></span>
+                    </div>
                 </div>
             );
         }
