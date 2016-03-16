@@ -39,6 +39,7 @@ export default class Canvas extends React.Component {
         let svg = d3.select(this.refs.canvasLayer).append('svg')
             .attr('width', this.props.width)
             .attr('height', this.props.height);
+        this.svg = svg;
 
         if (this.props.style && this.props.style.backgroundColor) {
             svg.attr('style', 'background: ' + this.props.style.backgroundColor);
@@ -134,7 +135,7 @@ export default class Canvas extends React.Component {
     }
 
     drawWhiteboardCanvas() {
-        let svg = d3.select('svg');
+        let svg = this.svg;
         svg.selectAll('path').remove();
 
         if (this.props.renderGrid) {
@@ -178,7 +179,7 @@ export default class Canvas extends React.Component {
 
     createDownloadLinks() {
         if (this.props.renderDownloadMenu) {
-            let svg = d3.select('svg');
+            let svg = this.svg;
             let svgLink = d3.select(this.refs.svgLink);
             let pngLink = d3.select(this.refs.pngLink);
             let jpegLink = d3.select(this.refs.jpegLink);
