@@ -52,12 +52,12 @@ export default class Whiteboard extends React.Component {
     }
 
     componentDidMount() {
-        d3.select('body').on('keydown.body', function() {
+        d3.select('body').on('keydown.body', () => {
             emitter.emit('keydown.body', d3.event.keyCode);
         });
 
         let that = this;
-        emitter.on('keydown.body', function(keyCode) {
+        emitter.on('keydown.body', (keyCode) => {
             if (keyCode === 48) { // 0'
                 that.toggleMode();
             }
@@ -68,28 +68,28 @@ export default class Whiteboard extends React.Component {
                 that.toggleStrokeColor();
             }
         });
-        emitter.on('mousemove.canvas', function(point) {
+        emitter.on('mousemove.canvas', (point) => {
             that.pushPoint(point);
         });
-        emitter.on('click.canvas', function(point) {
+        emitter.on('click.canvas', (point) => {
             that.toggleMode(point);
         });
-        emitter.on('undo.pallete', function(doing) {
+        emitter.on('undo.pallete', (doing) => {
             that.undoPoint(doing);
         });
-        emitter.on('redo.pallete', function(doing) {
+        emitter.on('redo.pallete', (doing) => {
             that.redoPoint(doing);
         });
-        emitter.on('grid.pallete', function() {
+        emitter.on('grid.pallete', () => {
             that.toggleGrid();
         });
-        emitter.on('clear.pallete', function() {
+        emitter.on('clear.pallete', () => {
             that.clearPoint();
         });
-        emitter.on('open.download.menu', function() {
+        emitter.on('open.download.menu', () => {
             that.showDownloadMenu(true);
         });
-        emitter.on('close.download.menu', function() {
+        emitter.on('close.download.menu', () => {
             that.showDownloadMenu(false);
         });
     }

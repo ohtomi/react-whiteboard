@@ -17,9 +17,9 @@ export default class Debug extends React.Component {
     dump(ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        for (var i = 0; i < this.props.dataset.length; i++) {
-            var d = this.props.dataset[i];
-            var message = '';
+        for (let i = 0; i < this.props.dataset.length; i++) {
+            let d = this.props.dataset[i];
+            let message = '';
             message += 'width: ' + d.strokeWidth;
             message += ', color: ' + d.strokeColor;
             message += ', value: [';

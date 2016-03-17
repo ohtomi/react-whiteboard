@@ -48,11 +48,11 @@ export default class Canvas extends React.Component {
         }
 
         let that = this;
-        d3.select(this.refs.cursorLayer).on('mousemove.canvas', function() {
+        d3.select(this.refs.cursorLayer).on('mousemove.canvas', () => {
             const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('mousemove.canvas', point);
         });
-        d3.select(this.refs.cursorLayer).on('click', function() {
+        d3.select(this.refs.cursorLayer).on('click', () => {
             const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
             that.context.emitter.emit('click.canvas', point);
         });
@@ -140,7 +140,7 @@ export default class Canvas extends React.Component {
 
         if (this.props.renderGrid) {
             let xCount = this.props.width / GRID_SIZE;
-            for (var x = 0; x < xCount; x++) {
+            for (let x = 0; x < xCount; x++) {
                 svg.append('path')
                     .datum([[x * GRID_SIZE, 0], [x * GRID_SIZE, this.props.height]])
                     .classed('line', true)
@@ -151,7 +151,7 @@ export default class Canvas extends React.Component {
             }
 
             let yCount = this.props.height / GRID_SIZE;
-            for (var y = 0; y < yCount; y++) {
+            for (let y = 0; y < yCount; y++) {
                 svg.append('path')
                     .datum([[0, y * GRID_SIZE], [this.props.width, y * GRID_SIZE]])
                     .classed('line', true)
@@ -162,8 +162,8 @@ export default class Canvas extends React.Component {
             }
         }
 
-        for (var i = 0; i < this.props.dataset.length; i++) {
-            var d = this.props.dataset[i];
+        for (let i = 0; i < this.props.dataset.length; i++) {
+            let d = this.props.dataset[i];
             if (d.values.length <= 1) {
                 continue;
             }
