@@ -23,8 +23,8 @@ export default class Debug extends React.Component {
             message += 'width: ' + d.strokeWidth;
             message += ', color: ' + d.strokeColor;
             message += ', value: [';
-            for (var j = 0; j < d.values.length; j++) {
-                var p = d.values[j];
+            for (let j = 0; j < d.values.length; j++) {
+                let p = d.values[j];
                 message += '(' + p[0] + ', ' + p[1] + '), ';
             }
             message += ']';
