@@ -140,6 +140,9 @@ export default class Canvas extends React.Component {
 
         if (this.props.renderGrid) {
             let xCount = this.props.width / GRID_SIZE;
+            if (this.props.width % GRID_SIZE === 0) {
+                xCount++;
+            }
             for (let x = 0; x < xCount; x++) {
                 svg.append('path')
                     .datum([[x * GRID_SIZE, 0], [x * GRID_SIZE, this.props.height]])
@@ -151,6 +154,9 @@ export default class Canvas extends React.Component {
             }
 
             let yCount = this.props.height / GRID_SIZE;
+            if (this.props.height % GRID_SIZE === 0) {
+                yCount++;
+            }
             for (let y = 0; y < yCount; y++) {
                 svg.append('path')
                     .datum([[0, y * GRID_SIZE], [this.props.width, y * GRID_SIZE]])
