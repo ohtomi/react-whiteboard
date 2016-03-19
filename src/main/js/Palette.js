@@ -73,9 +73,9 @@ export default class Pallete extends React.Component {
             <div>
                 <span><a href="#" ref="undo" onMouseEnter={ev => this.undo(ev, true)}>[Undo]</a> </span>
                 <span><a href="#" ref="redo" onMouseEnter={ev => this.redo(ev, true)}>[Redo]</a> </span>
-                <span><a href="#" ref="grid" onClick={ev => this.grid(ev)}>[Grid]</a> </span>
-                <span><a href="#" ref="clear" onClick={ev => this.clear(ev)}>[Clear]</a> </span>
-                <span><a href="#" ref="download" onClick={ev => this.download(ev)}>[Save]</a> </span>
+                <span><a href="#" onClick={ev => this.grid(ev)}>[Grid]</a> </span>
+                <span><a href="#" onClick={ev => this.clear(ev)}>[Clear]</a> </span>
+                <span><a href="#" onClick={ev => this.download(ev)}>[Save]</a> </span>
             </div>
         );
     }

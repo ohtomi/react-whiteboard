@@ -42,7 +42,7 @@ export default class Debug extends React.Component {
                 <span>mode: {mode} </span>
                 <span>stroke-width: {strokeWidth} </span>
                 <span>stroke-color: {strokeColor} </span>
-                <span><a href="#" ref="dump" onClick={ev => this.dump(ev)}>Dump data</a> </span>
+                <span><a href="#" onClick={ev => this.dump(ev)}>Dump data</a> </span>
             </div>
         );
     }
