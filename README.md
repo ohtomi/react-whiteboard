@@ -6,7 +6,7 @@ A whiteboard component based on D3.js for React.js
 
 ## Requirements
 
-- React.js v0.14.7+
+- React.js
 
 ## How to use
 
