@@ -1,33 +1,10 @@
 {
   "name": "react-whiteboard",
-  "version": "0.0.1",
   "description": "Whiteboard component based on D3.js for React.js",
-  "main": "lib/react-whiteboard.js",
-  "scripts": {
-    "build": "babel src --out-dir lib --source-maps",
-    "prepublish": "npm run build",
-    "clean": "echo TODO",
-    "lint": "echo TODO",
-    "test": "echo TODO"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ohtomi/react-whiteboard.git"
-  },
+  "version": "0.0.1",
+  "author": "Kenichi Ohtomi",
   "bugs": {
     "url": "https://github.com/ohtomi/react-whiteboard/issues"
-  },
-  "keywords": [
-    "Whiteboard",
-    "D3.js",
-    "React.js"
-  ],
-  "author": "Kenichi Ohtomi",
-  "license": "MIT",
-  "peerDependencies": {
-    "d3": "^3.5.14",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
@@ -41,5 +18,28 @@
     "README.md",
     "lib",
     "src"
-  ]
+  ],
+  "keywords": [
+    "D3.js",
+    "React.js",
+    "Whiteboard"
+  ],
+  "license": "MIT",
+  "main": "lib/react-whiteboard.js",
+  "peerDependencies": {
+    "d3": "^3.5.14",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ohtomi/react-whiteboard.git"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib --source-maps",
+    "clean": "echo TODO",
+    "lint": "echo TODO",
+    "prepublish": "npm run build",
+    "test": "echo TODO"
+  }
 }
