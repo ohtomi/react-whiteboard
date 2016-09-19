@@ -6,7 +6,6 @@ import {EventEmitter} from 'events';
 import d3 from 'd3';
 import {MODE} from './Constant';
 import Canvas from './Canvas';
-import Pallete from './Palette';
 
 const emitter = new EventEmitter();
 
@@ -17,8 +16,7 @@ export default class Whiteboard extends React.Component {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
             listener: React.PropTypes.func,
-            style: React.PropTypes.object,
-            renderPallete: React.PropTypes.bool
+            style: React.PropTypes.object
         };
     }
 
@@ -237,7 +235,6 @@ export default class Whiteboard extends React.Component {
         return (
             <div ref="whiteboard">
                 {this.renderCanvas()}
-                {this.renderPallete()}
             </div>
         );
     }
@@ -245,16 +242,6 @@ export default class Whiteboard extends React.Component {
     renderCanvas() {
         return (
             <Canvas {...this.props} {...this.state} />
-        );
-    }
-
-    renderPallete() {
-        if (!this.props.renderPallete) {
-            return;
-        }
-
-        return (
-            <Pallete {...this.props} {...this.state} />
         );
     }
 
