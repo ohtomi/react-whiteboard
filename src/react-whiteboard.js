@@ -2,35 +2,13 @@
 'use strict';
 
 import React from 'react';
-import {EventEmitter} from 'events';
 import d3 from 'd3';
 import {MODE} from './Constant';
+import WhiteboardBase from './WhiteboardBase';
 import Canvas from './Canvas';
 
-const emitter = new EventEmitter();
 
-export default class Whiteboard extends React.Component {
-
-    static get propTypes() {
-        return {
-            width: React.PropTypes.number,
-            height: React.PropTypes.number,
-            listener: React.PropTypes.func,
-            style: React.PropTypes.object
-        };
-    }
-
-    static get childContextTypes() {
-        return {
-            emitter: React.PropTypes.object
-        };
-    }
-
-    getChildContext() {
-        return {
-            emitter: emitter
-        };
-    }
+export default class Whiteboard extends WhiteboardBase {
 
     constructor(props) {
         super(props);
@@ -49,11 +27,11 @@ export default class Whiteboard extends React.Component {
 
     componentDidMount() {
         d3.select('body').on('keydown.body', () => {
-            emitter.emit('keydown.body', d3.event.keyCode);
+            this.emitter.emit('keydown.body', d3.event.keyCode);
         });
 
         let that = this;
-        emitter.on('keydown.body', (keyCode) => {
+        this.emitter.on('keydown.body', (keyCode) => {
             if (keyCode === 48) { // 0'
                 that.toggleMode();
             }
@@ -64,28 +42,28 @@ export default class Whiteboard extends React.Component {
                 that.toggleStrokeColor();
             }
         });
-        emitter.on('mousemove.canvas', (point) => {
+        this.emitter.on('mousemove.canvas', (point) => {
             that.pushPoint(point);
         });
-        emitter.on('click.canvas', (point) => {
+        this.emitter.on('click.canvas', (point) => {
             that.toggleMode(point);
         });
-        emitter.on('undo.pallete', (doing) => {
+        this.emitter.on('undo.pallete', (doing) => {
             that.undoPoint(doing);
         });
-        emitter.on('redo.pallete', (doing) => {
+        this.emitter.on('redo.pallete', (doing) => {
             that.redoPoint(doing);
         });
-        emitter.on('grid.pallete', () => {
+        this.emitter.on('grid.pallete', () => {
             that.toggleGrid();
         });
-        emitter.on('clear.pallete', () => {
+        this.emitter.on('clear.pallete', () => {
             that.clearPoint();
         });
-        emitter.on('open.download.menu', () => {
+        this.emitter.on('open.download.menu', () => {
             that.showDownloadMenu(true);
         });
-        emitter.on('close.download.menu', () => {
+        this.emitter.on('close.download.menu', () => {
             that.showDownloadMenu(false);
         });
     }
