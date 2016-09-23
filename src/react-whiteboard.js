@@ -211,15 +211,9 @@ export default class Whiteboard extends WhiteboardBase {
 
     render() {
         return (
-            <div ref="whiteboard">
-                {this.renderCanvas()}
+            <div>
+                <Canvas {...this.props} {...this.state} />
             </div>
-        );
-    }
-
-    renderCanvas() {
-        return (
-            <Canvas {...this.props} {...this.state} />
         );
     }
 
