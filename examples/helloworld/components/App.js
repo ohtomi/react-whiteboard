@@ -2,7 +2,7 @@
 'use strict';
 
 import React from 'react';
-import Whiteboard from '../../../src/react-whiteboard';
+import {Whiteboard} from '../../../src/react-whiteboard';
 
 export default class App extends React.Component {
 
