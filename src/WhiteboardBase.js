@@ -1,6 +1,4 @@
 // WhiteboardBase.js
-'use strict';
-
 import React from 'react';
 import EventEmitter from 'events';
 
@@ -12,6 +10,7 @@ export default class WhiteboardBase extends React.Component {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
             style: React.PropTypes.object,
+            emitter: React.PropTypes.object,
         };
     }
 

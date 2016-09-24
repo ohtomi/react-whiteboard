@@ -1,6 +1,4 @@
 // Constant.js
-'use strict';
-
 export const MODE = {
     HAND: {id: 'hand'},
     LINE: {id: 'line'}

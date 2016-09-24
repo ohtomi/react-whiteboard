@@ -1,8 +1,7 @@
 // SvgConverter.js
 // https://raw.githubusercontent.com/likr/d3-downloadable/master/src/index.js
-'use strict';
-
 import d3 from 'd3';
+
 
 export function toDownloadLinks(svg, svgLink, pngLink, jpegLink) {
     let {width, height} = svg.node().getBoundingClientRect();

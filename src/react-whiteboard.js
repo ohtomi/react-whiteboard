@@ -4,6 +4,7 @@ import EventCreator from './EventCreator';
 import Canvas from './Canvas';
 import SvgConverter from './SvgConverter';
 
+
 export {
     WhiteboardBase,
     Whiteboard,

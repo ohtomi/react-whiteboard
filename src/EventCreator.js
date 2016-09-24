@@ -1,7 +1,4 @@
 // EventCreator.js
-'use strict';
-
-
 export default {
     toggleMode: function() {
         return {};
