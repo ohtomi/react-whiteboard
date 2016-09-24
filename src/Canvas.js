@@ -1,6 +1,4 @@
 // Canvas.js
-'use strict';
-
 import React from 'react';
 import d3 from 'd3';
 import {CURSOR_LAYER_RELATIVE_TOP, SVG_BACKGROUND_COLOR} from './Constant';
@@ -28,11 +26,7 @@ export default class Canvas extends React.Component {
     }
 
     componentDidMount() {
-        let svg = d3.select(this.refs.canvasLayer).append('svg')
-            .attr('width', this.props.width)
-            .attr('height', this.props.height);
-        this.svg = svg;
-
+        let svg = d3.select('svg');
         if (this.props.style && this.props.style.backgroundColor) {
             svg.attr('style', 'background: ' + this.props.style.backgroundColor);
         } else {
@@ -60,7 +54,7 @@ export default class Canvas extends React.Component {
         let wrapperStyle = {
             position: 'relative',
             width: this.props.width,
-            height: this.props.height
+            height: this.props.height,
         };
         let cursorLayerStyle = {
             position: 'absolute',
@@ -68,24 +62,26 @@ export default class Canvas extends React.Component {
             zIndex: 2000,
             width: this.props.width,
             height: this.props.height,
-            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default'
+            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default',
         };
         let canvasLayerStyle = {
             position: 'absolute',
             top: 0,
             width: this.props.width,
-            height: this.props.height
+            height: this.props.height,
         };
         return (
             <div style={wrapperStyle}>
                 <div ref="cursorLayer" style={cursorLayerStyle}></div>
-                <div ref="canvasLayer" style={canvasLayerStyle}></div>
+                <div ref="canvasLayer" style={canvasLayerStyle}>
+                    <svg width={this.props.width} height={this.props.height}></svg>
+                </div>
             </div>
         );
     }
 
     drawWhiteboardCanvas() {
-        let svg = this.svg;
+        let svg = d3.select('svg');
         svg.selectAll('path').remove();
 
         for (let i = 0; i < this.props.dataset.length; i++) {

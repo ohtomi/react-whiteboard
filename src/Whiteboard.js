@@ -55,35 +55,45 @@ export default class Whiteboard extends WhiteboardBase {
     toggleMode(point) {
         if (this.state.mode === MODE.LINE) {
             this.setState({
-                mode: MODE.HAND
+                mode: MODE.HAND,
             });
         } else {
             const dataset = this.state.dataset;
             dataset.push({
                 strokeWidth: this.state.strokeWidth,
                 strokeColor: this.state.strokeColor,
-                values: point ? [point] : []
+                values: point ? [point] : [],
             });
             this.setState({
                 mode: MODE.LINE,
-                dataset: dataset
+                dataset: dataset,
             });
         }
     }
 
     changeStrokeWidth(width) {
-        this.setState({strokeWidth: width});
+        this.setState({
+            strokeWidth: width,
+        });
     }
 
     toggleStrokeColor() {
         if (this.state.strokeColor === 'black') {
-            this.setState({strokeColor: 'red'});
+            this.setState({
+                strokeColor: 'red',
+            });
         } else if (this.state.strokeColor === 'red') {
-            this.setState({strokeColor: 'green'});
+            this.setState({
+                strokeColor: 'green',
+            });
         } else if (this.state.strokeColor === 'green') {
-            this.setState({strokeColor: 'blue'});
+            this.setState({
+                strokeColor: 'blue',
+            });
         } else {
-            this.setState({strokeColor: 'black'});
+            this.setState({
+                strokeColor: 'black',
+            });
         }
     }
 
@@ -101,17 +111,17 @@ export default class Whiteboard extends WhiteboardBase {
             current.values.push(point);
             this.setState({
                 dataset: dataset,
-                undoStack: []
+                undoStack: [],
             });
         } else {
             dataset.push({
                 strokeWidth: this.state.strokeWidth,
                 strokeColor: this.state.strokeColor,
-                values: [point]
+                values: [point],
             });
             this.setState({
                 dataset: dataset,
-                undoStack: []
+                undoStack: [],
             });
         }
     }
@@ -135,7 +145,7 @@ export default class Whiteboard extends WhiteboardBase {
                 this.setState({
                     dataset: dataset,
                     undoStack: undoStack,
-                    doingUndo: true
+                    doingUndo: true,
                 });
 
             } else if (current && current.values.length === 1) {
@@ -150,14 +160,18 @@ export default class Whiteboard extends WhiteboardBase {
                 this.setState({
                     dataset: dataset,
                     undoStack: undoStack,
-                    doingUndo: true
+                    doingUndo: true,
                 });
 
             } else {
-                this.setState({doingUndo: false});
+                this.setState({
+                    doingUndo: false,
+                });
             }
         } else {
-            this.setState({doingUndo: false});
+            this.setState({
+                doingUndo: false,
+            });
         }
     }
 
@@ -168,20 +182,24 @@ export default class Whiteboard extends WhiteboardBase {
             if (redoOperation) {
                 redoOperation({
                     undoStack: undoStack,
-                    doingRedo: true
+                    doingRedo: true,
                 });
             } else {
-                this.setState({doingRedo: false});
+                this.setState({
+                    doingRedo: false,
+                });
             }
         } else {
-            this.setState({doingRedo: false});
+            this.setState({
+                doingRedo: false,
+            });
         }
     }
 
     clearPoint() {
         this.setState({
             dataset: [],
-            undoStack: []
+            undoStack: [],
         });
     }
 
