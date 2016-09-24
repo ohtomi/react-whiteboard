@@ -20,8 +20,6 @@ export default class Whiteboard extends WhiteboardBase {
             strokeColor: 'black',
             doingUndo: false,
             doingRedo: false,
-            renderGrid: false,
-            renderDownloadMenu: false
         };
     }
 
@@ -53,18 +51,6 @@ export default class Whiteboard extends WhiteboardBase {
         });
         this.emitter.on('redo.pallete', (doing) => {
             that.redoPoint(doing);
-        });
-        this.emitter.on('grid.pallete', () => {
-            that.toggleGrid();
-        });
-        this.emitter.on('clear.pallete', () => {
-            that.clearPoint();
-        });
-        this.emitter.on('open.download.menu', () => {
-            that.showDownloadMenu(true);
-        });
-        this.emitter.on('close.download.menu', () => {
-            that.showDownloadMenu(false);
         });
     }
 
@@ -194,19 +180,11 @@ export default class Whiteboard extends WhiteboardBase {
         }
     }
 
-    toggleGrid() {
-        this.setState({renderGrid: !this.state.renderGrid});
-    }
-
     clearPoint() {
         this.setState({
             dataset: [],
             undoStack: []
         });
-    }
-
-    showDownloadMenu(doing) {
-        this.setState({renderDownloadMenu: doing});
     }
 
     render() {
