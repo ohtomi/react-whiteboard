@@ -1,4 +1,3 @@
-// WhiteboardBase.js
 import React from 'react';
 import EventEmitter from 'events';
 
@@ -16,13 +15,13 @@ export default class WhiteboardBase extends React.Component {
 
     static get childContextTypes() {
         return {
-            emitter: React.PropTypes.object
+            emitter: React.PropTypes.object,
         };
     }
 
     getChildContext() {
         return {
-            emitter: this.emitter
+            emitter: this.emitter,
         };
     }
 

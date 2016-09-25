@@ -1,4 +1,3 @@
-// SvgConverter.js
 // https://raw.githubusercontent.com/likr/d3-downloadable/master/src/index.js
 import d3 from 'd3';
 

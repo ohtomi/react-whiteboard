@@ -1,4 +1,3 @@
-// EventCreator.js
 export default {
     toggleMode: function() {
         return {};

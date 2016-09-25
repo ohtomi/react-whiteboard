@@ -1,4 +1,3 @@
-// main.js
 import React from 'react';
 import d3 from 'd3';
 import {MODE} from './Constant';
