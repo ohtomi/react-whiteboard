@@ -21,7 +21,7 @@ export default class CanvasPane extends React.Component {
     }
 
     componentDidMount() {
-        let svg = d3.select('svg');
+        let svg = d3.select(this.refs.svg);
         if (this.props.style && this.props.style.backgroundColor) {
             svg.attr('style', 'background: ' + this.props.style.backgroundColor);
         } else {
@@ -44,14 +44,14 @@ export default class CanvasPane extends React.Component {
         };
 
         return (
-            <div ref="canvasLayer" style={canvasLayerStyle}>
-                <svg width={this.props.width} height={this.props.height}></svg>
+            <div style={canvasLayerStyle}>
+                <svg ref="svg" width={this.props.width} height={this.props.height}></svg>
             </div>
         );
     }
 
     drawWhiteboardCanvas() {
-        let svg = d3.select('svg');
+        let svg = d3.select(this.refs.svg);
         svg.selectAll('path').remove();
 
         for (let i = 0; i < this.props.dataset.length; i++) {
