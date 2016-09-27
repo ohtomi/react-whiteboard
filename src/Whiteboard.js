@@ -15,8 +15,6 @@ export default class Whiteboard extends WhiteboardBase {
             mode: MODE.HAND,
             strokeWidth: 5,
             strokeColor: 'black',
-            doingUndo: false,
-            doingRedo: false,
         };
     }
 
@@ -43,11 +41,11 @@ export default class Whiteboard extends WhiteboardBase {
         this.emitter.on('click.canvas', (point) => {
             that.toggleMode(point);
         });
-        this.emitter.on('undo.pallete', (doing) => {
-            that.undoPoint(doing);
+        this.emitter.on('undo.pallete', () => {
+            that.undoPoint();
         });
-        this.emitter.on('redo.pallete', (doing) => {
-            that.redoPoint(doing);
+        this.emitter.on('redo.pallete', () => {
+            that.redoPoint();
         });
     }
 
@@ -125,72 +123,48 @@ export default class Whiteboard extends WhiteboardBase {
         }
     }
 
-    undoPoint(doing) {
-        if (doing) {
-            const dataset = this.state.dataset;
-            const current = dataset[dataset.length - 1];
-            const undoStack = this.state.undoStack;
+    undoPoint() {
+        const dataset = this.state.dataset;
+        const current = dataset[dataset.length - 1];
+        const undoStack = this.state.undoStack;
 
-            if (current && current.values.length > 1) {
-                const point = current.values.pop();
-                const undoOperation = (newState) => {
-                    const dataset = this.state.dataset;
-                    const current = dataset[dataset.length - 1];
-                    current.values.push(point);
-                    newState.dataset = dataset;
-                    this.setState(newState);
-                };
-                undoStack.push(undoOperation);
-                this.setState({
-                    dataset: dataset,
-                    undoStack: undoStack,
-                    doingUndo: true,
-                });
-
-            } else if (current && current.values.length === 1) {
-                dataset.pop();
-                const undoOperation = (newState) => {
-                    const dataset = this.state.dataset;
-                    dataset.push(current);
-                    newState.dataset = dataset;
-                    this.setState(newState);
-                };
-                undoStack.push(undoOperation);
-                this.setState({
-                    dataset: dataset,
-                    undoStack: undoStack,
-                    doingUndo: true,
-                });
-
-            } else {
-                this.setState({
-                    doingUndo: false,
-                });
-            }
-        } else {
+        if (current && current.values.length > 1) {
+            const point = current.values.pop();
+            const undoOperation = (newState) => {
+                const dataset = this.state.dataset;
+                const current = dataset[dataset.length - 1];
+                current.values.push(point);
+                newState.dataset = dataset;
+                this.setState(newState);
+            };
+            undoStack.push(undoOperation);
             this.setState({
-                doingUndo: false,
+                dataset: dataset,
+                undoStack: undoStack,
+            });
+
+        } else if (current && current.values.length === 1) {
+            dataset.pop();
+            const undoOperation = (newState) => {
+                const dataset = this.state.dataset;
+                dataset.push(current);
+                newState.dataset = dataset;
+                this.setState(newState);
+            };
+            undoStack.push(undoOperation);
+            this.setState({
+                dataset: dataset,
+                undoStack: undoStack,
             });
         }
     }
 
-    redoPoint(doing) {
-        if (doing) {
-            const undoStack = this.state.undoStack;
-            const redoOperation = undoStack.pop();
-            if (redoOperation) {
-                redoOperation({
-                    undoStack: undoStack,
-                    doingRedo: true,
-                });
-            } else {
-                this.setState({
-                    doingRedo: false,
-                });
-            }
-        } else {
-            this.setState({
-                doingRedo: false,
+    redoPoint() {
+        const undoStack = this.state.undoStack;
+        const redoOperation = undoStack.pop();
+        if (redoOperation) {
+            redoOperation({
+                undoStack: undoStack,
             });
         }
     }
