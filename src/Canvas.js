@@ -21,8 +21,8 @@ export default class Canvas extends React.Component {
 
         return (
             <div style={wrapperStyle}>
-                <CursorPane {...this.props} {...this.state} />
-                <CanvasPane {...this.props} {...this.state} />
+                <CursorPane {...this.props} />
+                <CanvasPane {...this.props} />
             </div>
         );
     }
