@@ -4,15 +4,6 @@ import EventEmitter from 'events';
 
 export default class WhiteboardBase extends React.Component {
 
-    static get propTypes() {
-        return {
-            width: React.PropTypes.number,
-            height: React.PropTypes.number,
-            style: React.PropTypes.object,
-            emitter: React.PropTypes.object,
-        };
-    }
-
     static get childContextTypes() {
         return {
             emitter: React.PropTypes.object,
@@ -27,7 +18,7 @@ export default class WhiteboardBase extends React.Component {
 
     constructor(props) {
         super(props);
-        this.emitter = this.props.emitter || new EventEmitter();
+        this.emitter = new EventEmitter();
     }
 
 }

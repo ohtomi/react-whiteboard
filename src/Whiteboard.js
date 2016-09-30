@@ -7,6 +7,14 @@ import Canvas from './Canvas';
 
 export default class Whiteboard extends WhiteboardBase {
 
+    static get propTypes() {
+        return {
+            width: React.PropTypes.number,
+            height: React.PropTypes.number,
+            style: React.PropTypes.object,
+        };
+    }
+
     constructor(props) {
         super(props);
         this.state = {
