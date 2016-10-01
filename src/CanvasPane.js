@@ -14,7 +14,6 @@ export default class CanvasPane extends React.Component {
         return {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
-            strokeColor: React.PropTypes.string,
             dataset: React.PropTypes.array,
             style: React.PropTypes.object,
         };
