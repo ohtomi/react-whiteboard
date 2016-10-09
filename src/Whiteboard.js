@@ -2,7 +2,7 @@ import React from 'react';
 import d3 from 'd3';
 import {MODE} from './Constant';
 import WhiteboardBase from './WhiteboardBase';
-import Canvas from './Canvas';
+import ChildContainer from './ChildContainer';
 
 
 export default class Whiteboard extends WhiteboardBase {
@@ -187,7 +187,7 @@ export default class Whiteboard extends WhiteboardBase {
     render() {
         return (
             <div>
-                <Canvas {...this.props} {...this.state} />
+                <ChildContainer {...this.props} {...this.state} />
             </div>
         );
     }

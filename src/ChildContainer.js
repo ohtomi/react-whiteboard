@@ -3,7 +3,7 @@ import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
 
 
-export default class Canvas extends React.Component {
+export default class ChildContainer extends React.Component {
 
     static get propTypes() {
         return {
