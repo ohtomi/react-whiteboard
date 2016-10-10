@@ -3,21 +3,23 @@ import EventEmitter from 'events';
 import d3 from 'd3';
 import {MODE} from './Constant';
 import ChildContainer from './ChildContainer';
+import CursorPane from './CursorPane';
+import CanvasPane from './CanvasPane';
 
 
 export default class Whiteboard extends React.Component {
-
-    static get childContextTypes() {
-        return {
-            emitter: React.PropTypes.object,
-        };
-    }
 
     static get propTypes() {
         return {
             width: React.PropTypes.number,
             height: React.PropTypes.number,
             style: React.PropTypes.object,
+        };
+    }
+
+    static get childContextTypes() {
+        return {
+            emitter: React.PropTypes.object,
         };
     }
 
@@ -199,9 +201,16 @@ export default class Whiteboard extends React.Component {
     }
 
     render() {
+        let wrapperStyle = {
+            position: 'relative',
+            width: this.props.width,
+            height: this.props.height,
+        };
+
         return (
-            <div>
-                <ChildContainer {...this.props} {...this.state} />
+            <div style={wrapperStyle}>
+                <CursorPane {...this.props} {...this.state} />
+                <CanvasPane {...this.props} {...this.state} />
             </div>
         );
     }
