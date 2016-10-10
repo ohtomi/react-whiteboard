@@ -2,9 +2,6 @@ import React from 'react';
 import d3 from 'd3';
 
 
-const CURSOR_LAYER_RELATIVE_TOP = 20;
-
-
 export default class CursorPane extends React.Component {
 
     static get propTypes() {
@@ -24,11 +21,11 @@ export default class CursorPane extends React.Component {
     componentDidMount() {
         let that = this;
         d3.select(this.refs.cursorLayer).on('mousemove.canvas', () => {
-            const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
+            const point = [d3.event.offsetX, d3.event.offsetY - 2];
             that.context.emitter.emit('mousemove.canvas', point);
         });
         d3.select(this.refs.cursorLayer).on('click', () => {
-            const point = [d3.event.offsetX, d3.event.offsetY + 24 - CURSOR_LAYER_RELATIVE_TOP];
+            const point = [d3.event.offsetX, d3.event.offsetY - 2];
             that.context.emitter.emit('click.canvas', point);
         });
     }
@@ -36,11 +33,11 @@ export default class CursorPane extends React.Component {
     render() {
         let cursorLayerStyle = {
             position: 'absolute',
-            top: -CURSOR_LAYER_RELATIVE_TOP,
             zIndex: 2000,
             width: this.props.width,
             height: this.props.height,
-            cursor: 'url(css/ic_edit_' + this.props.strokeColor + '_24px.svg), default',
+            borderStyle: 'none none solid none',
+            borderColor: this.props.strokeColor,
         };
 
         return (
