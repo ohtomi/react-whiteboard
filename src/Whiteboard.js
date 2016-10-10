@@ -55,7 +55,7 @@ export default class Whiteboard extends React.Component {
             this.emitter.emit('keydown.body', d3.event.keyCode);
         });
 
-        let that = this;
+        const that = this;
         this.emitter.on('keydown.body', (keyCode) => {
             if (keyCode === 48) { // 0'
                 that.toggleMode();
@@ -209,7 +209,7 @@ export default class Whiteboard extends React.Component {
     }
 
     render() {
-        let wrapperStyle = {
+        const wrapperStyle = {
             position: 'relative',
             width: this.props.width,
             height: this.props.height,

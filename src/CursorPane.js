@@ -19,7 +19,7 @@ export default class CursorPane extends React.Component {
     }
 
     componentDidMount() {
-        let that = this;
+        const that = this;
         d3.select(this.refs.cursorLayer).on('mousemove.canvas', () => {
             const point = [d3.event.offsetX, d3.event.offsetY - 2];
             that.context.emitter.emit('mousemove.canvas', point);
@@ -31,7 +31,7 @@ export default class CursorPane extends React.Component {
     }
 
     render() {
-        let cursorLayerStyle = {
+        const cursorLayerStyle = {
             position: 'absolute',
             zIndex: 2000,
             width: this.props.width,
