@@ -2,7 +2,6 @@ import React from 'react';
 import d3 from 'd3';
 
 
-const SVG_BACKGROUND_COLOR = '#f6f6f6';
 const line = d3.svg.line()
     .x(d => d[0])
     .y(d => d[1]);
@@ -23,8 +22,6 @@ export default class CanvasPane extends React.Component {
         let svg = d3.select(this.refs.svg);
         if (this.props.style && this.props.style.backgroundColor) {
             svg.attr('style', 'background: ' + this.props.style.backgroundColor);
-        } else {
-            svg.attr('style', 'background: ' + SVG_BACKGROUND_COLOR);
         }
 
         this.drawWhiteboardCanvas();
