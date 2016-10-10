@@ -1,6 +1,8 @@
 import React from 'react';
 import d3 from 'd3';
-import {CURSOR_LAYER_RELATIVE_TOP} from './Constant';
+
+
+const CURSOR_LAYER_RELATIVE_TOP = 20;
 
 
 export default class CursorPane extends React.Component {

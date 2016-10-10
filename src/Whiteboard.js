@@ -1,9 +1,14 @@
 import React from 'react';
 import EventEmitter from 'events';
 import d3 from 'd3';
-import {MODE} from './Constant';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
+
+
+const MODE = {
+    HAND: {id: 'hand'},
+    LINE: {id: 'line'}
+};
 
 
 export default class Whiteboard extends React.Component {

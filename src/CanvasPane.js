@@ -1,8 +1,8 @@
 import React from 'react';
 import d3 from 'd3';
-import {SVG_BACKGROUND_COLOR} from './Constant';
 
 
+const SVG_BACKGROUND_COLOR = '#f6f6f6';
 const line = d3.svg.line()
     .x(d => d[0])
     .y(d => d[1]);
