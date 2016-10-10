@@ -1,11 +1,17 @@
 import React from 'react';
+import EventEmitter from 'events';
 import d3 from 'd3';
 import {MODE} from './Constant';
-import WhiteboardBase from './WhiteboardBase';
 import ChildContainer from './ChildContainer';
 
 
-export default class Whiteboard extends WhiteboardBase {
+export default class Whiteboard extends React.Component {
+
+    static get childContextTypes() {
+        return {
+            emitter: React.PropTypes.object,
+        };
+    }
 
     static get propTypes() {
         return {
@@ -15,8 +21,16 @@ export default class Whiteboard extends WhiteboardBase {
         };
     }
 
+    getChildContext() {
+        return {
+            emitter: this.emitter,
+        };
+    }
+
     constructor(props) {
         super(props);
+
+        this.emitter = new EventEmitter();
         this.state = {
             dataset: [],
             undoStack: [],
