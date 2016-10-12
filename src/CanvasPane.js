@@ -34,7 +34,6 @@ export default class CanvasPane extends React.Component {
     render() {
         const canvasLayerStyle = {
             position: 'absolute',
-            top: 0,
             width: this.props.width,
             height: this.props.height,
         };
