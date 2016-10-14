@@ -6,8 +6,8 @@ import CanvasPane from './CanvasPane';
 
 
 const MODE = {
-    HAND: {id: 'hand'},
-    LINE: {id: 'line'}
+    HAND: {},
+    LINE: {}
 };
 
 
