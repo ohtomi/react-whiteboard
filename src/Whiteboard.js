@@ -57,9 +57,6 @@ export default class Whiteboard extends React.Component {
 
         const that = this;
         this.emitter.on('keydown.body', (keyCode) => {
-            if (keyCode === 48) { // 0'
-                that.toggleMode();
-            }
             if (keyCode >= 49 && keyCode <= 57) { // '1' - '9'
                 that.changeStrokeWidth(keyCode - 48);
             }
