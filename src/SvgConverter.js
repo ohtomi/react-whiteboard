@@ -11,7 +11,7 @@ export function toDownloadLinks(svg, svgLink, pngLink, jpegLink) {
             xmlns: 'http://www.w3.org/2000/svg',
             //'xmlns:xmlns:xlink': 'http://www.w3.org/1999/xlink',
             width: width,
-            height: height
+            height: height,
         });
 
     let svgHtml = svgNode.outerHTML;
