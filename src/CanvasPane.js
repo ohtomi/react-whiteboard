@@ -49,10 +49,9 @@ export default class CanvasPane extends React.Component {
         const svg = d3.select(this.refs.svg);
         svg.selectAll('path').remove();
 
-        for (let i = 0; i < this.props.dataset.length; i++) {
-            const d = this.props.dataset[i];
+        this.props.dataset.forEach(d => {
             if (d.values.length <= 1) {
-                continue;
+                return;
             }
             svg.append('path')
                 .datum(d.values)
@@ -61,7 +60,7 @@ export default class CanvasPane extends React.Component {
                 .attr('fill', 'none')
                 .attr('stroke', d.strokeColor)
                 .attr('stroke-width', d.strokeWidth);
-        }
+        });
     }
 
 }
