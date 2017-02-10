@@ -32,6 +32,7 @@
     "quotes": ["error", "single"],
     "comma-dangle": ["error", "always-multiline"],
     "linebreak-style": ["error", "unix"],
+    "import/default": "off",
     "import/no-extraneous-dependencies": "off",
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", "extensions": [".js", ".jsx"]],
