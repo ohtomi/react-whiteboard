@@ -1,6 +1,6 @@
 import React from 'react';
 import EventEmitter from 'events';
-import d3 from 'd3';
+import d3selection from 'd3-selection';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
 
@@ -51,8 +51,8 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
-        d3.select('body').on('keydown.body', () => {
-            this.emitter.emit('keydown.body', d3.event.keyCode);
+        d3selection.select('body').on('keydown.body', () => {
+            this.emitter.emit('keydown.body', d3selection.event.keyCode);
         });
 
         const that = this;

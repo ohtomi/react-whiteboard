@@ -1,11 +1,11 @@
 // https://raw.githubusercontent.com/likr/d3-downloadable/master/src/index.js
-import d3 from 'd3';
+import d3selection from 'd3-selection';
 
 
 export function toDownloadLinks(svg, svgLink, pngLink, jpegLink) {
     let {width, height} = svg.node().getBoundingClientRect();
     let svgNode = svg.node().cloneNode(true);
-    d3.select(svgNode)
+    d3selection.select(svgNode)
         .attr({
             version: '1.1',
             xmlns: 'http://www.w3.org/2000/svg',
