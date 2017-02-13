@@ -1,9 +1,8 @@
 import React from 'react';
-import d3shape from 'd3-shape';
-import d3selection from 'd3-selection';
+import * as d3 from './D3Bundle';
 
 
-const line = d3shape.line()
+const line = d3.line()
     .x(d => d[0])
     .y(d => d[1]);
 
@@ -20,7 +19,7 @@ export default class CanvasPane extends React.Component {
     }
 
     componentDidMount() {
-        const svg = d3selection.select(this.refs.svg);
+        const svg = d3.select(this.refs.svg);
         if (this.props.style && this.props.style.backgroundColor) {
             svg.attr('style', 'background: ' + this.props.style.backgroundColor);
         }
@@ -47,7 +46,7 @@ export default class CanvasPane extends React.Component {
     }
 
     drawWhiteboardCanvas() {
-        const svg = d3selection.select(this.refs.svg);
+        const svg = d3.select(this.refs.svg);
         svg.selectAll('path').remove();
 
         this.props.dataset.forEach(d => {
