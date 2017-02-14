@@ -2,15 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Whiteboard from './Whiteboard';
-import EventCreator from './EventCreator';
-import SvgConverter from './SvgConverter';
-
-
-export {
-    Whiteboard,
-    EventCreator,
-    SvgConverter,
-};
 
 
 let appNode = document.createElement('div');
