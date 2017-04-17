@@ -6,19 +6,6 @@
     "browser": true
   },
   "parser": "babel-eslint",
-  "extends": [
-    "eslint:recommended",
-    "plugin:import/recommended",
-    "plugin:flowtype/recommended",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-    "plugin:import/react"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-  },
   "plugins": [
     "flowtype",
     "import",
@@ -27,28 +14,20 @@
     "react",
     "jsx-a11y"
   ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:flowtype/recommended",
+    "plugin:import/recommended",
+    "plugin:import/react",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "rules": {
-    "semi": ["error", "always"],
-    "quotes": ["error", "single"],
-    "comma-dangle": ["error", "always-multiline"],
-    "linebreak-style": ["error", "unix"],
-    "import/no-extraneous-dependencies": "off",
-    "react/jsx-no-bind": "off",
-    "react/jsx-filename-extension": ["error", "extensions": [".js", ".jsx"]],
-    "react/prefer-stateless-function": "off",
-    "promise/always-return": "error",
-    "promise/no-return-wrap": "error",
-    "promise/param-names": "error",
-    "promise/catch-or-return": "error",
-    "promise/no-nesting": "warn",
-    "promise/no-promise-in-callback": "warn",
-    "promise/no-callback-in-promise": "warn",
-    "promise/avoid-new": "warn",
-    "security/detect-unsafe-regex": "error",
-    "security/detect-buffer-noassert": "error",
-    "security/detect-pseudoRandomBytes": "error",
-    "security/detect-object-injection": "error",
-    "security/detect-new-buffer": "error"
   },
   "settings": {
     "import/resolver": {
