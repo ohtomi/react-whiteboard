@@ -2,11 +2,7 @@
 
 ## Description
 
-A whiteboard component based on D3.js for React.js
-
-## Requirements
-
-- React.js
+A whiteboard component based on `D3.js` for `React.js`.
 
 ## How to use
 
@@ -43,3 +39,7 @@ $ npm run build
 ## License
 
 MIT
+
+## Author
+
+[Kenichi Ohtomi](https://github.com/ohtomi)
