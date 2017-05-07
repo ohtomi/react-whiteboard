@@ -2,7 +2,7 @@
 
 ## Description
 
-A whiteboard component based on `D3.js` for `React.js`.
+A whiteboard `React` component using `SVG`.
 
 ## How to use
 
@@ -19,6 +19,7 @@ render() {
     );
 }
 ```
+
 See [examples](examples).
 
 ## How to build
