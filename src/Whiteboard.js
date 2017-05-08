@@ -1,6 +1,5 @@
 import React from 'react';
 import EventEmitter from 'events';
-import * as d3 from './D3Bundle';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
 
@@ -51,8 +50,8 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
-        d3.select('body').on('keydown.body', () => {
-            this.emitter.emit('keydown.body', d3.event.keyCode);
+        document.body.addEventListener('keydown', (ev) => {
+            this.emitter.emit('keydown.body', ev.keyCode);
         });
 
         const that = this;
@@ -132,8 +131,8 @@ export default class Whiteboard extends React.Component {
         const current = dataset[dataset.length - 1];
 
         if (current &&
-                current.strokeWidth === this.state.strokeWidth &&
-                current.strokeColor === this.state.strokeColor) {
+            current.strokeWidth === this.state.strokeWidth &&
+            current.strokeColor === this.state.strokeColor) {
             current.values.push(point);
             this.setState({
                 dataset: dataset,
@@ -219,5 +218,4 @@ export default class Whiteboard extends React.Component {
             </div>
         );
     }
-
 }

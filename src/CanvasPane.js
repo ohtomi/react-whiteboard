@@ -1,10 +1,4 @@
 import React from 'react';
-import * as d3 from './D3Bundle';
-
-
-const line = d3.line()
-    .x(d => d[0])
-    .y(d => d[1]);
 
 
 export default class CanvasPane extends React.Component {
@@ -18,49 +12,41 @@ export default class CanvasPane extends React.Component {
         };
     }
 
-    componentDidMount() {
-        const svg = d3.select(this.refs.svg);
-        if (this.props.style && this.props.style.backgroundColor) {
-            svg.attr('style', 'background: ' + this.props.style.backgroundColor);
-        }
-
-        this.drawWhiteboardCanvas();
-    }
-
-    componentDidUpdate() {
-        this.drawWhiteboardCanvas();
-    }
-
     render() {
         const canvasLayerStyle = {
             position: 'absolute',
             width: this.props.width,
             height: this.props.height,
+            background: this.props.style.backgroundColor,
         };
 
         return (
             <div style={canvasLayerStyle}>
-                <svg ref="svg" width={this.props.width} height={this.props.height}></svg>
+                <svg ref="svg" width={this.props.width} height={this.props.height}>
+                    {this.drawWhiteboardCanvas()}
+                </svg>
             </div>
         );
     }
 
     drawWhiteboardCanvas() {
-        const svg = d3.select(this.refs.svg);
-        svg.selectAll('path').remove();
+        return this.props.dataset
+            .filter((element, index, array) => {
+                return element.values.length > 1;
+            })
+            .map((element, index, array) => {
+                const k = index;
+                const d = element.values.map((point, index, array) => {
+                    if (index === 0) {
+                        return 'M ' + point[0] + ' ' + point[1];
+                    } else {
+                        return 'L ' + point[0] + ' ' + point[1];
+                    }
+                });
 
-        this.props.dataset.forEach(d => {
-            if (d.values.length <= 1) {
-                return;
-            }
-            svg.append('path')
-                .datum(d.values)
-                .classed('line', true)
-                .attr('d', line)
-                .attr('fill', 'none')
-                .attr('stroke', d.strokeColor)
-                .attr('stroke-width', d.strokeWidth);
-        });
+                return (
+                    <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}></path>
+                );
+            });
     }
-
 }

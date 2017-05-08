@@ -1,5 +1,4 @@
 // https://raw.githubusercontent.com/likr/d3-downloadable/master/src/index.js
-import * as d3 from './D3Bundle';
 
 
 export default {

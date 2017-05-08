@@ -1,5 +1,4 @@
 import React from 'react';
-import * as d3 from './D3Bundle';
 
 
 export default class CursorPane extends React.Component {
@@ -31,12 +30,12 @@ export default class CursorPane extends React.Component {
 
     componentDidMount() {
         const that = this;
-        d3.select(this.refs.cursorLayer).on('mousemove.canvas', () => {
-            const point = that.tweakPoint([d3.event.offsetX, d3.event.offsetY]);
+        this.cursorLayer.addEventListener('mousemove', (ev) => {
+            const point = that.tweakPoint([ev.offsetX, ev.offsetY]);
             that.context.emitter.emit('mousemove.canvas', point);
         });
-        d3.select(this.refs.cursorLayer).on('click', () => {
-            const point = [d3.event.offsetX - 2, d3.event.offsetY + 2];
+        this.cursorLayer.addEventListener('click', (ev) => {
+            const point = [ev.offsetX - 2, ev.offsetY + 2];
             that.context.emitter.emit('click.canvas', point);
         });
     }
@@ -52,8 +51,7 @@ export default class CursorPane extends React.Component {
         };
 
         return (
-            <div ref="cursorLayer" style={cursorLayerStyle}></div>
+            <div ref={cursorLayer => this.cursorLayer = cursorLayer} style={cursorLayerStyle}></div>
         );
     }
-
 }
