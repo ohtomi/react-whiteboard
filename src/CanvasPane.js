@@ -1,16 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 export default class CanvasPane extends React.Component {
-
-    static get propTypes() {
-        return {
-            width: React.PropTypes.number,
-            height: React.PropTypes.number,
-            dataset: React.PropTypes.array,
-            style: React.PropTypes.object,
-        };
-    }
 
     render() {
         const canvasLayerStyle = {
@@ -50,3 +42,10 @@ export default class CanvasPane extends React.Component {
             });
     }
 }
+
+CanvasPane.propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    dataset: PropTypes.array,
+    style: PropTypes.object,
+};

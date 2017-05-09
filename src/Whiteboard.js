@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EventEmitter from 'events';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
@@ -12,26 +13,6 @@ const MODE = {
 
 export default class Whiteboard extends React.Component {
 
-    static get propTypes() {
-        return {
-            width: React.PropTypes.number,
-            height: React.PropTypes.number,
-            style: React.PropTypes.object,
-        };
-    }
-
-    static get childContextTypes() {
-        return {
-            emitter: React.PropTypes.object,
-        };
-    }
-
-    getChildContext() {
-        return {
-            emitter: this.emitter,
-        };
-    }
-
     constructor(props) {
         super(props);
 
@@ -42,6 +23,12 @@ export default class Whiteboard extends React.Component {
             mode: MODE.HAND,
             strokeWidth: 5,
             strokeColor: 'black',
+        };
+    }
+
+    getChildContext() {
+        return {
+            emitter: this.emitter,
         };
     }
 
@@ -219,3 +206,13 @@ export default class Whiteboard extends React.Component {
         );
     }
 }
+
+Whiteboard.propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    style: PropTypes.object,
+};
+
+Whiteboard.childContextTypes = {
+    emitter: PropTypes.object,
+};

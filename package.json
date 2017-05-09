@@ -18,11 +18,13 @@
   },
   "peerDependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-proptypes": "^1.0.0"
   },
   "dependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-proptypes": "^1.0.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",

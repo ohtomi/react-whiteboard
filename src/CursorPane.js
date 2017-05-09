@@ -1,22 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 export default class CursorPane extends React.Component {
-
-    static get propTypes() {
-        return {
-            width: React.PropTypes.number,
-            height: React.PropTypes.number,
-            strokeWidth: React.PropTypes.number,
-            strokeColor: React.PropTypes.string,
-        };
-    }
-
-    static get contextTypes() {
-        return {
-            emitter: React.PropTypes.object,
-        };
-    }
 
     tweakPoint(point) {
         if (this.props.strokeWidth <= 3) {
@@ -55,3 +41,14 @@ export default class CursorPane extends React.Component {
         );
     }
 }
+
+CursorPane.propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    strokeWidth: PropTypes.number,
+    strokeColor: PropTypes.string,
+};
+
+CursorPane.contextTypes = {
+    emitter: PropTypes.object,
+};
