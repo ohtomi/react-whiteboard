@@ -1,9 +1,38 @@
 import React from 'react';
-import {Whiteboard} from '../../../src/react-whiteboard';
+import {Whiteboard, SvgConverter} from '../../../src/index';
 
 export default class App extends React.Component {
 
-    handleEvent(ev) {
+    componentDidMount() {
+        let downloadAsPng = document.querySelector('#download-as-png');
+        downloadAsPng.addEventListener('mouseover', () => {
+            let svg = document.querySelector('svg');
+            let converter = new SvgConverter(svg);
+            converter.toPngData().then(data => {
+                downloadAsPng.href = data;
+                downloadAsPng.download = 'xxx.png';
+            });
+        });
+
+        let downloadAsJpeg = document.querySelector('#download-as-jpeg');
+        downloadAsJpeg.addEventListener('mouseover', () => {
+            let svg = document.querySelector('svg');
+            let converter = new SvgConverter(svg);
+            converter.toJpegData().then(data => {
+                downloadAsJpeg.href = data;
+                downloadAsJpeg.download = 'xxx.jpeg';
+            });
+        });
+
+        let downloadAsSvg = document.querySelector('#download-as-svg');
+        downloadAsSvg.addEventListener('mouseover', () => {
+            let svg = document.querySelector('svg');
+            let converter = new SvgConverter(svg);
+            converter.toSvgData().then(data => {
+                downloadAsSvg.href = data;
+                downloadAsSvg.download = 'xxx.svg';
+            });
+        });
     }
 
     render() {
@@ -15,9 +44,8 @@ export default class App extends React.Component {
                     <li>To switch color, black, red, green, blue, press c key.</li>
                     <li>To select stroke width, press 1-9 key.</li>
                 </ul>
-                <Whiteboard width={800} height={600} style={{backgroundColor: 'lightyellow'}} />
+                <Whiteboard width={800} height={600} style={{backgroundColor: 'lightyellow'}}/>
             </div>
         );
     }
-
 }

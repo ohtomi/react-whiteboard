@@ -1,12 +1,11 @@
 {
   "name": "helloworld",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Kenichi Ohtomi",
   "devDependencies": {
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babelify": "^7.2.0",
-    "d3": "^3.5.14",
     "watchify": "^3.7.0"
   },
   "license": "MIT",
