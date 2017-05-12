@@ -11,10 +11,10 @@
     "clear": "rimraf dist coverage .nyc_output",
     "lint": "eslint src/ test/",
     "compile": "cross-env NODE_ENV=production webpack --progress --profile",
-    "test": "cross-env NODE_ENV=test NODE_PATH=src ava --verbose",
+    "test": "cross-env NODE_ENV=test ava --verbose",
     "cover": "nyc --reporter=html --reporter=text yarn test",
     "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "watch": "chokidar test/**/*.js -c \"cross-env NODE_ENV=test NODE_PATH=src ava --tap {path} | tap-notify\""
+    "watch": "chokidar test/**/*.js -c \"cross-env NODE_ENV=test ava --tap {path} | tap-notify\""
   },
   "peerDependencies": {
     "react": "^15.5.4",
@@ -67,7 +67,6 @@
     ],
     "require": [
       "babel-register",
-      "ignore-styles",
       "./test/global.setup.js"
     ],
     "babel": "inherit"
