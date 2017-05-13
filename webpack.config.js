@@ -4,7 +4,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname + '/dist'),
-        filename: 'bundle.js'
+        filename: 'index.js',
+        library: 'shared-components',
+        libraryTarget: 'umd'
     },
     module: {
         loaders: [{
@@ -12,6 +14,10 @@ module.exports = {
             exclude: /node_modules/,
             loader: 'babel-loader'
         }]
+    },
+    externals: {
+        'react': 'react',
+        'react-dom': 'react-dom'
     },
     devServer: {
         contentBase: path.resolve(__dirname + '/dist'),

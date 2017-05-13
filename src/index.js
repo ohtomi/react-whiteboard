@@ -3,7 +3,7 @@ import EventCreator from './EventCreator';
 import SvgConverter from './SvgConverter';
 
 
-export {
+module.exports = {
     Whiteboard,
     EventCreator,
     SvgConverter,
