@@ -14,8 +14,8 @@ export default class CanvasPane extends React.Component {
 
         return (
             <div style={canvasLayerStyle}>
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
-                     width={this.props.width} height={this.props.height}>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={this.props.width}
+                     height={this.props.height}>
                     {this.drawWhiteboardCanvas()}
                 </svg>
             </div>
@@ -24,12 +24,12 @@ export default class CanvasPane extends React.Component {
 
     drawWhiteboardCanvas() {
         return this.props.dataset
-            .filter((element, index, array) => {
+            .filter((element) => {
                 return element.values.length > 1;
             })
-            .map((element, index, array) => {
+            .map((element, index) => {
                 const k = index;
-                const d = element.values.map((point, index, array) => {
+                const d = element.values.map((point, index) => {
                     if (index === 0) {
                         return 'M ' + point[0] + ' ' + point[1];
                     } else {
