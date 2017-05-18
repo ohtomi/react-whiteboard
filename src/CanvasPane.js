@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'react-proptypes';
 
 
 export default class CanvasPane extends React.Component {
@@ -14,8 +14,8 @@ export default class CanvasPane extends React.Component {
 
         return (
             <div style={canvasLayerStyle}>
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={this.props.width}
-                     height={this.props.height}>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+                     width={this.props.width} height={this.props.height}>
                     {this.drawWhiteboardCanvas()}
                 </svg>
             </div>
@@ -48,5 +48,7 @@ CanvasPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     dataset: PropTypes.array,
-    style: PropTypes.object,
+    style: PropTypes.shape({
+        backgroundColor: PropTypes.string,
+    }),
 };

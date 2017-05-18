@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'react-proptypes';
 import EventEmitter from 'events';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
@@ -200,8 +200,8 @@ export default class Whiteboard extends React.Component {
 
         return (
             <div style={wrapperStyle}>
-                <CursorPane {...this.props} {...this.state} />
-                <CanvasPane {...this.props} {...this.state} />
+                <CursorPane {...this.props} {...this.state}></CursorPane>
+                <CanvasPane {...this.props} {...this.state}></CanvasPane>
             </div>
         );
     }
@@ -210,7 +210,9 @@ export default class Whiteboard extends React.Component {
 Whiteboard.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
-    style: PropTypes.object,
+    style: PropTypes.shape({
+        backgroundColor: PropTypes.string,
+    }),
 };
 
 Whiteboard.childContextTypes = {
