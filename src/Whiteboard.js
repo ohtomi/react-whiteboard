@@ -39,6 +39,7 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
+        // TODO
         document.body.addEventListener('keydown', (ev) => {
             if (ev.keyCode >= 49 && ev.keyCode <= 57) { // '1' - '9'
                 this.events.changeStrokeWidth(ev.keyCode - 48);
@@ -68,7 +69,6 @@ export default class Whiteboard extends React.Component {
     }
 
     toggleMode(point) {
-        console.log('mode', point);
         if (this.state.mode === MODE.LINE) {
             this.setState({
                 mode: MODE.HAND,
