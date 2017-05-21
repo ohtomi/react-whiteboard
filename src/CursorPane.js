@@ -7,19 +7,26 @@ import * as Constants from './Constants';
 export default class CursorPane extends React.Component {
 
     componentDidMount() {
+        this.setupEventHandler();
+    }
+
+    setupEventHandler() {
+        let eventToPoint = (ev) => {
+            const x = ev.offsetX - 2;
+            const y = ev.offsetY + (2 * (this.props.strokeWidth / 3));
+            return [x, y];
+        };
+
         this.cursorLayer.addEventListener('click', (ev) => {
             if (this.props.mode === Constants.MODE.HAND) {
-                const x = ev.offsetX - 2;
-                const y = ev.offsetY + (2 * (this.props.strokeWidth / 3));
-                this.context.events.startDrawing(x, y);
+                this.context.events.startDrawing(...eventToPoint(ev));
             } else {
                 this.context.events.stopDrawing();
             }
         });
+
         this.cursorLayer.addEventListener('mousemove', (ev) => {
-            const x = ev.offsetX - 2;
-            const y = ev.offsetY + (2 * (this.props.strokeWidth / 3));
-            this.context.events.pushPoint(x, y);
+            this.context.events.pushPoint(...eventToPoint(ev));
         });
     }
 
