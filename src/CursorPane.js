@@ -1,27 +1,25 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
 
+import * as Constants from './Constants';
+
 
 export default class CursorPane extends React.Component {
 
-    tweakPoint(point) {
-        if (this.props.strokeWidth <= 3) {
-            return [point[0] - 2, point[1] + 2];
-        } else if (this.props.strokeWidth <= 6) {
-            return [point[0] - 2, point[1] + 4];
-        } else {
-            return [point[0] - 2, point[1] + 6];
-        }
-    }
-
     componentDidMount() {
-        this.cursorLayer.addEventListener('mousemove', (ev) => {
-            const point = this.tweakPoint([ev.offsetX, ev.offsetY]);
-            this.context.events.pushPoint(point[0], point[1]);
-        });
         this.cursorLayer.addEventListener('click', (ev) => {
-            const point = [ev.offsetX - 2, ev.offsetY + 2];
-            this.context.events.changeMode(point);
+            if (this.props.mode === Constants.MODE.HAND) {
+                const x = ev.offsetX - 2;
+                const y = ev.offsetY + (2 * (this.props.strokeWidth / 3));
+                this.context.events.startDrawing(x, y);
+            } else {
+                this.context.events.stopDrawing();
+            }
+        });
+        this.cursorLayer.addEventListener('mousemove', (ev) => {
+            const x = ev.offsetX - 2;
+            const y = ev.offsetY + (2 * (this.props.strokeWidth / 3));
+            this.context.events.pushPoint(x, y);
         });
     }
 
@@ -44,6 +42,7 @@ export default class CursorPane extends React.Component {
 CursorPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
+    mode: PropTypes.object,
     strokeWidth: PropTypes.number,
     strokeColor: PropTypes.string,
 };

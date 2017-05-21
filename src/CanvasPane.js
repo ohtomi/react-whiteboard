@@ -31,9 +31,9 @@ export default class CanvasPane extends React.Component {
                 const k = index;
                 const d = element.values.map((point, index) => {
                     if (index === 0) {
-                        return 'M ' + point[0] + ' ' + point[1];
+                        return 'M ' + point.x + ' ' + point.y;
                     } else {
-                        return 'L ' + point[0] + ' ' + point[1];
+                        return 'L ' + point.x + ' ' + point.y;
                     }
                 });
 

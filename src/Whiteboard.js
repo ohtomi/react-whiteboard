@@ -2,14 +2,9 @@ import React from 'react';
 import PropTypes from 'react-proptypes';
 
 import Events from './Events';
+import * as Constants from './Constants';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
-
-
-const MODE = {
-    HAND: {},
-    LINE: {},
-};
 
 
 export default class Whiteboard extends React.Component {
@@ -21,7 +16,7 @@ export default class Whiteboard extends React.Component {
         this.state = {
             dataset: [],
             undoStack: [],
-            mode: MODE.HAND,
+            mode: Constants.MODE.HAND,
             strokeWidth: 5,
             strokeColor: 'black',
         };
@@ -38,10 +33,14 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
-        this.events.on('set', (event) => {
-            if (event.key === 'mode') {
-                this.toggleMode(event.value); // TODO
-            }
+        this.events.on('start', point => {
+            this.startDrawing(point);
+        });
+        this.events.on('stop', () => {
+            this.stopDrawing();
+        });
+
+        this.events.on('set', event => {
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
@@ -49,31 +48,46 @@ export default class Whiteboard extends React.Component {
                 this.changeStrokeColor(event.value);
             }
         });
-        this.events.on('push', (point) => {
-            this.pushPoint([point.x, point.y]); // TODO
+
+        this.events.on('push', point => {
+            this.pushPoint(point);
         });
-        this.events.on('undo', this.undoPoint);
-        this.events.on('redo', this.redoPoint);
-        this.events.on('clear', this.clearPoint);
+        this.events.on('undo', () => {
+            this.undoPoint();
+        });
+        this.events.on('redo', () => {
+            this.redoPoint();
+        });
+        this.events.on('clear', () => {
+            this.clearPoint();
+        });
     }
 
-    toggleMode(point) {
-        if (this.state.mode === MODE.LINE) {
-            this.setState({
-                mode: MODE.HAND,
-            });
-        } else {
-            const dataset = this.state.dataset;
-            dataset.push({
-                strokeWidth: this.state.strokeWidth,
-                strokeColor: this.state.strokeColor,
-                values: point ? [point] : [],
-            });
-            this.setState({
-                mode: MODE.LINE,
-                dataset: dataset,
-            });
+    startDrawing(point) {
+        if (this.state.mode === Constants.MODE.LINE) {
+            return;
         }
+
+        const dataset = this.state.dataset;
+        dataset.push({
+            strokeWidth: this.state.strokeWidth,
+            strokeColor: this.state.strokeColor,
+            values: [point],
+        });
+        this.setState({
+            mode: Constants.MODE.LINE,
+            dataset: dataset,
+        });
+    }
+
+    stopDrawing() {
+        if (this.state.mode === Constants.MODE.HAND) {
+            return;
+        }
+
+        this.setState({
+            mode: Constants.MODE.HAND,
+        });
     }
 
     changeStrokeWidth(width) {
@@ -89,7 +103,7 @@ export default class Whiteboard extends React.Component {
     }
 
     pushPoint(point) {
-        if (this.state.mode === MODE.HAND) {
+        if (this.state.mode === Constants.MODE.HAND) {
             return;
         }
 

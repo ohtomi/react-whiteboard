@@ -11,8 +11,12 @@ export default class Events {
         this.emitter.on(name, listener);
     }
 
-    changeMode(mode) {
-        this.emitter.emit('set', {key: 'mode', value: mode});
+    startDrawing(x, y) {
+        this.emitter.emit('start', {x: x, y: y});
+    }
+
+    stopDrawing() {
+        this.emitter.emit('stop');
     }
 
     changeStrokeWidth(width) {
