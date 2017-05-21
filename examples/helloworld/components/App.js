@@ -24,6 +24,23 @@ export default class App extends React.Component {
             }
         });
 
+        // TODO
+        this.undoLink.addEventListener('mouseover', (ev) => {
+            this.events.undoPoint();
+        });
+
+        // TODO
+        this.redoLink.addEventListener('mouseover', (ev) => {
+            this.events.redoPoint();
+        });
+
+        this.clearButton.addEventListener('click', (ev) => {
+            this.events.clearPoint();
+            ev.preventDefault();
+            ev.stopPropagation();
+            return false;
+        });
+
         let downloadAsPng = document.querySelector('#download-as-png');
         downloadAsPng.addEventListener('mouseover', () => {
             let svg = document.querySelector('svg');
@@ -56,15 +73,24 @@ export default class App extends React.Component {
     }
 
     render() {
+        const linkLikeStyle = {
+            borderBottom: '1px solid blue',
+            color: 'blue',
+            cursor: 'pointer',
+        };
+
         return (
             <div style={{margin: 30}}>
                 <h1>React-Whiteboard Sample</h1>
                 <ul>
-                    <li>To start/stop drawing line, click in the whiteboard.</li>
-                    <li>To switch color, black -> red -> blue -> green -> yellow, press c key.</li>
-                    <li>To select stroke width, press 1-9 key.</li>
+                    <li>{'To start/stop drawing line, click in the whiteboard.'}</li>
+                    <li>{'To switch color, black -> red -> blue -> green -> yellow, press c key.'}</li>
+                    <li>{'To select stroke width, press 1-9 key.'}</li>
                 </ul>
                 <Whiteboard events={this.events} width={800} height={600} style={{backgroundColor: 'lightyellow'}}></Whiteboard>
+                [<span ref={undoLink => this.undoLink = undoLink} style={linkLikeStyle}>{' << '}</span>]
+                [<span ref={redoLink => this.redoLink = redoLink} style={linkLikeStyle}>{' >> '}</span>]
+                <button ref={clearButton => this.clearButton = clearButton}>{'clear'}</button>
             </div>
         );
     }
