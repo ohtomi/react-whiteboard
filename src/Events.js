@@ -1,7 +1,10 @@
+import EventEmitter from 'events';
+
+
 export default class Events {
 
-    constructor(emitter) {
-        this.emitter = emitter;
+    constructor() {
+        this.emitter = new EventEmitter();
     }
 
     on(name, listener) {

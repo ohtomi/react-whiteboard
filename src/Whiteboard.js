@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
-import EventEmitter from 'events';
 
 import Events from './Events';
 import CursorPane from './CursorPane';
@@ -18,7 +17,7 @@ export default class Whiteboard extends React.Component {
     constructor(props) {
         super(props);
 
-        this.events = new Events(new EventEmitter());
+        this.events = props.events || new Events();
         this.state = {
             dataset: [],
             undoStack: [],
@@ -39,16 +38,6 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
-        // TODO
-        document.body.addEventListener('keydown', (ev) => {
-            if (ev.keyCode >= 49 && ev.keyCode <= 57) { // '1' - '9'
-                this.events.changeStrokeWidth(ev.keyCode - 48);
-            }
-            if (ev.keyCode === 67) { // 'c'
-                this.events.changeStrokeColor();
-            }
-        });
-
         this.events.on('set', (event) => {
             if (event.key === 'mode') {
                 this.toggleMode(event.value); // TODO
@@ -57,7 +46,7 @@ export default class Whiteboard extends React.Component {
                 this.changeStrokeWidth(event.value);
             }
             if (event.key === 'strokeColor') {
-                this.toggleStrokeColor(event.value); // TODO
+                this.changeStrokeColor(event.value);
             }
         });
         this.events.on('push', (point) => {
@@ -93,24 +82,10 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    toggleStrokeColor() {
-        if (this.state.strokeColor === 'black') {
-            this.setState({
-                strokeColor: 'red',
-            });
-        } else if (this.state.strokeColor === 'red') {
-            this.setState({
-                strokeColor: 'green',
-            });
-        } else if (this.state.strokeColor === 'green') {
-            this.setState({
-                strokeColor: 'blue',
-            });
-        } else {
-            this.setState({
-                strokeColor: 'black',
-            });
-        }
+    changeStrokeColor(color) {
+        this.setState({
+            strokeColor: color,
+        });
     }
 
     pushPoint(point) {
@@ -212,6 +187,7 @@ export default class Whiteboard extends React.Component {
 }
 
 Whiteboard.propTypes = {
+    events: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
     style: PropTypes.shape({

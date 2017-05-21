@@ -1,9 +1,29 @@
 import React from 'react';
-import {Whiteboard, SvgConverter} from '../../../src/index';
+import {Whiteboard, Events, SvgConverter} from '../../../src/index';
+
+
+const strokeColors = ['black', 'red', 'blue', 'green', 'yellow'];
+let strokeColorIndex = 0;
 
 export default class App extends React.Component {
 
+    constructor() {
+        super();
+
+        this.events = new Events();
+    }
+
     componentDidMount() {
+        document.body.addEventListener('keydown', (ev) => {
+            if (ev.keyCode >= 49 && ev.keyCode <= 57) { // '1' - '9'
+                this.events.changeStrokeWidth(ev.keyCode - 48);
+            }
+            if (ev.keyCode === 67) { // 'c'
+                strokeColorIndex = (strokeColorIndex + 1) % strokeColors.length;
+                this.events.changeStrokeColor(strokeColors[strokeColorIndex]);
+            }
+        });
+
         let downloadAsPng = document.querySelector('#download-as-png');
         downloadAsPng.addEventListener('mouseover', () => {
             let svg = document.querySelector('svg');
@@ -41,10 +61,10 @@ export default class App extends React.Component {
                 <h1>React-Whiteboard Sample</h1>
                 <ul>
                     <li>To start/stop drawing line, click in the whiteboard.</li>
-                    <li>To switch color, black, red, green, blue, press c key.</li>
+                    <li>To switch color, black -> red -> blue -> green -> yellow, press c key.</li>
                     <li>To select stroke width, press 1-9 key.</li>
                 </ul>
-                <Whiteboard width={800} height={600} style={{backgroundColor: 'lightyellow'}}/>
+                <Whiteboard events={this.events} width={800} height={600} style={{backgroundColor: 'lightyellow'}}></Whiteboard>
             </div>
         );
     }
