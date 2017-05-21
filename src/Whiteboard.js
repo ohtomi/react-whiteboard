@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
 import EventEmitter from 'events';
+
+import Events from './Events';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
 
@@ -16,7 +18,7 @@ export default class Whiteboard extends React.Component {
     constructor(props) {
         super(props);
 
-        this.emitter = new EventEmitter();
+        this.events = new Events(new EventEmitter());
         this.state = {
             dataset: [],
             undoStack: [],
@@ -28,7 +30,7 @@ export default class Whiteboard extends React.Component {
 
     getChildContext() {
         return {
-            emitter: this.emitter,
+            events: this.events,
         };
     }
 
@@ -38,33 +40,35 @@ export default class Whiteboard extends React.Component {
 
     setupEventHandler() {
         document.body.addEventListener('keydown', (ev) => {
-            this.emitter.emit('keydown.body', ev.keyCode);
+            if (ev.keyCode >= 49 && ev.keyCode <= 57) { // '1' - '9'
+                this.events.changeStrokeWidth(ev.keyCode - 48);
+            }
+            if (ev.keyCode === 67) { // 'c'
+                this.events.changeStrokeColor();
+            }
         });
 
-        const that = this;
-        this.emitter.on('keydown.body', (keyCode) => {
-            if (keyCode >= 49 && keyCode <= 57) { // '1' - '9'
-                that.changeStrokeWidth(keyCode - 48);
+        this.events.on('set', (event) => {
+            if (event.key === 'mode') {
+                this.toggleMode(event.value); // TODO
             }
-            if (keyCode === 67) { // 'c'
-                that.toggleStrokeColor();
+            if (event.key === 'strokeWidth') {
+                this.changeStrokeWidth(event.value);
+            }
+            if (event.key === 'strokeColor') {
+                this.toggleStrokeColor(event.value); // TODO
             }
         });
-        this.emitter.on('mousemove.canvas', (point) => {
-            that.pushPoint(point);
+        this.events.on('push', (point) => {
+            this.pushPoint([point.x, point.y]); // TODO
         });
-        this.emitter.on('click.canvas', (point) => {
-            that.toggleMode(point);
-        });
-        this.emitter.on('undo.pallete', () => {
-            that.undoPoint();
-        });
-        this.emitter.on('redo.pallete', () => {
-            that.redoPoint();
-        });
+        this.events.on('undo', this.undoPoint);
+        this.events.on('redo', this.redoPoint);
+        this.events.on('clear', this.clearPoint);
     }
 
     toggleMode(point) {
+        console.log('mode', point);
         if (this.state.mode === MODE.LINE) {
             this.setState({
                 mode: MODE.HAND,
@@ -216,5 +220,5 @@ Whiteboard.propTypes = {
 };
 
 Whiteboard.childContextTypes = {
-    emitter: PropTypes.object,
+    events: PropTypes.object,
 };
