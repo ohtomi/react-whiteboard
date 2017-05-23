@@ -23,7 +23,7 @@ export default class CanvasPane extends React.Component {
     }
 
     drawWhiteboardCanvas() {
-        return this.props.dataset
+        return this.props.dataHolder.dataset
             .filter((element) => {
                 return element.values.length > 1;
             })
@@ -47,7 +47,7 @@ export default class CanvasPane extends React.Component {
 CanvasPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
-    dataset: PropTypes.array,
+    dataHolder: PropTypes.object,
     style: PropTypes.shape({
         backgroundColor: PropTypes.string,
     }),
