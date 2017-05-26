@@ -1,5 +1,5 @@
 import React from 'react';
-import {Whiteboard, Events, SvgConverter} from '../../../src/index';
+import {Whiteboard, Events, DataHolder, SvgConverter} from '../../../src/index';
 
 
 const strokeColors = ['black', 'red', 'blue', 'green', 'yellow'];
@@ -11,6 +11,7 @@ export default class App extends React.Component {
         super();
 
         this.events = new Events();
+        this.dataHolder = new DataHolder();
     }
 
     componentDidMount() {
@@ -76,7 +77,10 @@ export default class App extends React.Component {
                     <li>{'To switch color, black -> red -> blue -> green -> yellow, press c key.'}</li>
                     <li>{'To select stroke width, press 1-9 key.'}</li>
                 </ul>
-                <Whiteboard events={this.events} width={800} height={600} style={{backgroundColor: 'lightyellow'}}></Whiteboard>
+                <Whiteboard events={this.events} dataHolder={this.dataHolder}
+                            width={800} height={600}
+                            style={{backgroundColor: 'lightyellow'}}>
+                </Whiteboard>
                 <button ref={undoButton => this.undoButton = undoButton}>Undo</button>
                 <button ref={redoButton => this.redoButton = redoButton}>Redo</button>
                 <button ref={clearButton => this.clearButton = clearButton}>Clear</button>

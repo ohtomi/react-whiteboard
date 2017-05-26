@@ -15,7 +15,7 @@ export default class Whiteboard extends React.Component {
 
         this.events = props.events || new Events();
         this.state = {
-            dataHolder: new DataHolder(),
+            dataHolder: props.dataHolder || new DataHolder(),
             mode: Constants.MODE.HAND,
             strokeWidth: 5,
             strokeColor: 'black',
@@ -147,6 +147,7 @@ export default class Whiteboard extends React.Component {
 
 Whiteboard.propTypes = {
     events: PropTypes.object,
+    dataHolder: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
     style: PropTypes.shape({
