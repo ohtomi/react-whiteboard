@@ -80,20 +80,26 @@ export default class Whiteboard extends React.Component {
             return;
         }
 
+        this.state.dataHolder.stopDrawing();
         this.setState({
             mode: Constants.MODE.HAND,
+            dataHolder: this.state.dataHolder,
         });
     }
 
     changeStrokeWidth(width) {
+        this.state.dataHolder.stopDrawing();
         this.setState({
             strokeWidth: width,
+            dataHolder: this.state.dataHolder,
         });
     }
 
     changeStrokeColor(color) {
+        this.state.dataHolder.stopDrawing();
         this.setState({
             strokeColor: color,
+            dataHolder: this.state.dataHolder,
         });
     }
 

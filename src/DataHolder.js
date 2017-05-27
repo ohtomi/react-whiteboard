@@ -9,50 +9,34 @@ export default class DataHolder {
         this.dataset.push({
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
-            values: [point],
+            point: point,
         });
     }
 
+    stopDrawing() {
+        this.dataset.push({});
+    }
+
     pushPoint(strokeWidth, strokeColor, point) {
-        const current = this.dataset[this.dataset.length - 1];
-
-        if (current && current.strokeWidth === strokeWidth && current.strokeColor === strokeColor) {
-            current.values.push(point);
-            this.undoStack = [];
-
-        } else {
-            this.dataset.push({
-                strokeWidth: strokeWidth,
-                strokeColor: strokeColor,
-                values: [point],
-            });
-            this.undoStack = [];
-        }
+        this.dataset.push({
+            strokeWidth: strokeWidth,
+            strokeColor: strokeColor,
+            point: point,
+        });
+        this.undoStack = [];
     }
 
     undoPoint() {
-        const current = this.dataset[this.dataset.length - 1];
-
-        if (current && current.values.length > 1) {
-            const point = current.values.pop();
-            const undoOperation = () => {
-                current.values.push(point);
-            };
-            this.undoStack.push(undoOperation);
-
-        } else if (current && current.values.length === 1) {
-            this.dataset.pop();
-            const undoOperation = () => {
-                this.dataset.push(current);
-            };
-            this.undoStack.push(undoOperation);
-        }
+        this.undoStack.push(this.dataset.pop()); // {}
+        this.undoStack.push(this.dataset.pop()); // {point: [...], ...}
+        this.dataset.push({});
     }
 
     redoPoint() {
-        const redoOperation = this.undoStack.pop();
-        if (redoOperation) {
-            redoOperation();
+        if (this.undoStack.length) {
+            this.dataset.pop();
+            this.dataset.push(this.undoStack.pop()); // {point: [...], ...}
+            this.dataset.push(this.undoStack.pop()); // {}
         }
     }
 
