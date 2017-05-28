@@ -34,32 +34,16 @@ export default class CanvasPane extends React.Component {
                     return prev;
                 }
 
-                if (prev.length === 0) {
-                    prev.push({
-                        strokeWidth: element.strokeWidth,
-                        strokeColor: element.strokeColor,
-                        values: [element.point],
-                    });
-                    return prev;
-
-                } else {
-                    let last = prev[prev.length - 1];
-                    if (last.strokeWidth === element.strokeWidth && last.strokeColor === element.strokeColor) {
-                        last.strokeWidth = element.strokeWidth;
-                        last.strokeColor = element.strokeColor;
-                        last.values.push(element.point);
-                        return prev;
-
-                    } else {
-                        prev.push({
-                            strokeWidth: element.strokeWidth,
-                            strokeColor: element.strokeColor,
-                            values: [element.point],
-                        });
-                        return prev;
-                    }
-                }
-            }, [])
+                let last = prev[prev.length - 1];
+                last.strokeWidth = element.strokeWidth;
+                last.strokeColor = element.strokeColor;
+                last.values.push(element.point);
+                return prev;
+            }, [{
+                strokeWidth: null,
+                strokeColor: null,
+                values: [],
+            }])
             .filter((element) => {
                 return element.values.length > 1;
             })
