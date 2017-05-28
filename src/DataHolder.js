@@ -17,6 +17,14 @@ export default class DataHolder {
         this.dataset.push({});
     }
 
+    changeStrokeWidth(width) {
+        this.dataset.push({});
+    }
+
+    changeStrokeColor(color) {
+        this.dataset.push({});
+    }
+
     pushPoint(strokeWidth, strokeColor, point) {
         this.dataset.push({
             strokeWidth: strokeWidth,
