@@ -19,6 +19,10 @@ export default class Events {
         this.emitter.emit('stop');
     }
 
+    changeLayer(layer) {
+        this.emitter.emit('set', {key: 'layer', value: layer});
+    }
+
     changeStrokeWidth(width) {
         this.emitter.emit('set', {key: 'strokeWidth', value: width});
     }

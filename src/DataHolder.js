@@ -1,12 +1,14 @@
 export default class DataHolder {
 
     constructor() {
+        this.layer = 0;
         this.dataset = [];
         this.undoStack = [];
     }
 
     startDrawing(strokeWidth, strokeColor, point) {
         this.dataset.push({
+            layer: this.layer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
             point: point,
@@ -15,6 +17,11 @@ export default class DataHolder {
 
     stopDrawing() {
         this.dataset.push({});
+    }
+
+    changeLayer(layer) {
+        this.dataset.push({});
+        this.layer = layer;
     }
 
     changeStrokeWidth(width) {
@@ -27,6 +34,7 @@ export default class DataHolder {
 
     pushPoint(strokeWidth, strokeColor, point) {
         this.dataset.push({
+            layer: this.layer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
             point: point,

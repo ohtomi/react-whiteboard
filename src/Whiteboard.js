@@ -41,6 +41,9 @@ export default class Whiteboard extends React.Component {
         });
 
         this.events.on('set', event => {
+            if (event.key === 'layer') {
+                this.changeLayer(event.value);
+            }
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
@@ -83,6 +86,14 @@ export default class Whiteboard extends React.Component {
         this.state.dataHolder.stopDrawing();
         this.setState({
             mode: Constants.MODE.HAND,
+            dataHolder: this.state.dataHolder,
+        });
+    }
+
+    changeLayer(layer) {
+        this.state.dataHolder.changeLayer(layer);
+        this.setState({
+            layer: layer,
             dataHolder: this.state.dataHolder,
         });
     }
