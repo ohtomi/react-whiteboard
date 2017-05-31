@@ -37,6 +37,14 @@ export default class App extends React.Component {
             this.events.clearPoint();
         });
 
+        this.layer0Button.addEventListener('click', () => {
+            this.events.changeLayer(0);
+        });
+
+        this.layer1Button.addEventListener('click', () => {
+            this.events.changeLayer(1);
+        });
+
         let downloadAsPng = document.querySelector('#download-as-png');
         downloadAsPng.addEventListener('mouseover', () => {
             let svg = document.querySelector('svg');
@@ -84,6 +92,9 @@ export default class App extends React.Component {
                 <button ref={undoButton => this.undoButton = undoButton}>Undo</button>
                 <button ref={redoButton => this.redoButton = redoButton}>Redo</button>
                 <button ref={clearButton => this.clearButton = clearButton}>Clear</button>
+                |
+                <button ref={layer0Button => this.layer0Button = layer0Button}>0</button>
+                <button ref={layer1Button => this.layer1Button = layer1Button}>1</button>
             </div>
         );
     }
