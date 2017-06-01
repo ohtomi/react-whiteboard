@@ -26,24 +26,37 @@ export default class CanvasPane extends React.Component {
         return this.props.dataHolder.dataset
             .reduce((prev, element) => {
                 if (!element.point) {
-                    prev.push({
-                        strokeWidth: null,
-                        strokeColor: null,
-                        values: [],
+                    prev.forEach(p => {
+                        p.push({
+                            strokeWidth: null,
+                            strokeColor: null,
+                            values: [],
+                        });
                     });
                     return prev;
                 }
 
-                let last = prev[prev.length - 1];
+                if (!prev[element.layer]) {
+                    prev[element.layer] = [{
+                        strokeWidth: null,
+                        strokeColor: null,
+                        values: [],
+                    }];
+                }
+
+                let last = prev[element.layer][prev[element.layer].length - 1];
                 last.strokeWidth = element.strokeWidth;
                 last.strokeColor = element.strokeColor;
                 last.values.push(element.point);
                 return prev;
-            }, [{
+            }, [[{
                 strokeWidth: null,
                 strokeColor: null,
                 values: [],
-            }])
+            }]])
+            .reduce((prev, element) => {
+                return prev.concat(element);
+            }, [])
             .filter((element) => {
                 return element.values.length > 1;
             })
