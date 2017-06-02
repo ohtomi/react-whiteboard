@@ -37,12 +37,8 @@ export default class App extends React.Component {
             this.events.clearPoint();
         });
 
-        this.layer0Button.addEventListener('click', () => {
-            this.events.changeLayer(0);
-        });
-
-        this.layer1Button.addEventListener('click', () => {
-            this.events.changeLayer(1);
+        this.layerSelect.addEventListener('change', () => {
+            this.events.changeLayer(this.layerSelect.value);
         });
 
         let downloadAsPng = document.querySelector('#download-as-png');
@@ -93,8 +89,10 @@ export default class App extends React.Component {
                 <button ref={redoButton => this.redoButton = redoButton}>Redo</button>
                 <button ref={clearButton => this.clearButton = clearButton}>Clear</button>
                 |
-                <button ref={layer0Button => this.layer0Button = layer0Button}>0</button>
-                <button ref={layer1Button => this.layer1Button = layer1Button}>1</button>
+                <select ref={layerSelect => this.layerSelect = layerSelect}>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
             </div>
         );
     }
