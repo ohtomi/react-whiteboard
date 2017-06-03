@@ -81,6 +81,7 @@ CanvasPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     dataHolder: PropTypes.object,
+    renderLayers: PropTypes.array,
     style: PropTypes.shape({
         backgroundColor: PropTypes.string,
     }),

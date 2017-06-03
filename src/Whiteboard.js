@@ -165,6 +165,7 @@ export default class Whiteboard extends React.Component {
 Whiteboard.propTypes = {
     events: PropTypes.object,
     dataHolder: PropTypes.object,
+    renderLayers: PropTypes.array,
     width: PropTypes.number,
     height: PropTypes.number,
     style: PropTypes.shape({

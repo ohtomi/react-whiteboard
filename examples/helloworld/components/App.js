@@ -12,6 +12,7 @@ export default class App extends React.Component {
 
         this.events = new Events();
         this.dataHolder = new DataHolder();
+        this.renderLayers = [true, true];
     }
 
     componentDidMount() {
@@ -39,6 +40,14 @@ export default class App extends React.Component {
 
         this.layerSelect.addEventListener('change', () => {
             this.events.changeLayer(this.layerSelect.value);
+        });
+
+        this.render0check.addEventListener('change', () => {
+            this.renderLayers[0] = this.render0check.checked;
+        });
+
+        this.render1check.addEventListener('change', () => {
+            this.renderLayers[1] = this.render1check.checked;
         });
 
         let downloadAsPng = document.querySelector('#download-as-png');
@@ -81,7 +90,7 @@ export default class App extends React.Component {
                     <li>{'To switch color, black -> red -> blue -> green -> yellow, press c key.'}</li>
                     <li>{'To select stroke width, press 1-9 key.'}</li>
                 </ul>
-                <Whiteboard events={this.events} dataHolder={this.dataHolder}
+                <Whiteboard events={this.events} dataHolder={this.dataHolder} renderLayers={this.renderLayers}
                             width={800} height={600}
                             style={{backgroundColor: 'lightyellow'}}>
                 </Whiteboard>
@@ -93,6 +102,15 @@ export default class App extends React.Component {
                     <option value="0">0</option>
                     <option value="1">1</option>
                 </select>
+                |
+                <label htmlFor={this.render0check}>
+                    <input ref={render0check => this.render0check = render0check} type="checkbox"></input>
+                    layer-0
+                </label>
+                <label htmlFor={this.render1check}>
+                    <input ref={render1check => this.render1check = render1check} type="checkbox"></input>
+                    layer-1
+                </label>
             </div>
         );
     }
