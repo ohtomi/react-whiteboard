@@ -54,6 +54,9 @@ export default class CanvasPane extends React.Component {
                 strokeColor: null,
                 values: [],
             }]])
+            .filter((element, index) => {
+                return this.props.renderLayers[index];
+            })
             .reduce((prev, element) => {
                 return prev.concat(element);
             }, [])
