@@ -55,7 +55,7 @@ export default class CanvasPane extends React.Component {
                 values: [],
             }]])
             .filter((element, index) => {
-                return this.props.renderLayers[index];
+                return this.props.dataHolder.renderLayers[index];
             })
             .reduce((prev, element) => {
                 return prev.concat(element);
@@ -84,7 +84,6 @@ CanvasPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     dataHolder: PropTypes.object,
-    renderLayers: PropTypes.array,
     style: PropTypes.shape({
         backgroundColor: PropTypes.string,
     }),

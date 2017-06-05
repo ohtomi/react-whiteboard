@@ -4,6 +4,7 @@ export default class DataHolder {
         this.layer = 0;
         this.dataset = [];
         this.undoStack = [];
+        this.renderLayers = [];
     }
 
     startDrawing(strokeWidth, strokeColor, point) {
@@ -59,5 +60,9 @@ export default class DataHolder {
     clearPoint() {
         this.dataset = [];
         this.undoStack = [];
+    }
+
+    changeRenderLayers(renderLayers) {
+        this.renderLayers = renderLayers;
     }
 }

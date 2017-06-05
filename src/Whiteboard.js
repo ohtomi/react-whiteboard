@@ -44,6 +44,9 @@ export default class Whiteboard extends React.Component {
             if (event.key === 'layer') {
                 this.changeLayer(event.value);
             }
+            if (event.key === 'renderLayers') {
+                this.changeRenderLayers(event.value);
+            }
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
@@ -146,6 +149,13 @@ export default class Whiteboard extends React.Component {
         });
     }
 
+    changeRenderLayers(renderLayers) {
+        this.state.dataHolder.changeRenderLayers(renderLayers);
+        this.setState({
+            dataHolder: this.state.dataHolder,
+        });
+    }
+
     render() {
         const wrapperStyle = {
             position: 'relative',
@@ -165,7 +175,6 @@ export default class Whiteboard extends React.Component {
 Whiteboard.propTypes = {
     events: PropTypes.object,
     dataHolder: PropTypes.object,
-    renderLayers: PropTypes.array,
     width: PropTypes.number,
     height: PropTypes.number,
     style: PropTypes.shape({

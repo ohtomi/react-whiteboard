@@ -12,7 +12,7 @@ export default class App extends React.Component {
 
         this.events = new Events();
         this.dataHolder = new DataHolder();
-        this.renderLayers = [true, true];
+        this.dataHolder.changeRenderLayers([true, true]);
     }
 
     componentDidMount() {
@@ -43,11 +43,11 @@ export default class App extends React.Component {
         });
 
         this.render0check.addEventListener('change', () => {
-            this.renderLayers[0] = this.render0check.checked;
+            this.events.changeRenderLayers([this.render0check.checked, this.render1check.checked]);
         });
 
         this.render1check.addEventListener('change', () => {
-            this.renderLayers[1] = this.render1check.checked;
+            this.events.changeRenderLayers([this.render0check.checked, this.render1check.checked]);
         });
 
         let downloadAsPng = document.querySelector('#download-as-png');

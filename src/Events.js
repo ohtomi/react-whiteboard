@@ -46,4 +46,8 @@ export default class Events {
     clearPoint() {
         this.emitter.emit('clear');
     }
+
+    changeRenderLayers(renderLayers) {
+        this.emitter.emit('set', {key: 'renderLayers', value: renderLayers});
+    }
 }
