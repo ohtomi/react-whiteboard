@@ -26,7 +26,9 @@ export default class CursorPane extends React.Component {
         });
 
         this.cursorLayer.addEventListener('mousemove', (ev) => {
-            this.context.events.pushPoint(...eventToPoint(ev));
+            if (this.props.mode === Constants.MODE.LINE) {
+                this.context.events.pushPoint(...eventToPoint(ev));
+            }
         });
     }
 
