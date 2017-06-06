@@ -118,10 +118,6 @@ export default class Whiteboard extends React.Component {
     }
 
     pushPoint(point) {
-        if (this.state.mode === Constants.MODE.HAND) {
-            return;
-        }
-
         this.state.dataHolder.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             dataHolder: this.state.dataHolder,
