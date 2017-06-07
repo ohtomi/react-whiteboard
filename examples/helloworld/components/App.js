@@ -104,11 +104,11 @@ export default class App extends React.Component {
                 </select>
                 |
                 <label htmlFor={this.render0check}>
-                    <input ref={render0check => this.render0check = render0check} type="checkbox"></input>
+                    <input ref={render0check => this.render0check = render0check} type="checkbox" defaultChecked={true}></input>
                     layer-0
                 </label>
                 <label htmlFor={this.render1check}>
-                    <input ref={render1check => this.render1check = render1check} type="checkbox"></input>
+                    <input ref={render1check => this.render1check = render1check} type="checkbox" defaultChecked={true}></input>
                     layer-1
                 </label>
             </div>
