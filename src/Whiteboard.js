@@ -70,10 +70,6 @@ export default class Whiteboard extends React.Component {
     }
 
     startDrawing(point) {
-        if (this.state.mode === Constants.MODE.LINE) {
-            return;
-        }
-
         this.state.dataHolder.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             mode: Constants.MODE.LINE,
@@ -82,10 +78,6 @@ export default class Whiteboard extends React.Component {
     }
 
     stopDrawing() {
-        if (this.state.mode === Constants.MODE.HAND) {
-            return;
-        }
-
         this.state.dataHolder.stopDrawing();
         this.setState({
             mode: Constants.MODE.HAND,
