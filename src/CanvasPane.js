@@ -16,6 +16,7 @@ export default class CanvasPane extends React.Component {
             <div style={canvasLayerStyle}>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                      width={this.props.width} height={this.props.height}>
+                    <rect width={'100%'} height={'100%'} fill={canvasLayerStyle.background}></rect>
                     {this.drawWhiteboardCanvas()}
                 </svg>
             </div>
