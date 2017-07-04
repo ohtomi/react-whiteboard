@@ -1,6 +1,3 @@
-// https://raw.githubusercontent.com/likr/d3-downloadable/master/src/index.js
-
-
 export default class SvgConverter {
 
     constructor(sourceNode) {
@@ -10,7 +7,8 @@ export default class SvgConverter {
     toSvgData() {
         let htmlText = this.sourceNode.outerHTML;
         let base64EncodedText = window.btoa(
-            window.encodeURIComponent(htmlText).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)));
+            window.encodeURIComponent(htmlText)
+                .replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(window.parseInt('0x' + p1))));
 
         return new Promise(resolve => {
             resolve('data:image/svg+xml;charset=utf-8;base64,' + base64EncodedText);
@@ -18,43 +16,40 @@ export default class SvgConverter {
     }
 
     toPngData() {
+        return this.toDataUrl('image/png');
+    }
+
+    toJpegData() {
+        return this.toDataUrl('image/jpeg');
+    }
+
+    toDataUrl(imageType) {
         return new Promise(resolve => {
             this.toSvgData().then(svgdata => {
                 let {width, height} = this.sourceNode.getBoundingClientRect();
-                let canvasNode = document.createElement('canvas');
-                canvasNode.width = width;
-                canvasNode.height = height;
-
-                let graphicsContext = canvasNode.getContext('2d');
 
                 let imageNode = new window.Image();
                 imageNode.onload = () => {
+                    let canvasNode = document.createElement('canvas');
+                    canvasNode.width = width;
+                    canvasNode.height = height;
+
+                    let graphicsContext = canvasNode.getContext('2d');
                     graphicsContext.drawImage(imageNode, 0, 0);
-                    resolve(canvasNode.toDataURL('image/png'));
+
+                    resolve(canvasNode.toDataURL(imageType));
                 };
                 imageNode.src = svgdata;
             });
         });
     }
 
-    toJpegData() {
-        return new Promise(resolve => {
-            this.toSvgData().then(svgdata => {
-                let {width, height} = this.sourceNode.getBoundingClientRect();
-                let canvasNode = document.createElement('canvas');
-                canvasNode.width = width;
-                canvasNode.height = height;
+    static fromPngImage(imageUrl) {
+        return SvgConverter.fromImageUrl(imageUrl, 'image/png');
+    }
 
-                let graphicsContext = canvasNode.getContext('2d');
-
-                let imageNode = new window.Image();
-                imageNode.onload = () => {
-                    graphicsContext.drawImage(imageNode, 0, 0);
-                    resolve(canvasNode.toDataURL('image/jpeg'));
-                };
-                imageNode.src = svgdata;
-            });
-        });
+    static fromJpegImage(imageUrl) {
+        return SvgConverter.fromImageUrl(imageUrl, 'image/jpeg');
     }
 
     static fromImageUrl(imageUrl, imageType) {
@@ -68,7 +63,7 @@ export default class SvgConverter {
                 let graphicsContext = canvasNode.getContext('2d');
                 graphicsContext.drawImage(imageNode, 0, 0);
 
-                resolve(canvasNode.toDataURL('image/' + imageType));
+                resolve(canvasNode.toDataURL(imageType));
             };
             imageNode.crossOrigin = 'anonymous';
             imageNode.src = imageUrl;
