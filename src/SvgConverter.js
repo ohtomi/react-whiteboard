@@ -56,4 +56,22 @@ export default class SvgConverter {
             });
         });
     }
+
+    static fromImageUrl(imageUrl, imageType) {
+        return new Promise(resolve => {
+            let imageNode = new window.Image();
+            imageNode.onload = () => {
+                let canvasNode = document.createElement('canvas');
+                canvasNode.width = imageNode.width;
+                canvasNode.height = imageNode.height;
+
+                let graphicsContext = canvasNode.getContext('2d');
+                graphicsContext.drawImage(imageNode, 0, 0);
+
+                resolve(canvasNode.toDataURL('image/' + imageType));
+            };
+            imageNode.crossOrigin = 'anonymous';
+            imageNode.src = imageUrl;
+        });
+    }
 }
