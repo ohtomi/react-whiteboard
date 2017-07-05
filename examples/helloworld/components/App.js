@@ -26,6 +26,26 @@ export default class App extends React.Component {
             }
         });
 
+        this.pasteButton.addEventListener('click', () => {
+            let imageUrl = this.imageUrl.value;
+            if (imageUrl.endsWith('.png')) {
+                SvgConverter.fromPngImage(this.imageUrl.value)
+                    .then(image => {
+                        this.events.pasteImage(image.width, image.height, image.dataUrl);
+                    });
+            } else if (imageUrl.endsWith('.jpeg') || imageUrl.endsWith('.jpg')) {
+                SvgConverter.fromJpegImage(this.imageUrl.value)
+                    .then(image => {
+                        this.events.pasteImage(image.width, image.height, image.dataUrl);
+                    });
+            } else if (imageUrl.endsWith('.gif')) {
+                SvgConverter.fromGifImage(this.imageUrl.value)
+                    .then(image => {
+                        this.events.pasteImage(image.width, image.height, image.dataUrl);
+                    });
+            }
+        });
+
         this.undoButton.addEventListener('click', () => {
             this.events.undoPoint();
         });
@@ -94,6 +114,9 @@ export default class App extends React.Component {
                             width={800} height={600}
                             style={{backgroundColor: 'lightyellow'}}>
                 </Whiteboard>
+                <input ref={imageUrl => this.imageUrl = imageUrl} type="text"></input>
+                <button ref={pasteButton => this.pasteButton = pasteButton}>Paste Image</button>
+                |
                 <button ref={undoButton => this.undoButton = undoButton}>Undo</button>
                 <button ref={redoButton => this.redoButton = redoButton}>Redo</button>
                 <button ref={clearButton => this.clearButton = clearButton}>Clear</button>

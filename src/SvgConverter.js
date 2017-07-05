@@ -52,6 +52,10 @@ export default class SvgConverter {
         return SvgConverter.fromImageUrl(imageUrl, 'image/jpeg');
     }
 
+    static fromGifImage(imageUrl) {
+        return SvgConverter.fromImageUrl(imageUrl, 'image/gif');
+    }
+
     static fromImageUrl(imageUrl, imageType) {
         return new Promise(resolve => {
             let imageNode = new window.Image();
