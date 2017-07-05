@@ -63,7 +63,7 @@ export default class SvgConverter {
                 let graphicsContext = canvasNode.getContext('2d');
                 graphicsContext.drawImage(imageNode, 0, 0);
 
-                resolve(canvasNode.toDataURL(imageType));
+                resolve({width: imageNode.width, height: imageNode.height, dataUrl: canvasNode.toDataURL(imageType)});
             };
             imageNode.crossOrigin = 'anonymous';
             imageNode.src = imageUrl;

@@ -55,6 +55,10 @@ export default class Whiteboard extends React.Component {
             }
         });
 
+        this.events.on('paste', dataUrl => {
+            this.pasteImage(dataUrl);
+        });
+
         this.events.on('push', point => {
             this.pushPoint(point);
         });
@@ -105,6 +109,13 @@ export default class Whiteboard extends React.Component {
         this.state.dataHolder.changeStrokeColor(color);
         this.setState({
             strokeColor: color,
+            dataHolder: this.state.dataHolder,
+        });
+    }
+
+    pasteImage(image) {
+        this.state.dataHolder.pasteImage(image);
+        this.setState({
             dataHolder: this.state.dataHolder,
         });
     }

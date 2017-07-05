@@ -16,10 +16,25 @@ export default class CanvasPane extends React.Component {
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                      width={this.props.width} height={this.props.height}>
                     <rect width={'100%'} height={'100%'} fill={this.props.style.backgroundColor}></rect>
+                    {this.drawBackgroundImage()}
                     {this.drawWhiteboardCanvas()}
                 </svg>
             </div>
         );
+    }
+
+    drawBackgroundImage() {
+        if (this.props.dataHolder.backgroundImage) {
+            return (
+                <image
+                    width={this.props.dataHolder.backgroundImage.width}
+                    height={this.props.dataHolder.backgroundImage.height}
+                    xlinkHref={this.props.dataHolder.backgroundImage.dataUrl}>
+                </image>
+            );
+        } else {
+            return null;
+        }
     }
 
     drawWhiteboardCanvas() {

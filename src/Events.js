@@ -31,6 +31,10 @@ export default class Events {
         this.emitter.emit('set', {key: 'strokeColor', value: color});
     }
 
+    pasteImage(width, height, dataUrl) {
+        this.emitter.emit('paste', {width: width, height: height, dataUrl: dataUrl});
+    }
+
     pushPoint(x, y) {
         this.emitter.emit('push', {x: x, y: y});
     }

@@ -5,6 +5,7 @@ export default class DataHolder {
         this.dataset = [];
         this.undoStack = [];
         this.renderLayers = [];
+        this.backgroundImage = undefined;
     }
 
     startDrawing(strokeWidth, strokeColor, point) {
@@ -31,6 +32,10 @@ export default class DataHolder {
 
     changeStrokeColor(color) {
         this.dataset.push({});
+    }
+
+    pasteImage(image) {
+        this.backgroundImage = image;
     }
 
     pushPoint(strokeWidth, strokeColor, point) {
