@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
 
+import * as Constants from './Constants';
+
 
 export default class CanvasPane extends React.Component {
 
@@ -52,7 +54,7 @@ export default class CanvasPane extends React.Component {
                     return prev;
                 }
 
-                if (element.type === 'line') {
+                if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                     if (!prev[element.layer]) {
                         prev[element.layer] = [{
                             type: null,
@@ -84,14 +86,14 @@ export default class CanvasPane extends React.Component {
                 return prev.concat(element);
             }, [])
             .filter((element) => {
-                if (element.type === 'line') {
+                if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                     return element.values.length > 1;
                 } else {
                     return true;
                 }
             })
             .map((element, index) => {
-                if (element.type === 'line') {
+                if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                     const k = index;
                     const d = element.values.map((point, index) => {
                         if (index === 0) {

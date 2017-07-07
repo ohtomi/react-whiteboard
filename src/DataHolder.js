@@ -1,3 +1,5 @@
+import * as Constants from './Constants';
+
 export default class DataHolder {
 
     constructor() {
@@ -10,7 +12,7 @@ export default class DataHolder {
 
     startDrawing(strokeWidth, strokeColor, point) {
         this.dataset.push({
-            type: 'line',
+            type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.layer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
@@ -48,7 +50,7 @@ export default class DataHolder {
 
     pushPoint(strokeWidth, strokeColor, point) {
         this.dataset.push({
-            type: 'line',
+            type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.layer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
