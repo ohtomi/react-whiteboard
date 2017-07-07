@@ -40,9 +40,10 @@ export default class CanvasPane extends React.Component {
     drawWhiteboardCanvas() {
         return this.props.dataHolder.dataset
             .reduce((prev, element) => {
-                if (!element.point) {
+                if (!element.type) {
                     prev.forEach(p => {
                         p.push({
+                            type: null,
                             strokeWidth: null,
                             strokeColor: null,
                             values: [],
@@ -51,20 +52,27 @@ export default class CanvasPane extends React.Component {
                     return prev;
                 }
 
-                if (!prev[element.layer]) {
-                    prev[element.layer] = [{
-                        strokeWidth: null,
-                        strokeColor: null,
-                        values: [],
-                    }];
-                }
+                if (element.type === 'line') {
+                    if (!prev[element.layer]) {
+                        prev[element.layer] = [{
+                            type: null,
+                            strokeWidth: null,
+                            strokeColor: null,
+                            values: [],
+                        }];
+                    }
 
-                let last = prev[element.layer][prev[element.layer].length - 1];
-                last.strokeWidth = element.strokeWidth;
-                last.strokeColor = element.strokeColor;
-                last.values.push(element.point);
-                return prev;
+                    let last = prev[element.layer][prev[element.layer].length - 1];
+                    last.type = element.type;
+                    last.strokeWidth = element.strokeWidth;
+                    last.strokeColor = element.strokeColor;
+                    last.values.push(element.point);
+                    return prev;
+                } else {
+                    return prev;
+                }
             }, [[{
+                type: null,
                 strokeWidth: null,
                 strokeColor: null,
                 values: [],
@@ -76,21 +84,29 @@ export default class CanvasPane extends React.Component {
                 return prev.concat(element);
             }, [])
             .filter((element) => {
-                return element.values.length > 1;
+                if (element.type === 'line') {
+                    return element.values.length > 1;
+                } else {
+                    return true;
+                }
             })
             .map((element, index) => {
-                const k = index;
-                const d = element.values.map((point, index) => {
-                    if (index === 0) {
-                        return 'M ' + point.x + ' ' + point.y;
-                    } else {
-                        return 'L ' + point.x + ' ' + point.y;
-                    }
-                });
+                if (element.type === 'line') {
+                    const k = index;
+                    const d = element.values.map((point, index) => {
+                        if (index === 0) {
+                            return 'M ' + point.x + ' ' + point.y;
+                        } else {
+                            return 'L ' + point.x + ' ' + point.y;
+                        }
+                    });
 
-                return (
-                    <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}></path>
-                );
+                    return (
+                        <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}></path>
+                    );
+                } else {
+                    return null;
+                }
             });
     }
 }

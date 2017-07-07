@@ -10,6 +10,7 @@ export default class DataHolder {
 
     startDrawing(strokeWidth, strokeColor, point) {
         this.dataset.push({
+            type: 'line',
             layer: this.layer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
@@ -36,10 +37,18 @@ export default class DataHolder {
 
     pasteImage(image) {
         this.backgroundImage = image;
+        // this.dataset.push({
+        //     type: 'image',
+        //     layer: this.layer,
+        //     width: image.width,
+        //     height: image.height,
+        //     dataUrl: image.dataUrl
+        // });
     }
 
     pushPoint(strokeWidth, strokeColor, point) {
         this.dataset.push({
+            type: 'line',
             layer: this.layer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
@@ -50,14 +59,14 @@ export default class DataHolder {
 
     undoPoint() {
         this.undoStack.push(this.dataset.pop()); // {}
-        this.undoStack.push(this.dataset.pop()); // {point: [...], ...}
+        this.undoStack.push(this.dataset.pop()); // {type: 'line', point: [...], ...} or {type: 'image', ...}
         this.dataset.push({});
     }
 
     redoPoint() {
         if (this.undoStack.length) {
             this.dataset.pop();
-            this.dataset.push(this.undoStack.pop()); // {point: [...], ...}
+            this.dataset.push(this.undoStack.pop()); // {type: 'line', point: [...], ...} or {type: 'image', ...}
             this.dataset.push(this.undoStack.pop()); // {}
         }
     }
