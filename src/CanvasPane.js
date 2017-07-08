@@ -18,25 +18,10 @@ export default class CanvasPane extends React.Component {
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                      width={this.props.width} height={this.props.height}>
                     <rect width={'100%'} height={'100%'} fill={this.props.style.backgroundColor}></rect>
-                    {this.drawBackgroundImage()}
                     {this.drawWhiteboardCanvas()}
                 </svg>
             </div>
         );
-    }
-
-    drawBackgroundImage() {
-        if (this.props.dataHolder.backgroundImage) {
-            return (
-                <image
-                    width={this.props.dataHolder.backgroundImage.width}
-                    height={this.props.dataHolder.backgroundImage.height}
-                    xlinkHref={this.props.dataHolder.backgroundImage.dataUrl}>
-                </image>
-            );
-        } else {
-            return null;
-        }
     }
 
     drawWhiteboardCanvas() {
@@ -65,11 +50,37 @@ export default class CanvasPane extends React.Component {
                     }
 
                     let last = prev[element.layer][prev[element.layer].length - 1];
-                    last.type = element.type;
-                    last.strokeWidth = element.strokeWidth;
-                    last.strokeColor = element.strokeColor;
-                    last.values.push(element.point);
+                    if (last.type === element.type) {
+                        last.type = element.type;
+                        last.strokeWidth = element.strokeWidth;
+                        last.strokeColor = element.strokeColor;
+                        last.values.push(element.point);
+                    } else {
+                        prev[element.layer].push({
+                            type: element.type,
+                            strokeWidth: element.strokeWidth,
+                            strokeColor: element.strokeColor,
+                            values: [element.point],
+                        });
+                    }
                     return prev;
+
+                } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+                    if (!prev[element.layer]) {
+                        prev[element.layer] = [{
+                            type: null,
+                            strokeWidth: null,
+                            strokeColor: null,
+                            values: [],
+                        }];
+                    }
+
+                    prev[element.layer].push({
+                        type: element.type,
+                        values: [element.image],
+                    });
+                    return prev;
+
                 } else {
                     return prev;
                 }
@@ -88,6 +99,8 @@ export default class CanvasPane extends React.Component {
             .filter((element) => {
                 if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                     return element.values.length > 1;
+                } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+                    return element.values.length === 1;
                 } else {
                     return true;
                 }
@@ -106,6 +119,15 @@ export default class CanvasPane extends React.Component {
                     return (
                         <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}></path>
                     );
+
+                } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+                    const k = index;
+                    const image = element.values[0];
+
+                    return (
+                        <image key={k} width={image.width} height={image.height} xlinkHref={image.dataUrl}></image>
+                    );
+
                 } else {
                     return null;
                 }

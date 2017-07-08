@@ -7,7 +7,6 @@ export default class DataHolder {
         this.dataset = [];
         this.undoStack = [];
         this.renderLayers = [];
-        this.backgroundImage = undefined;
     }
 
     startDrawing(strokeWidth, strokeColor, point) {
@@ -38,14 +37,11 @@ export default class DataHolder {
     }
 
     pasteImage(image) {
-        this.backgroundImage = image;
-        // this.dataset.push({
-        //     type: 'image',
-        //     layer: this.layer,
-        //     width: image.width,
-        //     height: image.height,
-        //     dataUrl: image.dataUrl
-        // });
+        this.dataset.push({
+            type: Constants.SVG_ELEMENT_TYPE.IMAGE,
+            layer: this.layer,
+            image: image
+        });
     }
 
     pushPoint(strokeWidth, strokeColor, point) {
@@ -61,14 +57,14 @@ export default class DataHolder {
 
     undoPoint() {
         this.undoStack.push(this.dataset.pop()); // {}
-        this.undoStack.push(this.dataset.pop()); // {type: 'line', point: [...], ...} or {type: 'image', ...}
+        this.undoStack.push(this.dataset.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
         this.dataset.push({});
     }
 
     redoPoint() {
         if (this.undoStack.length) {
             this.dataset.pop();
-            this.dataset.push(this.undoStack.pop()); // {type: 'line', point: [...], ...} or {type: 'image', ...}
+            this.dataset.push(this.undoStack.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
             this.dataset.push(this.undoStack.pop()); // {}
         }
     }
