@@ -55,13 +55,13 @@ export default class Whiteboard extends React.Component {
             }
         });
 
-        this.events.on('paste', dataUrl => {
-            this.pasteImage(dataUrl);
+        this.events.on('paste', image => {
+            this.pasteImage(image);
         });
-
         this.events.on('push', point => {
             this.pushPoint(point);
         });
+
         this.events.on('undo', () => {
             this.undo();
         });

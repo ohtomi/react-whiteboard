@@ -25,7 +25,7 @@ export default class CanvasPane extends React.Component {
     }
 
     drawWhiteboardCanvas() {
-        return this.props.dataHolder.dataset
+        return this.props.dataHolder.eventList
             .reduce((prev, element) => {
                 if (!element.type) {
                     prev.forEach(p => {
