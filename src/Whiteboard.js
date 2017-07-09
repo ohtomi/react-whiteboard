@@ -63,13 +63,13 @@ export default class Whiteboard extends React.Component {
             this.pushPoint(point);
         });
         this.events.on('undo', () => {
-            this.undoPoint();
+            this.undo();
         });
         this.events.on('redo', () => {
-            this.redoPoint();
+            this.redo();
         });
         this.events.on('clear', () => {
-            this.clearPoint();
+            this.clear();
         });
     }
 
@@ -127,22 +127,22 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    undoPoint() {
-        this.state.dataHolder.undoPoint();
+    undo() {
+        this.state.dataHolder.undo();
         this.setState({
             dataHolder: this.state.dataHolder,
         });
     }
 
-    redoPoint() {
-        this.state.dataHolder.redoPoint();
+    redo() {
+        this.state.dataHolder.redo();
         this.setState({
             dataHolder: this.state.dataHolder,
         });
     }
 
-    clearPoint() {
-        this.state.dataHolder.clearPoint();
+    clear() {
+        this.state.dataHolder.clear();
         this.setState({
             dataHolder: this.state.dataHolder,
         });

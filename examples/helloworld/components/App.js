@@ -47,15 +47,15 @@ export default class App extends React.Component {
         });
 
         this.undoButton.addEventListener('click', () => {
-            this.events.undoPoint();
+            this.events.undo();
         });
 
         this.redoButton.addEventListener('click', () => {
-            this.events.redoPoint();
+            this.events.redo();
         });
 
         this.clearButton.addEventListener('click', () => {
-            this.events.clearPoint();
+            this.events.clear();
         });
 
         this.layerSelect.addEventListener('change', () => {

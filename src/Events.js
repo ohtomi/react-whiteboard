@@ -39,15 +39,15 @@ export default class Events {
         this.emitter.emit('push', {x: x, y: y});
     }
 
-    undoPoint() {
+    undo() {
         this.emitter.emit('undo');
     }
 
-    redoPoint() {
+    redo() {
         this.emitter.emit('redo');
     }
 
-    clearPoint() {
+    clear() {
         this.emitter.emit('clear');
     }
 

@@ -55,13 +55,13 @@ export default class DataHolder {
         this.undoStack = [];
     }
 
-    undoPoint() {
+    undo() {
         this.undoStack.push(this.dataset.pop()); // {}
         this.undoStack.push(this.dataset.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
         this.dataset.push({});
     }
 
-    redoPoint() {
+    redo() {
         if (this.undoStack.length) {
             this.dataset.pop();
             this.dataset.push(this.undoStack.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
@@ -69,7 +69,7 @@ export default class DataHolder {
         }
     }
 
-    clearPoint() {
+    clear() {
         this.dataset = [];
         this.undoStack = [];
     }
