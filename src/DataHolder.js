@@ -90,6 +90,7 @@ export default class DataHolder {
             layer: this.layer,
             image: image
         });
+        this.undoList = [];
     }
 
     pushPoint(strokeWidth, strokeColor, point) {
@@ -104,9 +105,11 @@ export default class DataHolder {
     }
 
     undo() {
-        this.undoList.push(this.eventList.pop()); // {}
-        this.undoList.push(this.eventList.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
-        this.eventList.push({});
+        if (this.eventList.length) {
+            this.undoList.push(this.eventList.pop()); // {}
+            this.undoList.push(this.eventList.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
+            this.eventList.push({});
+        }
     }
 
     redo() {
