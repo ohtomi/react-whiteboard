@@ -19,8 +19,12 @@ export default class Events {
         this.emitter.emit('stop');
     }
 
-    changeLayer(layer) {
-        this.emitter.emit('set', {key: 'layer', value: layer});
+    selectLayer(layer) {
+        this.emitter.emit('selectLayer', layer);
+    }
+
+    addLayer() {
+        this.emitter.emit('addLayer');
     }
 
     changeStrokeWidth(width) {
@@ -49,9 +53,5 @@ export default class Events {
 
     clear() {
         this.emitter.emit('clear');
-    }
-
-    changeRenderLayers(renderLayers) {
-        this.emitter.emit('set', {key: 'renderLayers', value: renderLayers});
     }
 }

@@ -3,10 +3,10 @@ import * as Constants from './Constants';
 export default class DataHolder {
 
     constructor() {
-        this.layer = 0;
+        this.selectedLayer = 0;
         this.eventList = [];
         this.undoList = [];
-        this.renderLayers = [];
+        this.renderLayers = [true];
     }
 
     drawDataList() {
@@ -60,7 +60,7 @@ export default class DataHolder {
     startDrawing(strokeWidth, strokeColor, point) {
         this.eventList.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
-            layer: this.layer,
+            layer: this.selectedLayer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
             point: point,
@@ -71,11 +71,6 @@ export default class DataHolder {
         this.eventList.push({});
     }
 
-    changeLayer(layer) {
-        this.eventList.push({});
-        this.layer = layer;
-    }
-
     changeStrokeWidth(width) {
         this.eventList.push({});
     }
@@ -84,10 +79,19 @@ export default class DataHolder {
         this.eventList.push({});
     }
 
+    selectLayer(layer) {
+        this.eventList.push({});
+        this.selectedLayer = layer;
+    }
+
+    addLayer() {
+        this.renderLayers.push(true);
+    }
+
     pasteImage(image) {
         this.eventList.push({
             type: Constants.SVG_ELEMENT_TYPE.IMAGE,
-            layer: this.layer,
+            layer: this.selectedLayer,
             image: image
         });
         this.undoList = [];
@@ -96,7 +100,7 @@ export default class DataHolder {
     pushPoint(strokeWidth, strokeColor, point) {
         this.eventList.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
-            layer: this.layer,
+            layer: this.selectedLayer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
             point: point,
@@ -123,9 +127,5 @@ export default class DataHolder {
     clear() {
         this.eventList = [];
         this.undoList = [];
-    }
-
-    changeRenderLayers(renderLayers) {
-        this.renderLayers = renderLayers;
     }
 }

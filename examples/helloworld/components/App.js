@@ -12,7 +12,7 @@ export default class App extends React.Component {
 
         this.events = new Events();
         this.dataHolder = new DataHolder();
-        this.dataHolder.changeRenderLayers([true, true]);
+        this.dataHolder.addLayer();
     }
 
     componentDidMount() {
@@ -59,15 +59,7 @@ export default class App extends React.Component {
         });
 
         this.layerSelect.addEventListener('change', () => {
-            this.events.changeLayer(this.layerSelect.value);
-        });
-
-        this.render0check.addEventListener('change', () => {
-            this.events.changeRenderLayers([this.render0check.checked, this.render1check.checked]);
-        });
-
-        this.render1check.addEventListener('change', () => {
-            this.events.changeRenderLayers([this.render0check.checked, this.render1check.checked]);
+            this.events.selectLayer(this.layerSelect.value);
         });
 
         let downloadAsPng = document.querySelector('#download-as-png');
@@ -76,7 +68,7 @@ export default class App extends React.Component {
             let converter = new SvgConverter(svg);
             converter.toPngData().then(data => {
                 downloadAsPng.href = data;
-                downloadAsPng.download = 'xxx.png';
+                downloadAsPng.download = 'drawDataList.png';
             });
         });
 
@@ -86,7 +78,7 @@ export default class App extends React.Component {
             let converter = new SvgConverter(svg);
             converter.toJpegData().then(data => {
                 downloadAsJpeg.href = data;
-                downloadAsJpeg.download = 'xxx.jpeg';
+                downloadAsJpeg.download = 'drawDataList.jpeg';
             });
         });
 
@@ -96,7 +88,7 @@ export default class App extends React.Component {
             let converter = new SvgConverter(svg);
             converter.toSvgData().then(data => {
                 downloadAsSvg.href = data;
-                downloadAsSvg.download = 'xxx.svg';
+                downloadAsSvg.download = 'drawDataList.svg';
             });
         });
     }
@@ -111,7 +103,7 @@ export default class App extends React.Component {
                     <li>{'To select stroke width, press 1-9 key.'}</li>
                 </ul>
                 <Whiteboard events={this.events} dataHolder={this.dataHolder} renderLayers={this.renderLayers}
-                            width={800} height={600}
+                            width={750} height={450}
                             style={{backgroundColor: 'lightyellow'}}>
                 </Whiteboard>
                 <input ref={imageUrl => this.imageUrl = imageUrl} type="text"></input>
@@ -125,16 +117,10 @@ export default class App extends React.Component {
                     <option value="0">0</option>
                     <option value="1">1</option>
                 </select>
-                |
-                <label htmlFor={this.render0check}>
-                    <input ref={render0check => this.render0check = render0check} type="checkbox" defaultChecked={true}></input>
-                    layer-0
-                </label>
-                <label htmlFor={this.render1check}>
-                    <input ref={render1check => this.render1check = render1check} type="checkbox" defaultChecked={true}></input>
-                    layer-1
-                </label>
             </div>
         );
     }
 }
+
+// https://upload.wikimedia.org/wikipedia/commons/9/93/Solid_color_You_Tube_logo.png
+// https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png

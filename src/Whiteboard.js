@@ -41,18 +41,19 @@ export default class Whiteboard extends React.Component {
         });
 
         this.events.on('set', event => {
-            if (event.key === 'layer') {
-                this.changeLayer(event.value);
-            }
-            if (event.key === 'renderLayers') {
-                this.changeRenderLayers(event.value);
-            }
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
             if (event.key === 'strokeColor') {
                 this.changeStrokeColor(event.value);
             }
+        });
+
+        this.events.on('selectLayer', layer => {
+            this.selectLayer(layer);
+        });
+        this.events.on('addLayer', () => {
+            this.addLayer();
         });
 
         this.events.on('paste', image => {
@@ -89,14 +90,6 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    changeLayer(layer) {
-        this.state.dataHolder.changeLayer(layer);
-        this.setState({
-            layer: layer,
-            dataHolder: this.state.dataHolder,
-        });
-    }
-
     changeStrokeWidth(width) {
         this.state.dataHolder.changeStrokeWidth(width);
         this.setState({
@@ -109,6 +102,21 @@ export default class Whiteboard extends React.Component {
         this.state.dataHolder.changeStrokeColor(color);
         this.setState({
             strokeColor: color,
+            dataHolder: this.state.dataHolder,
+        });
+    }
+
+    selectLayer(layer) {
+        this.state.dataHolder.selectLayer(layer);
+        this.setState({
+            layer: layer,
+            dataHolder: this.state.dataHolder,
+        });
+    }
+
+    addLayer() {
+        this.state.dataHolder.addLayer();
+        this.setState({
             dataHolder: this.state.dataHolder,
         });
     }
@@ -143,13 +151,6 @@ export default class Whiteboard extends React.Component {
 
     clear() {
         this.state.dataHolder.clear();
-        this.setState({
-            dataHolder: this.state.dataHolder,
-        });
-    }
-
-    changeRenderLayers(renderLayers) {
-        this.state.dataHolder.changeRenderLayers(renderLayers);
         this.setState({
             dataHolder: this.state.dataHolder,
         });
