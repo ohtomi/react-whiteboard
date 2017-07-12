@@ -71,14 +71,6 @@ export default class DataHolder {
         this.eventList.push({});
     }
 
-    changeStrokeWidth(width) {
-        this.eventList.push({});
-    }
-
-    changeStrokeColor(color) {
-        this.eventList.push({});
-    }
-
     selectLayer(layer) {
         this.eventList.push({});
         this.selectedLayer = layer;

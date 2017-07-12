@@ -91,7 +91,7 @@ export default class Whiteboard extends React.Component {
     }
 
     changeStrokeWidth(width) {
-        this.state.dataHolder.changeStrokeWidth(width);
+        this.state.dataHolder.stopDrawing();
         this.setState({
             strokeWidth: width,
             dataHolder: this.state.dataHolder,
@@ -99,7 +99,7 @@ export default class Whiteboard extends React.Component {
     }
 
     changeStrokeColor(color) {
-        this.state.dataHolder.changeStrokeColor(color);
+        this.state.dataHolder.stopDrawing();
         this.setState({
             strokeColor: color,
             dataHolder: this.state.dataHolder,
