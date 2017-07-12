@@ -40,7 +40,7 @@ export default class DataHolder {
                 return prev;
             }
 
-        }, [this.renderLayers.map(() => [])]).filter((element, index) => {
+        }, this.renderLayers.map(() => [])).filter((element, index) => {
             return this.renderLayers[index];
 
         }).reduce((prev, element) => {
