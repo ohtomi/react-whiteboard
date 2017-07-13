@@ -102,8 +102,7 @@ export default class App extends React.Component {
                     <li>{'To switch color, black -> red -> blue -> green -> yellow, press c key.'}</li>
                     <li>{'To select stroke width, press 1-9 key.'}</li>
                 </ul>
-                <Whiteboard events={this.events} dataHolder={this.dataHolder} renderLayers={this.renderLayers}
-                            width={750} height={450}
+                <Whiteboard events={this.events} dataHolder={this.dataHolder} width={750} height={450}
                             style={{backgroundColor: 'lightyellow'}}>
                 </Whiteboard>
                 <input ref={imageUrl => this.imageUrl = imageUrl} type="text"></input>
