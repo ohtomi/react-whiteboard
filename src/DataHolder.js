@@ -12,6 +12,9 @@ export default class DataHolder {
     drawDataList() {
         return this.eventList.reduce((prev, element) => {
             if (!element.type) {
+                prev.forEach(p => {
+                    p.push({});
+                });
                 return prev;
             }
 
