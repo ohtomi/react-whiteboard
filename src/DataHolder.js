@@ -4,9 +4,9 @@ export default class DataHolder {
 
     constructor() {
         this.selectedLayer = 0;
+        this.renderableLayers = [true];
         this.eventList = [];
         this.undoList = [];
-        this.renderLayers = [true];
     }
 
     drawDataList() {
@@ -43,8 +43,8 @@ export default class DataHolder {
                 return prev;
             }
 
-        }, this.renderLayers.map(() => [])).filter((element, index) => {
-            return this.renderLayers[index];
+        }, this.renderableLayers.map(() => [])).filter((element, index) => {
+            return this.renderableLayers[index];
 
         }).reduce((prev, element) => {
             return prev.concat(element);
@@ -80,7 +80,7 @@ export default class DataHolder {
     }
 
     addLayer() {
-        this.renderLayers.push(true);
+        this.renderableLayers.push(true);
     }
 
     pasteImage(image) {
