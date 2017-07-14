@@ -1,16 +1,16 @@
 import * as Constants from './Constants';
 
-export default class DataHolder {
+export default class EventStore {
 
     constructor() {
         this.selectedLayer = 0;
         this.renderableLayers = [true];
-        this.eventList = [];
-        this.undoList = [];
+        this.goodEvents = [];
+        this.undoEvents = [];
     }
 
     drawDataList() {
-        return this.eventList.reduce((prev, element) => {
+        return this.goodEvents.reduce((prev, element) => {
             if (!element.type) {
                 prev.forEach(p => {
                     p.push({});
@@ -61,7 +61,7 @@ export default class DataHolder {
     }
 
     startDrawing(strokeWidth, strokeColor, point) {
-        this.eventList.push({
+        this.goodEvents.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
             strokeWidth: strokeWidth,
@@ -71,11 +71,11 @@ export default class DataHolder {
     }
 
     stopDrawing() {
-        this.eventList.push({});
+        this.goodEvents.push({});
     }
 
     selectLayer(layer) {
-        this.eventList.push({});
+        this.goodEvents.push({});
         this.selectedLayer = layer;
     }
 
@@ -84,43 +84,43 @@ export default class DataHolder {
     }
 
     pasteImage(image) {
-        this.eventList.push({
+        this.goodEvents.push({
             type: Constants.SVG_ELEMENT_TYPE.IMAGE,
             layer: this.selectedLayer,
             image: image
         });
-        this.undoList = [];
+        this.undoEvents = [];
     }
 
     pushPoint(strokeWidth, strokeColor, point) {
-        this.eventList.push({
+        this.goodEvents.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
             point: point,
         });
-        this.undoList = [];
+        this.undoEvents = [];
     }
 
     undo() {
-        if (this.eventList.length) {
-            this.undoList.push(this.eventList.pop()); // {}
-            this.undoList.push(this.eventList.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
-            this.eventList.push({});
+        if (this.goodEvents.length) {
+            this.undoEvents.push(this.goodEvents.pop()); // {}
+            this.undoEvents.push(this.goodEvents.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
+            this.goodEvents.push({});
         }
     }
 
     redo() {
-        if (this.undoList.length) {
-            this.eventList.pop();
-            this.eventList.push(this.undoList.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
-            this.eventList.push(this.undoList.pop()); // {}
+        if (this.undoEvents.length) {
+            this.goodEvents.pop();
+            this.goodEvents.push(this.undoEvents.pop()); // {type: 'line', point: [...], ...} or {type: 'image', image: {...}, ...}
+            this.goodEvents.push(this.undoEvents.pop()); // {}
         }
     }
 
     clear() {
-        this.eventList = [];
-        this.undoList = [];
+        this.goodEvents = [];
+        this.undoEvents = [];
     }
 }

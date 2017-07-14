@@ -1,12 +1,12 @@
 import Whiteboard from './Whiteboard';
-import Events from './Events';
-import DataHolder from './DataHolder';
+import EventStream from './EventStream';
+import EventStore from './EventStore';
 import SvgConverter from './SvgConverter';
 
 
 module.exports = {
     Whiteboard,
-    Events,
-    DataHolder,
+    EventStream,
+    EventStore,
     SvgConverter,
 };

@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 
 
-export default class Events {
+export default class EventStream {
 
     constructor() {
         this.emitter = new EventEmitter();

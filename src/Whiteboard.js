@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'react-proptypes';
 
-import Events from './Events';
 import * as Constants from './Constants';
-import DataHolder from './DataHolder';
+import EventStream from './EventStream';
+import EventStore from './EventStore';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
 
@@ -13,9 +13,9 @@ export default class Whiteboard extends React.Component {
     constructor(props) {
         super(props);
 
-        this.events = props.events || new Events();
+        this.events = props.events || new EventStream();
         this.state = {
-            dataHolder: props.dataHolder || new DataHolder(),
+            eventStore: props.eventStore || new EventStore(),
             mode: Constants.MODE.HAND,
             strokeWidth: 5,
             strokeColor: 'black',
@@ -75,84 +75,84 @@ export default class Whiteboard extends React.Component {
     }
 
     startDrawing(point) {
-        this.state.dataHolder.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
+        this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             mode: Constants.MODE.LINE,
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     stopDrawing() {
-        this.state.dataHolder.stopDrawing();
+        this.state.eventStore.stopDrawing();
         this.setState({
             mode: Constants.MODE.HAND,
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     changeStrokeWidth(width) {
-        this.state.dataHolder.stopDrawing();
+        this.state.eventStore.stopDrawing();
         this.setState({
             strokeWidth: width,
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     changeStrokeColor(color) {
-        this.state.dataHolder.stopDrawing();
+        this.state.eventStore.stopDrawing();
         this.setState({
             strokeColor: color,
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     selectLayer(layer) {
-        this.state.dataHolder.selectLayer(layer);
+        this.state.eventStore.selectLayer(layer);
         this.setState({
             layer: layer,
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     addLayer() {
-        this.state.dataHolder.addLayer();
+        this.state.eventStore.addLayer();
         this.setState({
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     pasteImage(image) {
-        this.state.dataHolder.pasteImage(image);
+        this.state.eventStore.pasteImage(image);
         this.setState({
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     pushPoint(point) {
-        this.state.dataHolder.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
+        this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     undo() {
-        this.state.dataHolder.undo();
+        this.state.eventStore.undo();
         this.setState({
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     redo() {
-        this.state.dataHolder.redo();
+        this.state.eventStore.redo();
         this.setState({
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
     clear() {
-        this.state.dataHolder.clear();
+        this.state.eventStore.clear();
         this.setState({
-            dataHolder: this.state.dataHolder,
+            eventStore: this.state.eventStore,
         });
     }
 
@@ -174,7 +174,7 @@ export default class Whiteboard extends React.Component {
 
 Whiteboard.propTypes = {
     events: PropTypes.object,
-    dataHolder: PropTypes.object,
+    eventStore: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
     style: PropTypes.shape({

@@ -25,7 +25,7 @@ export default class CanvasPane extends React.Component {
     }
 
     drawWhiteboardCanvas() {
-        return this.props.dataHolder.drawDataList().map((element, index) => {
+        return this.props.eventStore.drawDataList().map((element, index) => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                 const k = index;
                 const d = element.values.map((point, index) => {
@@ -58,7 +58,7 @@ export default class CanvasPane extends React.Component {
 CanvasPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
-    dataHolder: PropTypes.object,
+    eventStore: PropTypes.object,
     style: PropTypes.shape({
         backgroundColor: PropTypes.string,
     }),
