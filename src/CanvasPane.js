@@ -45,7 +45,7 @@ export default class CanvasPane extends React.Component {
                 const image = element.values[0];
 
                 return (
-                    <image key={k} width={image.width} height={image.height} xlinkHref={image.dataUrl}></image>
+                    <image key={k} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}></image>
                 );
 
             } else {

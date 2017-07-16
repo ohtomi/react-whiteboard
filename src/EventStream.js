@@ -35,8 +35,8 @@ export default class EventStream {
         this.emitter.emit('set', {key: 'strokeColor', value: color});
     }
 
-    pasteImage(width, height, dataUrl) {
-        this.emitter.emit('paste', {width: width, height: height, dataUrl: dataUrl});
+    pasteImage(x, y, width, height, dataUrl) {
+        this.emitter.emit('paste', {x: x, y: y, width: width, height: height, dataUrl: dataUrl});
     }
 
     pushPoint(x, y) {

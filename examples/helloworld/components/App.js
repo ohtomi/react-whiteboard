@@ -31,17 +31,17 @@ export default class App extends React.Component {
             if (imageUrl.endsWith('.png')) {
                 SvgConverter.fromPngImage(this.imageUrl.value)
                     .then(image => {
-                        this.events.pasteImage(image.width, image.height, image.dataUrl);
+                        this.events.pasteImage(0, 0, image.width, image.height, image.dataUrl);
                     });
             } else if (imageUrl.endsWith('.jpeg') || imageUrl.endsWith('.jpg')) {
                 SvgConverter.fromJpegImage(this.imageUrl.value)
                     .then(image => {
-                        this.events.pasteImage(image.width, image.height, image.dataUrl);
+                        this.events.pasteImage(0, 0, image.width, image.height, image.dataUrl);
                     });
             } else if (imageUrl.endsWith('.gif')) {
                 SvgConverter.fromGifImage(this.imageUrl.value)
                     .then(image => {
-                        this.events.pasteImage(image.width, image.height, image.dataUrl);
+                        this.events.pasteImage(0, 0, image.width, image.height, image.dataUrl);
                     });
             }
         });
