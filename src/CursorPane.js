@@ -75,21 +75,21 @@ export default class CursorPane extends React.Component {
     }
 
     renderImageHandle() {
-        const last = this.props.eventStore.goodEvents[this.props.eventStore.goodEvents.length - 1];
-        if (!last || !last.type || last.type !== Constants.SVG_ELEMENT_TYPE.IMAGE) {
+        const lastImage = this.props.eventStore.lastImage();
+        if (!lastImage) {
             return;
         }
 
-        const base = (last.image.width < last.image.height) ? last.image.width : last.image.height;
+        const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height;
         const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
 
         const dragHandleStyle = {
             position: 'absolute',
             zIndex: 2500,
-            top: last.image.y + unit,
-            left: last.image.x + unit,
-            width: last.image.width - (unit * 2),
-            height: last.image.height - (unit * 2),
+            top: lastImage.y + unit,
+            left: lastImage.x + unit,
+            width: lastImage.width - (unit * 2),
+            height: lastImage.height - (unit * 2),
             cursor: 'move',
         };
 
@@ -102,6 +102,7 @@ export default class CursorPane extends React.Component {
 CursorPane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
+    eventStore: PropTypes.object,
     mode: PropTypes.object,
     strokeWidth: PropTypes.number,
     strokeColor: PropTypes.string,

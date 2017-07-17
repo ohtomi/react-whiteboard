@@ -92,10 +92,21 @@ export default class EventStore {
         this.undoEvents = [];
     }
 
-    dragImage(move) {
+    lastImage() {
         const last = this.goodEvents[this.goodEvents.length - 1];
-        last.image.x = last.image.x + move.x;
-        last.image.y = last.image.y + move.y;
+        if (last && last.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+            return last.image;
+        } else {
+            return null;
+        }
+    }
+
+    dragImage(move) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            lastImage.x = lastImage.x + move.x;
+            lastImage.y = lastImage.y + move.y;
+        }
     }
 
     pushPoint(strokeWidth, strokeColor, point) {
