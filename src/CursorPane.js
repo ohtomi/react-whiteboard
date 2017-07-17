@@ -86,10 +86,10 @@ export default class CursorPane extends React.Component {
         const dragHandleStyle = {
             position: 'absolute',
             zIndex: 2500,
-            top: last.image.y,
-            left: last.image.x,
-            width: last.image.width,
-            height: last.image.height,
+            top: last.image.y + unit,
+            left: last.image.x + unit,
+            width: last.image.width - (unit * 2),
+            height: last.image.height - (unit * 2),
             cursor: 'move',
         };
 
