@@ -6,30 +6,54 @@ import * as Constants from './Constants';
 
 export default class CursorPane extends React.Component {
 
-    componentDidMount() {
-        this.setupEventHandler();
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            dragStart: null,
+        };
     }
 
-    setupEventHandler() {
+    onClickCursorLayer(ev) {
         let eventToPoint = (ev) => {
-            const x = ev.offsetX - 2;
-            const y = ev.offsetY + (2 * (this.props.strokeWidth / 3));
+            const x = ev.nativeEvent.offsetX - 2;
+            const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3));
             return [x, y];
         };
 
-        this.cursorLayer.addEventListener('click', (ev) => {
-            if (this.props.mode === Constants.MODE.HAND) {
-                this.context.events.startDrawing(...eventToPoint(ev));
-            } else {
-                this.context.events.stopDrawing();
-            }
-        });
+        if (this.props.mode === Constants.MODE.HAND) {
+            this.context.events.startDrawing(...eventToPoint(ev));
+        } else {
+            this.context.events.stopDrawing();
+        }
+    }
 
-        this.cursorLayer.addEventListener('mousemove', (ev) => {
-            if (this.props.mode === Constants.MODE.LINE) {
-                this.context.events.pushPoint(...eventToPoint(ev));
-            }
-        });
+    onMouseMoveCursorLayer(ev) {
+        let eventToPoint = (ev) => {
+            const x = ev.nativeEvent.offsetX - 2;
+            const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3));
+            return [x, y];
+        };
+
+        if (this.props.mode === Constants.MODE.DRAW_LINE) {
+            this.context.events.pushPoint(...eventToPoint(ev));
+        } else if (this.props.mode === Constants.MODE.DRAG_IMAGE) {
+            const moveX = ev.nativeEvent.offsetX - this.state.dragStart.x;
+            const moveY = ev.nativeEvent.offsetY - this.state.dragStart.y;
+            this.context.events.dragImage(moveX, moveY);
+        }
+    }
+
+    onClickDragHandle(ev) {
+        if (this.props.mode === Constants.MODE.HAND) {
+            this.setState({dragStart: {x: ev.nativeEvent.offsetX, y: ev.nativeEvent.offsetY}});
+            this.context.events.startDragging();
+        } else {
+            this.setState({dragStart: null});
+            this.context.events.stopDragging();
+        }
+        ev.preventDefault();
+        ev.stopPropagation();
     }
 
     render() {
@@ -43,8 +67,35 @@ export default class CursorPane extends React.Component {
         };
 
         return (
-            <div ref={cursorLayer => this.cursorLayer = cursorLayer} style={cursorLayerStyle}></div>
+            <div style={cursorLayerStyle}
+                 onClick={this.onClickCursorLayer.bind(this)} onMouseMove={this.onMouseMoveCursorLayer.bind(this)}>
+                {this.renderImageHandle()}
+            </div>
         );
+    }
+
+    renderImageHandle() {
+        const last = this.props.eventStore.goodEvents[this.props.eventStore.goodEvents.length - 1];
+        if (!last || !last.type || last.type !== Constants.SVG_ELEMENT_TYPE.IMAGE) {
+            return;
+        }
+
+        const base = (last.image.width < last.image.height) ? last.image.width : last.image.height;
+        const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
+
+        const dragHandleStyle = {
+            position: 'absolute',
+            zIndex: 2500,
+            top: last.image.y,
+            left: last.image.x,
+            width: last.image.width,
+            height: last.image.height,
+            cursor: 'move',
+        };
+
+        return ([
+            <div key="drag" onClick={this.onClickDragHandle.bind(this)} style={dragHandleStyle}></div>
+        ]);
     }
 }
 

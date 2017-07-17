@@ -1,6 +1,7 @@
 export const MODE = {
     HAND: {},
-    LINE: {},
+    DRAW_LINE: {},
+    DRAG_IMAGE: {},
 };
 
 export const SVG_ELEMENT_TYPE = {

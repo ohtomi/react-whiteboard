@@ -39,6 +39,18 @@ export default class EventStream {
         this.emitter.emit('paste', {x: x, y: y, width: width, height: height, dataUrl: dataUrl});
     }
 
+    startDragging() {
+        this.emitter.emit('startDragging');
+    }
+
+    stopDragging() {
+        this.emitter.emit('stopDragging');
+    }
+
+    dragImage(x, y) {
+        this.emitter.emit('drag', {x: x, y: y});
+    }
+
     pushPoint(x, y) {
         this.emitter.emit('push', {x: x, y: y});
     }

@@ -59,6 +59,15 @@ export default class Whiteboard extends React.Component {
         this.events.on('paste', image => {
             this.pasteImage(image);
         });
+        this.events.on('startDragging', () => {
+            this.startDragging();
+        });
+        this.events.on('stopDragging', () => {
+            this.stopDragging();
+        });
+        this.events.on('drag', move => {
+            this.dragImage(move);
+        });
         this.events.on('push', point => {
             this.pushPoint(point);
         });
@@ -77,7 +86,7 @@ export default class Whiteboard extends React.Component {
     startDrawing(point) {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
-            mode: Constants.MODE.LINE,
+            mode: Constants.MODE.DRAW_LINE,
             eventStore: this.state.eventStore,
         });
     }
@@ -123,6 +132,29 @@ export default class Whiteboard extends React.Component {
 
     pasteImage(image) {
         this.state.eventStore.pasteImage(image);
+        this.setState({
+            eventStore: this.state.eventStore,
+        });
+    }
+
+    startDragging() {
+        this.setState({
+            mode: Constants.MODE.DRAG_IMAGE,
+        });
+    }
+
+    stopDragging() {
+        this.setState({
+            mode: Constants.MODE.HAND,
+        });
+    }
+
+    dragImage(move) {
+        if (this.state.mode !== Constants.MODE.DRAG_IMAGE) {
+            return;
+        }
+
+        this.state.eventStore.dragImage(move);
         this.setState({
             eventStore: this.state.eventStore,
         });

@@ -92,6 +92,12 @@ export default class EventStore {
         this.undoEvents = [];
     }
 
+    dragImage(move) {
+        const last = this.goodEvents[this.goodEvents.length - 1];
+        last.image.x = last.image.x + move.x;
+        last.image.y = last.image.y + move.y;
+    }
+
     pushPoint(strokeWidth, strokeColor, point) {
         this.goodEvents.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
