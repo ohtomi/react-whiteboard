@@ -9,7 +9,16 @@ export default class EventStore {
         this.undoEvents = [];
     }
 
-    drawDataList() {
+    lastImage() {
+        const last = this.goodEvents[this.goodEvents.length - 1];
+        if (last && last.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+            return last.image;
+        } else {
+            return null;
+        }
+    }
+
+    reduceEvents() {
         return this.goodEvents.reduce((prev, element) => {
             if (!element.type) {
                 prev.forEach(p => {
@@ -90,15 +99,6 @@ export default class EventStore {
             image: image
         });
         this.undoEvents = [];
-    }
-
-    lastImage() {
-        const last = this.goodEvents[this.goodEvents.length - 1];
-        if (last && last.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
-            return last.image;
-        } else {
-            return null;
-        }
     }
 
     dragImage(move) {
