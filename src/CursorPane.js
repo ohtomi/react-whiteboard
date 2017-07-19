@@ -38,8 +38,17 @@ export default class CursorPane extends React.Component {
         if (this.props.mode === Constants.MODE.DRAW_LINE) {
             this.context.events.pushPoint(...eventToPoint(ev));
         } else if (this.props.mode === Constants.MODE.DRAG_IMAGE) {
-            const moveX = ev.nativeEvent.offsetX - this.state.dragStart.x;
-            const moveY = ev.nativeEvent.offsetY - this.state.dragStart.y;
+            const lastImage = this.props.eventStore.lastImage();
+            if (!lastImage) {
+                return;
+            }
+
+            const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height;
+            const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
+
+            const moveX = lastImage.x + unit < 0 ? ev.nativeEvent.offsetX - this.state.dragStart.x - (lastImage.x + unit) : ev.nativeEvent.offsetX - this.state.dragStart.x;
+            const moveY = lastImage.y + unit < 0 ? ev.nativeEvent.offsetY - this.state.dragStart.y - (lastImage.y + unit) : ev.nativeEvent.offsetY - this.state.dragStart.y;
+
             this.context.events.dragImage(moveX, moveY);
         }
     }
@@ -83,13 +92,18 @@ export default class CursorPane extends React.Component {
         const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height;
         const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
 
+        const top = lastImage.y + unit < 0 ? 0 : lastImage.y + unit > this.props.height ? this.props.height : lastImage.y + unit;
+        const bottom = lastImage.y + lastImage.height - unit < 0 ? 0 : lastImage.y + lastImage.height - unit > this.props.height ? this.props.height : lastImage.y + lastImage.height - unit;
+        const left = lastImage.x + unit < 0 ? 0 : lastImage.x + unit > this.props.width ? this.props.width : lastImage.x + unit;
+        const right = lastImage.x + lastImage.width - unit < 0 ? 0 : lastImage.x + lastImage.width - unit > this.props.width ? this.props.width : lastImage.x + lastImage.width - unit;
+
         const dragHandleStyle = {
             position: 'absolute',
             zIndex: 2500,
-            top: lastImage.y + unit,
-            left: lastImage.x + unit,
-            width: lastImage.width - (unit * 2),
-            height: lastImage.height - (unit * 2),
+            top: top,
+            left: left,
+            width: right - left,
+            height: bottom - top,
             cursor: 'move',
         };
 
