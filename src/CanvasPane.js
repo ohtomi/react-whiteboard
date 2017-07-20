@@ -19,6 +19,7 @@ export default class CanvasPane extends React.Component {
                      width={this.props.width} height={this.props.height}>
                     <rect width={'100%'} height={'100%'} fill={this.props.style.backgroundColor}></rect>
                     {this.drawWhiteboardCanvas()}
+                    {this.drawImageBorder()}
                 </svg>
             </div>
         );
@@ -52,6 +53,19 @@ export default class CanvasPane extends React.Component {
                 return null;
             }
         });
+    }
+
+    drawImageBorder() {
+        const lastImage = this.props.eventStore.lastImage();
+        if (!lastImage) {
+            return;
+        }
+
+        return (
+            <rect x={lastImage.x} y={lastImage.y} width={lastImage.width} height={lastImage.height}
+                  fill={'none'} stroke={'black'} strokeDasharray={'5,5'}>
+            </rect>
+        );
     }
 }
 
