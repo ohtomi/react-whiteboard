@@ -68,7 +68,7 @@ export default class App extends React.Component {
             let converter = new SvgConverter(svg);
             converter.toPngData().then(data => {
                 downloadAsPng.href = data;
-                downloadAsPng.download = 'drawDataList.png';
+                downloadAsPng.download = 'react-whiteboard.png';
             });
         });
 
@@ -78,7 +78,7 @@ export default class App extends React.Component {
             let converter = new SvgConverter(svg);
             converter.toJpegData().then(data => {
                 downloadAsJpeg.href = data;
-                downloadAsJpeg.download = 'drawDataList.jpeg';
+                downloadAsJpeg.download = 'react-whiteboard.jpeg';
             });
         });
 
@@ -88,7 +88,7 @@ export default class App extends React.Component {
             let converter = new SvgConverter(svg);
             converter.toSvgData().then(data => {
                 downloadAsSvg.href = data;
-                downloadAsSvg.download = 'drawDataList.svg';
+                downloadAsSvg.download = 'react-whiteboard.svg';
             });
         });
     }
