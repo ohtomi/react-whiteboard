@@ -76,7 +76,7 @@ export default class CursorPane extends React.Component {
         };
 
         return (
-            <div style={cursorLayerStyle}
+            <div role="presentation" style={cursorLayerStyle}
                  onClick={this.onClickCursorLayer.bind(this)} onMouseMove={this.onMouseMoveCursorLayer.bind(this)}>
                 {this.renderImageHandle()}
             </div>
@@ -108,7 +108,7 @@ export default class CursorPane extends React.Component {
         };
 
         return ([
-            <div key="drag" onClick={this.onClickDragHandle.bind(this)} style={dragHandleStyle}></div>
+            <div key="drag" role="presentation" style={dragHandleStyle} onClick={this.onClickDragHandle.bind(this)}></div>
         ]);
     }
 }
