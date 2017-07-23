@@ -11,6 +11,7 @@ export default class CursorPane extends React.Component {
 
         this.state = {
             dragStart: null,
+            nwResizeStart: null,
         };
     }
 
@@ -50,6 +51,26 @@ export default class CursorPane extends React.Component {
             const moveY = lastImage.y + unit < 0 ? ev.nativeEvent.offsetY - this.state.dragStart.y - (lastImage.y + unit) : ev.nativeEvent.offsetY - this.state.dragStart.y;
 
             this.context.events.dragImage(moveX, moveY);
+        } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE) {
+            const lastImage = this.props.eventStore.lastImage();
+            if (!lastImage) {
+                return;
+            }
+
+            this.setState({nwResizeStart: {x: ev.pageX, y: ev.pageY}});
+
+            const moveX = lastImage.x < 0 ? ev.pageX - this.state.nwResizeStart.x - (lastImage.x ) : ev.pageX - this.state.nwResizeStart.x;
+            const moveY = lastImage.y < 0 ? ev.pageY - this.state.nwResizeStart.y - (lastImage.y ) : ev.pageY - this.state.nwResizeStart.y;
+
+            if (moveX * moveY < 0) {
+                return;
+            }
+
+            if (moveX > 0) {
+                this.context.events.nwResizeImage(moveY / moveX < lastImage.height / lastImage.width ? -moveX : -moveY);
+            } else {
+                this.context.events.nwResizeImage(moveY / moveX > lastImage.height / lastImage.width ? -moveX : -moveY);
+            }
         }
     }
 
@@ -60,6 +81,18 @@ export default class CursorPane extends React.Component {
         } else {
             this.setState({dragStart: null});
             this.context.events.stopDragging();
+        }
+        ev.preventDefault();
+        ev.stopPropagation();
+    }
+
+    onClickNwResizeHandle(ev) {
+        if (this.props.mode === Constants.MODE.HAND) {
+            this.setState({nwResizeStart: {x: ev.pageX, y: ev.pageY}});
+            this.context.events.startNwResizing();
+        } else {
+            this.setState({nwResizeStart: null});
+            this.context.events.stopNwResizing();
         }
         ev.preventDefault();
         ev.stopPropagation();
@@ -107,8 +140,19 @@ export default class CursorPane extends React.Component {
             cursor: 'move',
         };
 
+        const nwResizeHandleStyle = {
+            position: 'absolute',
+            zIndex: 2500,
+            top: dragHandleStyle.top - unit < 0 ? 0 : dragHandleStyle.top - unit > this.props.height ? this.props.height : dragHandleStyle.top - unit,
+            left: dragHandleStyle.left - unit < 0 ? 0 : dragHandleStyle.left - unit > this.props.width ? this.props.width : dragHandleStyle.left - unit,
+            width: dragHandleStyle.left - (dragHandleStyle.left - unit < 0 ? 0 : dragHandleStyle.left - unit > this.props.width ? this.props.width : dragHandleStyle.left - unit),
+            height: dragHandleStyle.top - (dragHandleStyle.top - unit < 0 ? 0 : dragHandleStyle.top - unit > this.props.height ? this.props.height : dragHandleStyle.top - unit),
+            cursor: 'nw-resize',
+        };
+
         return ([
-            <div key="drag" role="presentation" style={dragHandleStyle} onClick={this.onClickDragHandle.bind(this)}></div>
+            <div key="drag" role="presentation" style={dragHandleStyle} onClick={this.onClickDragHandle.bind(this)}></div>,
+            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}></div>
         ]);
     }
 }

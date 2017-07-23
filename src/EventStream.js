@@ -51,6 +51,18 @@ export default class EventStream {
         this.emitter.emit('drag', {x: x, y: y});
     }
 
+    startNwResizing() {
+        this.emitter.emit('startNwResizing');
+    }
+
+    stopNwResizing() {
+        this.emitter.emit('stopNwResizing');
+    }
+
+    nwResizeImage(d) {
+        this.emitter.emit('nwResize', {d: d});
+    }
+
     pushPoint(x, y) {
         this.emitter.emit('push', {x: x, y: y});
     }

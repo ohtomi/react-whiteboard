@@ -109,6 +109,16 @@ export default class EventStore {
         }
     }
 
+    nwResizeImage(move) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            lastImage.x = lastImage.x - move.d;
+            lastImage.y = lastImage.y - move.d;
+            lastImage.width = lastImage.width + move.d;
+            lastImage.height = lastImage.height + move.d;
+        }
+    }
+
     pushPoint(strokeWidth, strokeColor, point) {
         this.goodEvents.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
