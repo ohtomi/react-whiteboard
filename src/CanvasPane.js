@@ -17,7 +17,7 @@ export default class CanvasPane extends React.Component {
             <div style={canvasLayerStyle}>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                      width={this.props.width} height={this.props.height}>
-                    <rect width={'100%'} height={'100%'} fill={this.props.style.backgroundColor}></rect>
+                    <rect width={'100%'} height={'100%'} fill={this.props.style.backgroundColor}/>
                     {this.drawWhiteboardCanvas()}
                     {this.drawImageBorder()}
                 </svg>
@@ -38,7 +38,7 @@ export default class CanvasPane extends React.Component {
                 });
 
                 return (
-                    <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}></path>
+                    <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}/>
                 );
 
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
@@ -46,7 +46,8 @@ export default class CanvasPane extends React.Component {
                 const image = element.values[0];
 
                 return (
-                    <image key={k} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}></image>
+                    <image key={k} x={image.x} y={image.y} width={image.width} height={image.height}
+                           xlinkHref={image.dataUrl}/>
                 );
 
             } else {
@@ -63,8 +64,7 @@ export default class CanvasPane extends React.Component {
 
         return (
             <rect x={lastImage.x} y={lastImage.y} width={lastImage.width} height={lastImage.height}
-                  fill={'none'} stroke={'black'} strokeDasharray={'5,5'}>
-            </rect>
+                  fill={'none'} stroke={'black'} strokeDasharray={'5,5'}/>
         );
     }
 }

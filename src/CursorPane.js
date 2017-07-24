@@ -151,8 +151,8 @@ export default class CursorPane extends React.Component {
         };
 
         return ([
-            <div key="drag" role="presentation" style={dragHandleStyle} onClick={this.onClickDragHandle.bind(this)}></div>,
-            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}></div>
+            <div key="drag" role="presentation" style={dragHandleStyle} onClick={this.onClickDragHandle.bind(this)}/>,
+            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}/>
         ]);
     }
 }
