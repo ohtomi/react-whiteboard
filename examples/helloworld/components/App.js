@@ -105,7 +105,7 @@ export default class App extends React.Component {
                 <Whiteboard events={this.events} eventStore={this.eventStore} width={750} height={450}
                             style={{backgroundColor: 'lightyellow'}}>
                 </Whiteboard>
-                <input ref={imageUrl => this.imageUrl = imageUrl} type="text"></input>
+                <input ref={imageUrl => this.imageUrl = imageUrl} type="text"/>
                 <button ref={pasteButton => this.pasteButton = pasteButton}>Paste Image</button>
                 |
                 <button ref={undoButton => this.undoButton = undoButton}>Undo</button>
