@@ -112,10 +112,10 @@ export default class EventStore {
     nwResizeImage(move) {
         const lastImage = this.lastImage();
         if (lastImage) {
-            lastImage.x = lastImage.x - move.x;
-            lastImage.y = lastImage.y - move.y;
-            lastImage.width = lastImage.width + move.x;
-            lastImage.height = lastImage.height + move.y;
+            lastImage.x = lastImage.x + move.x;
+            lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width - move.x;
+            lastImage.height = lastImage.height - move.y;
         }
     }
 

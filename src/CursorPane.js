@@ -69,7 +69,7 @@ export default class CursorPane extends React.Component {
             }
 
             this.setState({nwResizeStart: {x: ev.pageX, y: ev.pageY}});
-            this.context.events.nwResizeImage(-moveX, -moveY);
+            this.context.events.nwResizeImage(moveX, moveY);
         }
     }
 
