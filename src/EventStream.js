@@ -59,8 +59,8 @@ export default class EventStream {
         this.emitter.emit('stopNwResizing');
     }
 
-    nwResizeImage(d) {
-        this.emitter.emit('nwResize', {d: d});
+    nwResizeImage(x, y) {
+        this.emitter.emit('nwResize', {x: x, y: y});
     }
 
     pushPoint(x, y) {

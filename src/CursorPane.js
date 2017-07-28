@@ -61,16 +61,7 @@ export default class CursorPane extends React.Component {
             const moveY = lastImage.y < 0 ? ev.pageY - this.state.nwResizeStart.y - (lastImage.y ) : ev.pageY - this.state.nwResizeStart.y;
 
             this.setState({nwResizeStart: {x: ev.pageX, y: ev.pageY}});
-
-            if (moveX * moveY < 0) {
-                return;
-            }
-
-            if (moveX > 0) {
-                this.context.events.nwResizeImage(moveY / moveX < lastImage.height / lastImage.width ? -moveX : -moveY);
-            } else {
-                this.context.events.nwResizeImage(moveY / moveX > lastImage.height / lastImage.width ? -moveX : -moveY);
-            }
+            this.context.events.nwResizeImage(-moveX, -moveY);
         }
     }
 
