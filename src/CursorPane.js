@@ -39,6 +39,10 @@ export default class CursorPane extends React.Component {
         if (this.props.mode === Constants.MODE.DRAW_LINE) {
             this.context.events.pushPoint(...eventToPoint(ev));
         } else if (this.props.mode === Constants.MODE.DRAG_IMAGE) {
+            if (ev.target !== this.dragHandle) {
+                return;
+            }
+
             const lastImage = this.props.eventStore.lastImage();
             if (!lastImage) {
                 return;
@@ -152,7 +156,8 @@ export default class CursorPane extends React.Component {
         };
 
         return ([
-            <div key="drag" role="presentation" style={dragHandleStyle} onClick={this.onClickDragHandle.bind(this)}/>,
+            <div key="drag" role="presentation" style={dragHandleStyle}
+                 ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
             <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}/>
         ]);
     }
