@@ -116,10 +116,20 @@ export default class CursorPane extends React.Component {
         const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height;
         const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
 
-        const top = lastImage.y + unit < 0 ? 0 : lastImage.y + unit > this.props.height ? this.props.height : lastImage.y + unit;
-        const bottom = lastImage.y + lastImage.height - unit < 0 ? 0 : lastImage.y + lastImage.height - unit > this.props.height ? this.props.height : lastImage.y + lastImage.height - unit;
-        const left = lastImage.x + unit < 0 ? 0 : lastImage.x + unit > this.props.width ? this.props.width : lastImage.x + unit;
-        const right = lastImage.x + lastImage.width - unit < 0 ? 0 : lastImage.x + lastImage.width - unit > this.props.width ? this.props.width : lastImage.x + lastImage.width - unit;
+        const mathMinOrMax = (min, max, value) => {
+            if (value < min) {
+                return min;
+            } else if (value > max) {
+                return max;
+            } else {
+                return value;
+            }
+        };
+
+        const top = mathMinOrMax(0, this.props.height, lastImage.y + unit);
+        const bottom = mathMinOrMax(0, this.props.height, lastImage.y + lastImage.height - unit);
+        const left = mathMinOrMax(0, this.props.width, lastImage.x + unit);
+        const right = mathMinOrMax(0, this.props.width, lastImage.x + lastImage.width - unit);
 
         const dragHandleStyle = {
             position: 'absolute',
@@ -134,10 +144,10 @@ export default class CursorPane extends React.Component {
         const nwResizeHandleStyle = {
             position: 'absolute',
             zIndex: 2500,
-            top: dragHandleStyle.top - unit < 0 ? 0 : dragHandleStyle.top - unit > this.props.height ? this.props.height : dragHandleStyle.top - unit,
-            left: dragHandleStyle.left - unit < 0 ? 0 : dragHandleStyle.left - unit > this.props.width ? this.props.width : dragHandleStyle.left - unit,
-            width: dragHandleStyle.left - (dragHandleStyle.left - unit < 0 ? 0 : dragHandleStyle.left - unit > this.props.width ? this.props.width : dragHandleStyle.left - unit),
-            height: dragHandleStyle.top - (dragHandleStyle.top - unit < 0 ? 0 : dragHandleStyle.top - unit > this.props.height ? this.props.height : dragHandleStyle.top - unit),
+            top: mathMinOrMax(0, this.props.height, dragHandleStyle.top - unit),
+            left: mathMinOrMax(0, this.props.width, dragHandleStyle.left - unit),
+            width: dragHandleStyle.left - mathMinOrMax(0, this.props.width, dragHandleStyle.left - unit),
+            height: dragHandleStyle.top - mathMinOrMax(0, this.props.height, dragHandleStyle.top - unit),
             cursor: 'nw-resize',
         };
 
