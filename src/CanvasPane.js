@@ -46,9 +46,7 @@ export default class CanvasPane extends React.Component {
                 const image = element.values[0];
 
                 return (
-                    <image key={k} x={image.x} y={image.y} width={image.width} height={image.height}
-                           transform={`scale(${image.scale[0]},${image.scale[1]})`}
-                           xlinkHref={image.dataUrl}/>
+                    <image key={k} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>
                 );
 
             } else {
@@ -65,7 +63,6 @@ export default class CanvasPane extends React.Component {
 
         return (
             <rect x={lastImage.x} y={lastImage.y} width={lastImage.width} height={lastImage.height}
-                  transform={`scale(${lastImage.scale[0]},${lastImage.scale[1]})`}
                   fill={'none'} stroke={'black'} strokeDasharray={'5,5'}/>
         );
     }

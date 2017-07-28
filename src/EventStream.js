@@ -36,7 +36,7 @@ export default class EventStream {
     }
 
     pasteImage(x, y, width, height, dataUrl) {
-        this.emitter.emit('paste', {x: x, y: y, width: width, height: height, scale: [1.0, 1.0], dataUrl: dataUrl});
+        this.emitter.emit('paste', {x: x, y: y, width: width, height: height, dataUrl: dataUrl});
     }
 
     startDragging() {
