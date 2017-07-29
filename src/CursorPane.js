@@ -64,7 +64,10 @@ export default class CursorPane extends React.Component {
             const moveX = ev.pageX - this.state.resizeStart.x;
             const moveY = ev.pageY - this.state.resizeStart.y;
 
-            if (lastImage.width < moveX || lastImage.height < moveY) {
+            // do nothing if cannot resize image
+            if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height - moveY < 0 )) {
+                return;
+            } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height - moveY < 0 )) {
                 return;
             }
 
