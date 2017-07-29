@@ -192,6 +192,16 @@ export default class Whiteboard extends React.Component {
             this.setState({
                 eventStore: this.state.eventStore,
             });
+        } else if (this.state.mode === Constants.MODE.SE_RESIZE_IMAGE) {
+            this.state.eventStore.seResizeImage(move);
+            this.setState({
+                eventStore: this.state.eventStore,
+            });
+        } else if (this.state.mode === Constants.MODE.SW_RESIZE_IMAGE) {
+            this.state.eventStore.swResizeImage(move);
+            this.setState({
+                eventStore: this.state.eventStore,
+            });
         }
     }
 

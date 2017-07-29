@@ -55,7 +55,7 @@ export default class CursorPane extends React.Component {
             const moveY = lastImage.y + unit < 0 ? ev.nativeEvent.offsetY - this.state.dragStart.y - (lastImage.y + unit) : ev.nativeEvent.offsetY - this.state.dragStart.y;
 
             this.context.events.dragImage(moveX, moveY);
-        } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE || this.props.mode === Constants.MODE.NE_RESIZE_IMAGE) {
+        } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE || this.props.mode === Constants.MODE.NE_RESIZE_IMAGE || this.props.mode === Constants.MODE.SE_RESIZE_IMAGE || this.props.mode === Constants.MODE.SW_RESIZE_IMAGE) {
             const lastImage = this.props.eventStore.lastImage();
             if (!lastImage) {
                 return;
@@ -68,6 +68,10 @@ export default class CursorPane extends React.Component {
             if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height - moveY < 0 )) {
                 return;
             } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height - moveY < 0 )) {
+                return;
+            } else if (this.props.mode === Constants.MODE.SE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height + moveY < 0 )) {
+                return;
+            } else if (this.props.mode === Constants.MODE.SW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height + moveY < 0 )) {
                 return;
             }
 
@@ -167,9 +171,29 @@ export default class CursorPane extends React.Component {
             zIndex: 2500,
             top: mathMinOrMax(0, this.props.height, top - unit),
             left: right,
-            width: right - left,
+            width: mathMinOrMax(0, this.props.width, right + unit) - right,
             height: top - mathMinOrMax(0, this.props.height, top - unit),
             cursor: 'ne-resize',
+        };
+
+        const seResizeHandleStyle = {
+            position: 'absolute',
+            zIndex: 2500,
+            top: bottom,
+            left: right,
+            width: mathMinOrMax(0, this.props.width, right + unit) - right,
+            height: mathMinOrMax(0, this.props.height, bottom + unit) - bottom,
+            cursor: 'se-resize',
+        };
+
+        const swResizeHandleStyle = {
+            position: 'absolute',
+            zIndex: 2500,
+            top: bottom,
+            left: mathMinOrMax(0, this.props.width, left - unit),
+            width: left - mathMinOrMax(0, this.props.width, left - unit),
+            height: mathMinOrMax(0, this.props.height, bottom + unit) - bottom,
+            cursor: 'sw-resize',
         };
 
         return ([
@@ -178,7 +202,11 @@ export default class CursorPane extends React.Component {
             <div key="nw-resize" role="presentation" style={nwResizeHandleStyle}
                  onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
             <div key="ne-resize" role="presentation" style={neResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>,
+            <div key="se-resize" role="presentation" style={seResizeHandleStyle}
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SE_RESIZE_IMAGE)}/>,
+            <div key="sw-resize" role="presentation" style={swResizeHandleStyle}
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SW_RESIZE_IMAGE)}/>
         ]);
     }
 }

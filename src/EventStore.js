@@ -129,6 +129,26 @@ export default class EventStore {
         }
     }
 
+    seResizeImage(move) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            // lastImage.x = lastImage.x + move.x;
+            // lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width + move.x;
+            lastImage.height = lastImage.height + move.y;
+        }
+    }
+
+    swResizeImage(move) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            lastImage.x = lastImage.x + move.x;
+            // lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width - move.x;
+            lastImage.height = lastImage.height + move.y;
+        }
+    }
+
     pushPoint(strokeWidth, strokeColor, point) {
         this.goodEvents.push({
             type: Constants.SVG_ELEMENT_TYPE.LINE,
