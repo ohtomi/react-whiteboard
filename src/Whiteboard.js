@@ -77,6 +77,15 @@ export default class Whiteboard extends React.Component {
         this.events.on('nwResize', move => {
             this.nwResizeImage(move);
         });
+        this.events.on('startNeResizing', () => {
+            this.startNeResizing();
+        });
+        this.events.on('stopNeResizing', () => {
+            this.stopNeResizing();
+        });
+        this.events.on('neResize', move => {
+            this.neResizeImage(move);
+        });
         this.events.on('push', point => {
             this.pushPoint(point);
         });
@@ -187,6 +196,29 @@ export default class Whiteboard extends React.Component {
         }
 
         this.state.eventStore.nwResizeImage(move);
+        this.setState({
+            eventStore: this.state.eventStore,
+        });
+    }
+
+    startNeResizing() {
+        this.setState({
+            mode: Constants.MODE.NE_RESIZE_IMAGE,
+        });
+    }
+
+    stopNeResizing() {
+        this.setState({
+            mode: Constants.MODE.HAND,
+        });
+    }
+
+    neResizeImage(move) {
+        if (this.state.mode !== Constants.MODE.NE_RESIZE_IMAGE) {
+            return;
+        }
+
+        this.state.eventStore.neResizeImage(move);
         this.setState({
             eventStore: this.state.eventStore,
         });

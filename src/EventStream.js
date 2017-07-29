@@ -63,6 +63,18 @@ export default class EventStream {
         this.emitter.emit('nwResize', {x: x, y: y});
     }
 
+    startNeResizing() {
+        this.emitter.emit('startNeResizing');
+    }
+
+    stopNeResizing() {
+        this.emitter.emit('stopNeResizing');
+    }
+
+    neResizeImage(x, y) {
+        this.emitter.emit('neResize', {x: x, y: y});
+    }
+
     pushPoint(x, y) {
         this.emitter.emit('push', {x: x, y: y});
     }

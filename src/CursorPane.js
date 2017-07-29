@@ -11,7 +11,7 @@ export default class CursorPane extends React.Component {
 
         this.state = {
             dragStart: null,
-            nwResizeStart: null,
+            resizeStart: null,
         };
     }
 
@@ -61,15 +61,30 @@ export default class CursorPane extends React.Component {
                 return;
             }
 
-            const moveX = ev.pageX - this.state.nwResizeStart.x;
-            const moveY = ev.pageY - this.state.nwResizeStart.y;
+            const moveX = ev.pageX - this.state.resizeStart.x;
+            const moveY = ev.pageY - this.state.resizeStart.y;
 
             if (lastImage.width < moveX || lastImage.height < moveY) {
                 return;
             }
 
-            this.setState({nwResizeStart: {x: ev.pageX, y: ev.pageY}});
+            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
             this.context.events.nwResizeImage(moveX, moveY);
+        } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE) {
+            const lastImage = this.props.eventStore.lastImage();
+            if (!lastImage) {
+                return;
+            }
+
+            const moveX = ev.pageX - this.state.resizeStart.x;
+            const moveY = ev.pageY - this.state.resizeStart.y;
+
+            if (lastImage.width < moveX || lastImage.height < moveY) {
+                return;
+            }
+
+            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
+            this.context.events.neResizeImage(moveX, moveY);
         }
     }
 
@@ -87,11 +102,23 @@ export default class CursorPane extends React.Component {
 
     onClickNwResizeHandle(ev) {
         if (this.props.mode === Constants.MODE.HAND) {
-            this.setState({nwResizeStart: {x: ev.pageX, y: ev.pageY}});
+            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
             this.context.events.startNwResizing();
         } else {
-            this.setState({nwResizeStart: null});
+            this.setState({resizeStart: null});
             this.context.events.stopNwResizing();
+        }
+        ev.preventDefault();
+        ev.stopPropagation();
+    }
+
+    onClickNeResizeHandle(ev) {
+        if (this.props.mode === Constants.MODE.HAND) {
+            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
+            this.context.events.startNeResizing();
+        } else {
+            this.setState({resizeStart: null});
+            this.context.events.stopNeResizing();
         }
         ev.preventDefault();
         ev.stopPropagation();
@@ -152,17 +179,28 @@ export default class CursorPane extends React.Component {
         const nwResizeHandleStyle = {
             position: 'absolute',
             zIndex: 2500,
-            top: mathMinOrMax(0, this.props.height, dragHandleStyle.top - unit),
-            left: mathMinOrMax(0, this.props.width, dragHandleStyle.left - unit),
-            width: dragHandleStyle.left - mathMinOrMax(0, this.props.width, dragHandleStyle.left - unit),
-            height: dragHandleStyle.top - mathMinOrMax(0, this.props.height, dragHandleStyle.top - unit),
+            top: mathMinOrMax(0, this.props.height, top - unit),
+            left: mathMinOrMax(0, this.props.width, left - unit),
+            width: left - mathMinOrMax(0, this.props.width, left - unit),
+            height: top - mathMinOrMax(0, this.props.height, top - unit),
             cursor: 'nw-resize',
+        };
+
+        const neResizeHandleStyle = {
+            position: 'absolute',
+            zIndex: 2500,
+            top: mathMinOrMax(0, this.props.height, top - unit),
+            left: right,
+            width: right - left,
+            height: top - mathMinOrMax(0, this.props.height, top - unit),
+            cursor: 'ne-resize',
         };
 
         return ([
             <div key="drag" role="presentation" style={dragHandleStyle}
                  ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
-            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}/>
+            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}/>,
+            <div key="ne-resize" role="presentation" style={neResizeHandleStyle} onClick={this.onClickNeResizeHandle.bind(this)}/>
         ]);
     }
 }
