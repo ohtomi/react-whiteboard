@@ -55,7 +55,7 @@ export default class CursorPane extends React.Component {
             const moveY = lastImage.y + unit < 0 ? ev.nativeEvent.offsetY - this.state.dragStart.y - (lastImage.y + unit) : ev.nativeEvent.offsetY - this.state.dragStart.y;
 
             this.context.events.dragImage(moveX, moveY);
-        } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE) {
+        } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE || this.props.mode === Constants.MODE.NE_RESIZE_IMAGE) {
             const lastImage = this.props.eventStore.lastImage();
             if (!lastImage) {
                 return;
@@ -69,22 +69,7 @@ export default class CursorPane extends React.Component {
             }
 
             this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
-            this.context.events.nwResizeImage(moveX, moveY);
-        } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE) {
-            const lastImage = this.props.eventStore.lastImage();
-            if (!lastImage) {
-                return;
-            }
-
-            const moveX = ev.pageX - this.state.resizeStart.x;
-            const moveY = ev.pageY - this.state.resizeStart.y;
-
-            if (lastImage.width < moveX || lastImage.height < moveY) {
-                return;
-            }
-
-            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
-            this.context.events.neResizeImage(moveX, moveY);
+            this.context.events.resizeImage(moveX, moveY);
         }
     }
 
@@ -100,25 +85,13 @@ export default class CursorPane extends React.Component {
         ev.stopPropagation();
     }
 
-    onClickNwResizeHandle(ev) {
+    onClickResizeHandle(resizeType, ev) {
         if (this.props.mode === Constants.MODE.HAND) {
             this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
-            this.context.events.startNwResizing();
+            this.context.events.startResizing(resizeType);
         } else {
             this.setState({resizeStart: null});
-            this.context.events.stopNwResizing();
-        }
-        ev.preventDefault();
-        ev.stopPropagation();
-    }
-
-    onClickNeResizeHandle(ev) {
-        if (this.props.mode === Constants.MODE.HAND) {
-            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
-            this.context.events.startNeResizing();
-        } else {
-            this.setState({resizeStart: null});
-            this.context.events.stopNeResizing();
+            this.context.events.stopResizing();
         }
         ev.preventDefault();
         ev.stopPropagation();
@@ -199,8 +172,10 @@ export default class CursorPane extends React.Component {
         return ([
             <div key="drag" role="presentation" style={dragHandleStyle}
                  ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
-            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle} onClick={this.onClickNwResizeHandle.bind(this)}/>,
-            <div key="ne-resize" role="presentation" style={neResizeHandleStyle} onClick={this.onClickNeResizeHandle.bind(this)}/>
+            <div key="nw-resize" role="presentation" style={nwResizeHandleStyle}
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
+            <div key="ne-resize" role="presentation" style={neResizeHandleStyle}
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>
         ]);
     }
 }
