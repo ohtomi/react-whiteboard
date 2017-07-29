@@ -1,11 +1,7 @@
 export default class SvgConverter {
 
-    constructor(sourceNode) {
-        this.sourceNode = sourceNode;
-    }
-
-    toSvgData() {
-        let htmlText = this.sourceNode.outerHTML;
+    static toSvgData(sourceNode) {
+        let htmlText = sourceNode.outerHTML;
         let base64EncodedText = window.btoa(
             window.encodeURIComponent(htmlText)
                 .replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(window.parseInt('0x' + p1))));
@@ -15,18 +11,18 @@ export default class SvgConverter {
         });
     }
 
-    toPngData() {
-        return this.toDataUrl('image/png');
+    static toPngData(sourceNode) {
+        return SvgConverter.toDataUrl(sourceNode, 'image/png');
     }
 
-    toJpegData() {
-        return this.toDataUrl('image/jpeg');
+    static toJpegData(sourceNode) {
+        return SvgConverter.toDataUrl(sourceNode, 'image/jpeg');
     }
 
-    toDataUrl(imageType) {
+    static toDataUrl(sourceNode, imageType) {
         return new Promise(resolve => {
-            this.toSvgData().then(svgdata => {
-                let {width, height} = this.sourceNode.getBoundingClientRect();
+            SvgConverter.toSvgData(sourceNode).then(svgdata => {
+                let {width, height} = sourceNode.getBoundingClientRect();
 
                 let imageNode = new window.Image();
                 imageNode.onload = () => {

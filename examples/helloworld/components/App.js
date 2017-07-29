@@ -65,8 +65,7 @@ export default class App extends React.Component {
         let downloadAsPng = document.querySelector('#download-as-png');
         downloadAsPng.addEventListener('mouseover', () => {
             let svg = document.querySelector('svg');
-            let converter = new SvgConverter(svg);
-            converter.toPngData().then(data => {
+            SvgConverter.toPngData(svg).then(data => {
                 downloadAsPng.href = data;
                 downloadAsPng.download = 'react-whiteboard.png';
             });
@@ -75,8 +74,7 @@ export default class App extends React.Component {
         let downloadAsJpeg = document.querySelector('#download-as-jpeg');
         downloadAsJpeg.addEventListener('mouseover', () => {
             let svg = document.querySelector('svg');
-            let converter = new SvgConverter(svg);
-            converter.toJpegData().then(data => {
+            SvgConverter.toJpegData(svg).then(data => {
                 downloadAsJpeg.href = data;
                 downloadAsJpeg.download = 'react-whiteboard.jpeg';
             });
@@ -85,8 +83,7 @@ export default class App extends React.Component {
         let downloadAsSvg = document.querySelector('#download-as-svg');
         downloadAsSvg.addEventListener('mouseover', () => {
             let svg = document.querySelector('svg');
-            let converter = new SvgConverter(svg);
-            converter.toSvgData().then(data => {
+            SvgConverter.toSvgData(svg).then(data => {
                 downloadAsSvg.href = data;
                 downloadAsSvg.download = 'react-whiteboard.svg';
             });
