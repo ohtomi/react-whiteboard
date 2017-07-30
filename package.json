@@ -1,20 +1,26 @@
 {
-  "name": "react-whiteboard",
+  "name": "@ohtomi/react-whiteboard",
+  "version": "0.1.0",
   "description": "A whiteboard React component using SVG",
-  "version": "0.0.2",
   "author": "Kenichi Ohtomi",
   "license": "MIT",
-  "homepage": "https://github.com/ohtomi/react-whiteboard",
   "private": true,
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "run-s lint compile test",
+    "build": "run-s lint flow compile test",
     "clear": "rimraf dist coverage .nyc_output",
+    "flow": "flow",
     "lint": "eslint src/ test/",
     "compile": "cross-env NODE_ENV=production webpack --progress --profile",
     "test": "cross-env NODE_ENV=test ava --verbose",
-    "cover": "nyc --reporter=html --reporter=text yarn test",
+    "cover": "nyc --reporter=html --reporter=text npm run test",
     "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "watch": "chokidar test/**/*.js -c \"cross-env NODE_ENV=test ava --tap {path} | tap-notify\""
+    "watch": "run-p watch:*",
+    "watch:src": "chokidar src/**/*.js -c \"npm run compile\"",
+    "watch:test": "chokidar test/**/*.js -c \"cross-env NODE_ENV=test ava --tap {path} | tap-notify\""
   },
   "peerDependencies": {
     "react": "^15.5.4",
@@ -52,6 +58,7 @@
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "sinon": "^2.2.0",
+    "tap-notify": "^1.0.0",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
   },
@@ -62,15 +69,20 @@
     "source": [
       "src/**/*.{js,jsx}"
     ],
-    "require": [
-    ],
+    "require": [],
     "babel": "inherit"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ohtomi/react-whiteboard.git"
+    "url": "https://github.com/ohtomi/react-whiteboard.git"
   },
+  "keywords": [
+    "react",
+    "svg",
+    "whiteboard"
+  ],
   "bugs": {
     "url": "https://github.com/ohtomi/react-whiteboard/issues"
-  }
+  },
+  "homepage": "https://github.com/ohtomi/react-whiteboard"
 }
