@@ -1,5 +1,7 @@
 # react-whiteboard
 
+[![Build Status](https://travis-ci.org/ohtomi/react-whiteboard.svg?branch=master)](https://travis-ci.org/ohtomi/react-whiteboard)
+
 ## Description
 
 A whiteboard `React` component using `SVG`.
@@ -9,12 +11,11 @@ A whiteboard `React` component using `SVG`.
 ```javascript
 render() {
     return (
-        <div style={{margin: 30}}>
-            <Whiteboard
-                width={800} height={600}
-                style={{backgroundColor: 'lightyellow'}}
-            />
-        </div>
+        <Whiteboard
+            events={new EventStream()} eventStore={new EventStore()}
+            width={800} height={600}
+            style={{backgroundColor: 'lightyellow'}}
+        />
     );
 }
 ```
