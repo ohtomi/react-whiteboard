@@ -242,8 +242,8 @@ export default class Whiteboard extends React.Component {
 
         return (
             <div style={wrapperStyle}>
-                <CursorPane {...this.props} {...this.state}></CursorPane>
-                <CanvasPane {...this.props} {...this.state}></CanvasPane>
+                <CursorPane {...this.props} {...this.state}/>
+                <CanvasPane {...this.props} {...this.state}/>
             </div>
         );
     }
@@ -261,4 +261,14 @@ Whiteboard.propTypes = {
 
 Whiteboard.childContextTypes = {
     events: PropTypes.object,
+};
+
+Whiteboard.defaultProps = {
+    events: new EventStore(),
+    eventStore: new EventStore(),
+    width: 400,
+    height: 400,
+    style: {
+        backgroundColor: 'none'
+    }
 };
