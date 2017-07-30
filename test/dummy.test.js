@@ -10,5 +10,5 @@ test('svg exist', t => {
     const width = 800;
     const height = 600;
     const wrapper = shallow(<Whiteboard events={events} eventStore={eventStore} width={width} height={height}/>);
-    t.truthy(wrapper.find('svg'));
+    t.falsy(wrapper.find('svg'));
 });
