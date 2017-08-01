@@ -20,12 +20,18 @@ export default class Whiteboard extends React.Component {
             strokeWidth: 5,
             strokeColor: 'black',
         };
+
+        this.canvas = null;
     }
 
     getChildContext() {
         return {
             events: this.events,
         };
+    }
+
+    getSvgElement() {
+        return this.canvas.getSvgElement();
     }
 
     componentDidMount() {
@@ -243,7 +249,7 @@ export default class Whiteboard extends React.Component {
         return (
             <div style={wrapperStyle}>
                 <CursorPane {...this.props} {...this.state}/>
-                <CanvasPane {...this.props} {...this.state}/>
+                <CanvasPane ref={canvas => this.canvas = canvas} {...this.props} {...this.state}/>
             </div>
         );
     }
