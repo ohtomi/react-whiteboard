@@ -18,6 +18,7 @@
     "test": "cross-env NODE_ENV=test ava --verbose",
     "cover": "nyc --reporter=html --reporter=text npm run test",
     "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "storybook": "start-storybook -p 9080",
     "watch": "run-p watch:*",
     "watch:src": "chokidar src/**/*.js -c \"npm run compile\"",
     "watch:test": "chokidar test/**/*.js -c \"cross-env NODE_ENV=test ava --tap {path} | tap-notify\""
@@ -29,6 +30,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
     "ava": "^0.19.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
