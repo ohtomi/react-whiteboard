@@ -1,5 +1,6 @@
 import React from 'react';
-import {storiesOf, action} from '@kadira/storybook';
+import {storiesOf} from '@storybook/react';
+import {action} from '@storybook/addon-actions';
 
 import {Whiteboard, EventStream, EventStore, SvgConverter, Constants} from '../src/index';
 

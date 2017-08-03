@@ -30,7 +30,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@kadira/storybook": "^2.35.3",
+    "@storybook/react": "^3.2.3",
     "ava": "^0.19.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
