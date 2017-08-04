@@ -1,3 +1,5 @@
+// @flow
+
 export const MODE = {
     HAND: {},
     DRAW_LINE: {},

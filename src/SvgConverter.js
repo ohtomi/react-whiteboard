@@ -1,6 +1,10 @@
+// @flow
+
+import type {ImageType} from "./EventStore";
+
 export default class SvgConverter {
 
-    static toSvgData(sourceNode) {
+    static toSvgData(sourceNode: HTMLElement): Promise<string> {
         let htmlText = sourceNode.outerHTML;
         let base64EncodedText = window.btoa(
             window.encodeURIComponent(htmlText)
@@ -11,15 +15,15 @@ export default class SvgConverter {
         });
     }
 
-    static toPngData(sourceNode) {
+    static toPngData(sourceNode: HTMLElement): Promise<string> {
         return SvgConverter.toDataUrl(sourceNode, 'image/png');
     }
 
-    static toJpegData(sourceNode) {
+    static toJpegData(sourceNode: HTMLElement): Promise<string> {
         return SvgConverter.toDataUrl(sourceNode, 'image/jpeg');
     }
 
-    static toDataUrl(sourceNode, imageType) {
+    static toDataUrl(sourceNode: HTMLElement, imageType: string): Promise<string> {
         return new Promise(resolve => {
             SvgConverter.toSvgData(sourceNode).then(svgdata => {
                 let {width, height} = sourceNode.getBoundingClientRect();
@@ -31,7 +35,11 @@ export default class SvgConverter {
                     canvasNode.height = height;
 
                     let graphicsContext = canvasNode.getContext('2d');
-                    graphicsContext.drawImage(imageNode, 0, 0);
+                    if (graphicsContext) {
+                        graphicsContext.drawImage(imageNode, 0, 0);
+                    } else {
+                        throw new Error('got no rendering context');
+                    }
 
                     resolve(canvasNode.toDataURL(imageType));
                 };
@@ -40,19 +48,19 @@ export default class SvgConverter {
         });
     }
 
-    static fromPngImage(imageUrl) {
+    static fromPngImage(imageUrl: string): Promise<ImageType> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/png');
     }
 
-    static fromJpegImage(imageUrl) {
+    static fromJpegImage(imageUrl: string): Promise<ImageType> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/jpeg');
     }
 
-    static fromGifImage(imageUrl) {
+    static fromGifImage(imageUrl: string): Promise<ImageType> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/gif');
     }
 
-    static fromImageUrl(imageUrl, imageType) {
+    static fromImageUrl(imageUrl: string, imageType: string): Promise<ImageType> {
         return new Promise(resolve => {
             let imageNode = new window.Image();
             imageNode.onload = () => {
@@ -61,7 +69,11 @@ export default class SvgConverter {
                 canvasNode.height = imageNode.height;
 
                 let graphicsContext = canvasNode.getContext('2d');
-                graphicsContext.drawImage(imageNode, 0, 0);
+                if (graphicsContext) {
+                    graphicsContext.drawImage(imageNode, 0, 0);
+                } else {
+                    throw new Error('got no rendering context');
+                }
 
                 resolve({width: imageNode.width, height: imageNode.height, dataUrl: canvasNode.toDataURL(imageType)});
             };

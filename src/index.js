@@ -1,3 +1,5 @@
+// @flow
+
 import Whiteboard from './Whiteboard';
 import EventStream from './EventStream';
 import EventStore from './EventStore';
