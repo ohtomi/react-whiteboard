@@ -1,18 +1,37 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'react-proptypes';
 
 import * as Constants from './Constants';
+import EventStore from "./EventStore";
+import type {ImageType, PointType} from "./EventStore";
 
+
+type propType = {
+    width: number,
+    height: number,
+    eventStore: EventStore,
+    style: {
+        backgroundColor: string,
+    }
+};
+
+type stateType = {};
 
 export default class CanvasPane extends React.Component {
 
-    constructor(props) {
+    props: propType;
+    state: stateType;
+
+    svgElement: ?HTMLElement;
+
+    constructor(props: propType) {
         super(props);
 
         this.svgElement = null;
     }
 
-    getSvgElement() {
+    getSvgElement(): ?HTMLElement {
         return this.svgElement;
     }
 
@@ -36,11 +55,11 @@ export default class CanvasPane extends React.Component {
         );
     }
 
-    drawWhiteboardCanvas() {
-        return this.props.eventStore.reduceEvents().map((element, index) => {
+    drawWhiteboardCanvas(): Array<?React$Element<any>> {
+        return this.props.eventStore.reduceEvents().map((element: any /* TODO */, index: number): ?React$Element<any> => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
-                const k = index;
-                const d = element.values.map((point, index) => {
+                const key = index;
+                const d = element.values.map((point: PointType, index: number) => {
                     if (index === 0) {
                         return 'M ' + point.x + ' ' + point.y;
                     } else {
@@ -49,15 +68,15 @@ export default class CanvasPane extends React.Component {
                 });
 
                 return (
-                    <path key={k} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}/>
+                    <path key={key} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}/>
                 );
 
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
-                const k = index;
-                const image = element.values[0];
+                const key = index;
+                const image: ImageType = element.values[0];
 
                 return (
-                    <image key={k} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>
+                    <image key={key} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>
                 );
 
             } else {
@@ -66,10 +85,10 @@ export default class CanvasPane extends React.Component {
         });
     }
 
-    drawImageBorder() {
+    drawImageBorder(): ?React$Element<any> {
         const lastImage = this.props.eventStore.lastImage();
         if (!lastImage) {
-            return;
+            return null;
         }
 
         return (
@@ -78,12 +97,3 @@ export default class CanvasPane extends React.Component {
         );
     }
 }
-
-CanvasPane.propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
-    eventStore: PropTypes.object,
-    style: PropTypes.shape({
-        backgroundColor: PropTypes.string,
-    }),
-};
