@@ -4,7 +4,12 @@ import * as Constants from './Constants';
 import EventEmitter from 'events';
 
 
-type listenerType = (string, any) => void;
+type listenerType = (any) => void;
+
+export type SetEventType = {
+    key: string,
+    value: any
+};
 
 export default class EventStream {
 

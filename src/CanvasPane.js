@@ -7,12 +7,12 @@ import EventStore from "./EventStore";
 import type {ImageType, PointType} from "./EventStore";
 
 
-type propType = {
+type propsType = {
+    eventStore: EventStore,
     width: number,
     height: number,
-    eventStore: EventStore,
     style: {
-        backgroundColor: string,
+        backgroundColor: string
     }
 };
 
@@ -20,12 +20,12 @@ type stateType = {};
 
 export default class CanvasPane extends React.Component {
 
-    props: propType;
+    props: propsType;
     state: stateType;
 
     svgElement: ?HTMLElement;
 
-    constructor(props: propType) {
+    constructor(props: propsType) {
         super(props);
 
         this.svgElement = null;

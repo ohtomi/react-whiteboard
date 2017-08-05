@@ -44,8 +44,8 @@ export default class EventStore {
         }
     }
 
-    reduceEvents() {
-        return this.goodEvents.reduce((prev, element) => {
+    reduceEvents(): Array<any> /* TODO */ {
+        return this.goodEvents.reduce((prev: Array<any> /* TODO */, element: any /* TODO */): Array<any> /* TODO */ => {
             if (!element.type) {
                 prev.forEach(p => {
                     p.push({});
@@ -78,13 +78,13 @@ export default class EventStore {
                 return prev;
             }
 
-        }, this.renderableLayers.map(() => [])).filter((element, index) => {
+        }, this.renderableLayers.map(() => [])).filter((element: any /* TODO */, index: number): boolean => {
             return this.renderableLayers[index];
 
-        }).reduce((prev, element) => {
+        }).reduce((prev: Array<any> /* TODO */, element: any /* TODO */): Array<any> /* TODO */ => {
             return prev.concat(element);
 
-        }, []).filter((element) => {
+        }, []).filter((element: any /* TODO */): boolean => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                 return element.values.length > 1;
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {

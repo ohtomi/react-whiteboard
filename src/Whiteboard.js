@@ -1,22 +1,59 @@
+// @flow
+
 import React from 'react';
-import PropTypes from 'react-proptypes';
 
 import * as Constants from './Constants';
 import EventStream from './EventStream';
 import EventStore from './EventStore';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
+import type {ImageType, MoveType, PointType} from "./EventStore";
+import type {SetEventType} from "./EventStream";
 
+
+type defaultPropsType = {
+    events: EventStream,
+    eventStore: EventStore,
+    width: number,
+    height: number,
+    style: {
+        backgroundColor: string
+    }
+};
+
+type propsType = {
+    events: EventStream,
+    eventStore: EventStore,
+    width: number,
+    height: number,
+    style: {
+        backgroundColor: string
+    }
+};
+
+type stateType = {
+    eventStore: EventStore,
+    mode: any /* TODO typeof Constants.MODE */,
+    layer: number,
+    strokeWidth: number,
+    strokeColor: string
+};
 
 export default class Whiteboard extends React.Component {
 
-    constructor(props) {
+    static defaultProps: defaultPropsType;
+    props: propsType;
+    state: stateType;
+
+    canvas: ?CanvasPane;
+
+    constructor(props: propsType) {
         super(props);
 
-        this.events = props.events || new EventStream();
         this.state = {
-            eventStore: props.eventStore || new EventStore(),
+            eventStore: props.eventStore,
             mode: Constants.MODE.HAND,
+            layer: 0,
             strokeWidth: 5,
             strokeColor: 'black',
         };
@@ -24,14 +61,10 @@ export default class Whiteboard extends React.Component {
         this.canvas = null;
     }
 
-    getChildContext() {
-        return {
-            events: this.events,
-        };
-    }
-
-    getSvgElement() {
-        return this.canvas.getSvgElement();
+    getSvgElement(): ?HTMLElement {
+        if (this.canvas) {
+            return this.canvas.getSvgElement();
+        }
     }
 
     componentDidMount() {
@@ -39,14 +72,14 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
-        this.events.on('start', point => {
+        this.props.events.on('start', (point: PointType) => {
             this.startDrawing(point);
         });
-        this.events.on('stop', () => {
+        this.props.events.on('stop', () => {
             this.stopDrawing();
         });
 
-        this.events.on('set', event => {
+        this.props.events.on('set', (event: SetEventType) => {
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
@@ -55,50 +88,50 @@ export default class Whiteboard extends React.Component {
             }
         });
 
-        this.events.on('selectLayer', layer => {
+        this.props.events.on('selectLayer', (layer: number) => {
             this.selectLayer(layer);
         });
-        this.events.on('addLayer', () => {
+        this.props.events.on('addLayer', () => {
             this.addLayer();
         });
 
-        this.events.on('paste', image => {
+        this.props.events.on('paste', (image: ImageType) => {
             this.pasteImage(image);
         });
-        this.events.on('startDragging', () => {
+        this.props.events.on('startDragging', () => {
             this.startDragging();
         });
-        this.events.on('stopDragging', () => {
+        this.props.events.on('stopDragging', () => {
             this.stopDragging();
         });
-        this.events.on('drag', move => {
+        this.props.events.on('drag', (move: MoveType) => {
             this.dragImage(move);
         });
-        this.events.on('startResizing', (resizeType) => {
+        this.props.events.on('startResizing', (resizeType) => {
             this.startResizing(resizeType);
         });
-        this.events.on('stopResizing', () => {
+        this.props.events.on('stopResizing', () => {
             this.stopResizing();
         });
-        this.events.on('resize', move => {
+        this.props.events.on('resize', (move: MoveType) => {
             this.resizeImage(move);
         });
-        this.events.on('push', point => {
+        this.props.events.on('push', (point: PointType) => {
             this.pushPoint(point);
         });
 
-        this.events.on('undo', () => {
+        this.props.events.on('undo', () => {
             this.undo();
         });
-        this.events.on('redo', () => {
+        this.props.events.on('redo', () => {
             this.redo();
         });
-        this.events.on('clear', () => {
+        this.props.events.on('clear', () => {
             this.clear();
         });
     }
 
-    startDrawing(point) {
+    startDrawing(point: PointType) {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             mode: Constants.MODE.DRAW_LINE,
@@ -114,7 +147,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    changeStrokeWidth(width) {
+    changeStrokeWidth(width: number) {
         this.state.eventStore.stopDrawing();
         this.setState({
             strokeWidth: width,
@@ -122,7 +155,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    changeStrokeColor(color) {
+    changeStrokeColor(color: string) {
         this.state.eventStore.stopDrawing();
         this.setState({
             strokeColor: color,
@@ -130,7 +163,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    selectLayer(layer) {
+    selectLayer(layer: number) {
         this.state.eventStore.selectLayer(layer);
         this.setState({
             layer: layer,
@@ -145,7 +178,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    pasteImage(image) {
+    pasteImage(image: ImageType) {
         this.state.eventStore.pasteImage(image);
         this.setState({
             eventStore: this.state.eventStore,
@@ -164,7 +197,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    dragImage(move) {
+    dragImage(move: MoveType) {
         if (this.state.mode !== Constants.MODE.DRAG_IMAGE) {
             return;
         }
@@ -175,7 +208,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    startResizing(resizeType) {
+    startResizing(resizeType: any /* TODO Constants.MODE */) {
         this.setState({
             mode: resizeType,
         });
@@ -187,7 +220,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    resizeImage(move) {
+    resizeImage(move: MoveType) {
         if (this.state.mode === Constants.MODE.NW_RESIZE_IMAGE) {
             this.state.eventStore.nwResizeImage(move);
             this.setState({
@@ -211,7 +244,7 @@ export default class Whiteboard extends React.Component {
         }
     }
 
-    pushPoint(point) {
+    pushPoint(point: PointType) {
         this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             eventStore: this.state.eventStore,
@@ -246,31 +279,22 @@ export default class Whiteboard extends React.Component {
             height: this.props.height,
         };
 
+        // TODO use object type spread?
         return (
             <div style={wrapperStyle}>
-                <CursorPane {...this.props} {...this.state}/>
-                <CanvasPane ref={canvas => this.canvas = canvas} {...this.props} {...this.state}/>
+                <CursorPane events={this.props.events} eventStore={this.state.eventStore}
+                            width={this.props.width} height={this.props.height}
+                            mode={this.state.mode} strokeColor={this.state.strokeColor} strokeWidth={this.state.strokeWidth}/>
+                <CanvasPane ref={canvas => this.canvas = canvas}
+                            eventStore={this.state.eventStore}
+                            width={this.props.width} height={this.props.height} style={this.props.style}/>
             </div>
         );
     }
 }
 
-Whiteboard.propTypes = {
-    events: PropTypes.object,
-    eventStore: PropTypes.object,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    style: PropTypes.shape({
-        backgroundColor: PropTypes.string,
-    }),
-};
-
-Whiteboard.childContextTypes = {
-    events: PropTypes.object,
-};
-
 Whiteboard.defaultProps = {
-    events: new EventStore(),
+    events: new EventStream(),
     eventStore: new EventStore(),
     width: 400,
     height: 400,
