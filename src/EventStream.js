@@ -1,12 +1,12 @@
 // @flow
 
-import * as Constants from './Constants';
 import EventEmitter from 'events';
+import type {ResizeType} from "./Constants";
 
 
 type listenerType = (any) => void;
 
-export type SetEventType = {
+export type KeyValuePairType = {
     key: string,
     value: any
 };
@@ -63,7 +63,7 @@ export default class EventStream {
         this.emitter.emit('drag', {x: x, y: y});
     }
 
-    startResizing(resizeType: typeof Constants.MODE) {
+    startResizing(resizeType: ResizeType) {
         this.emitter.emit('startResizing', resizeType);
     }
 

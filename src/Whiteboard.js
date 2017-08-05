@@ -7,8 +7,9 @@ import EventStream from './EventStream';
 import EventStore from './EventStore';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
+import type {ModeType, ResizeType} from "./Constants";
+import type {KeyValuePairType} from "./EventStream";
 import type {ImageType, MoveType, PointType} from "./EventStore";
-import type {SetEventType} from "./EventStream";
 
 
 type defaultPropsType = {
@@ -33,7 +34,7 @@ type propsType = {
 
 type stateType = {
     eventStore: EventStore,
-    mode: any /* TODO typeof Constants.MODE */,
+    mode: ModeType,
     layer: number,
     strokeWidth: number,
     strokeColor: string
@@ -79,7 +80,7 @@ export default class Whiteboard extends React.Component {
             this.stopDrawing();
         });
 
-        this.props.events.on('set', (event: SetEventType) => {
+        this.props.events.on('set', (event: KeyValuePairType) => {
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
@@ -107,7 +108,7 @@ export default class Whiteboard extends React.Component {
         this.props.events.on('drag', (move: MoveType) => {
             this.dragImage(move);
         });
-        this.props.events.on('startResizing', (resizeType) => {
+        this.props.events.on('startResizing', (resizeType: ResizeType) => {
             this.startResizing(resizeType);
         });
         this.props.events.on('stopResizing', () => {
@@ -208,7 +209,7 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    startResizing(resizeType: any /* TODO Constants.MODE */) {
+    startResizing(resizeType: ResizeType) {
         this.setState({
             mode: resizeType,
         });

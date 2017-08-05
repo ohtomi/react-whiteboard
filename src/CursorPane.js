@@ -5,6 +5,7 @@ import React from 'react';
 import * as Constants from './Constants';
 import EventStream from './EventStream';
 import EventStore from "./EventStore";
+import type {ModeType, ResizeType} from "./Constants";
 import type {PointType} from "./EventStore";
 
 
@@ -13,7 +14,7 @@ type propsType = {
     eventStore: EventStore,
     width: number,
     height: number,
-    mode: typeof Constants.MODE,
+    mode: ModeType,
     strokeWidth: number,
     strokeColor: string
 };
@@ -127,7 +128,7 @@ export default class CursorPane extends React.Component {
         ev.stopPropagation();
     }
 
-    onClickResizeHandle(resizeType: any /* TODO typeof Constants.MODE */, ev: mouseEventType) {
+    onClickResizeHandle(resizeType: ResizeType, ev: mouseEventType) {
         if (this.props.mode === Constants.MODE.HAND) {
             this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
             this.props.events.startResizing(resizeType);
