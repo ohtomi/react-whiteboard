@@ -2,6 +2,7 @@
 
 import * as Constants from './Constants';
 
+
 export type PointType = {
     x: number,
     y: number
@@ -34,7 +35,7 @@ export default class EventStore {
         this.undoEvents = [];
     }
 
-    lastImage() {
+    lastImage(): ?ImageType {
         const last = this.goodEvents[this.goodEvents.length - 1];
         if (last && last.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
             return last.image;

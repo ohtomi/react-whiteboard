@@ -2,13 +2,14 @@
 
 import type {ImageType} from "./EventStore";
 
+
 export default class SvgConverter {
 
     static toSvgData(sourceNode: HTMLElement): Promise<string> {
         let htmlText = sourceNode.outerHTML;
         let base64EncodedText = window.btoa(
             window.encodeURIComponent(htmlText)
-                .replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(window.parseInt('0x' + p1))));
+                .replace(/%([0-9A-F]{2})/g, (match: string, p1: string): string => String.fromCharCode(window.parseInt('0x' + p1))));
 
         return new Promise(resolve => {
             resolve('data:image/svg+xml;charset=utf-8;base64,' + base64EncodedText);
@@ -25,7 +26,7 @@ export default class SvgConverter {
 
     static toDataUrl(sourceNode: HTMLElement, imageType: string): Promise<string> {
         return new Promise(resolve => {
-            SvgConverter.toSvgData(sourceNode).then(svgdata => {
+            SvgConverter.toSvgData(sourceNode).then((svgdata: string) => {
                 let {width, height} = sourceNode.getBoundingClientRect();
 
                 let imageNode = new window.Image();

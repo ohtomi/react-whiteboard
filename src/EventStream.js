@@ -3,6 +3,7 @@
 import * as Constants from './Constants';
 import EventEmitter from 'events';
 
+
 type listenerType = (string, any) => void;
 
 export default class EventStream {
