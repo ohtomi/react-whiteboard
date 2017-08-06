@@ -24,8 +24,7 @@
   },
   "peerDependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-proptypes": "^1.0.0"
+    "react-dom": "^15.5.4"
   },
   "dependencies": {},
   "devDependencies": {
@@ -55,7 +54,6 @@
     "nyc": "^10.3.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-proptypes": "^1.0.0",
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "sinon": "^2.2.0",
