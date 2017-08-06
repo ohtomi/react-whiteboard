@@ -21,12 +21,50 @@ export type MoveType = {
     y: number
 };
 
+export type PointEventType = {
+    type: typeof Constants.SVG_ELEMENT_TYPE.LINE,
+    layer: number,
+    strokeWidth: number,
+    strokeColor: string,
+    point: PointType
+};
+
+export type ImageEventType = {
+    type: typeof Constants.SVG_ELEMENT_TYPE.IMAGE,
+    layer: number,
+    image: ImageType
+};
+
+export type StopEventType = {
+    type?: null
+};
+
+export type AnyEventType = PointEventType | ImageEventType | StopEventType;
+
+export type ReducedLineEventType = {
+    type: typeof Constants.SVG_ELEMENT_TYPE.LINE,
+    strokeWidth: number,
+    strokeColor: string,
+    values: Array<PointType>
+};
+
+export type ReducedImageEventType = {
+    type: typeof Constants.SVG_ELEMENT_TYPE.IMAGE,
+    image: ImageType
+};
+
+export type ReducedStopEventType = {
+    type?: null
+};
+
+export type AnyReducedEventType = ReducedLineEventType | ReducedImageEventType | ReducedStopEventType;
+
 export default class EventStore {
 
     selectedLayer: number;
     renderableLayers: Array<boolean>;
-    goodEvents: Array<Object>;
-    undoEvents: Array<Object>;
+    goodEvents: Array<AnyEventType>;
+    undoEvents: Array<AnyEventType>;
 
     constructor() {
         this.selectedLayer = 0;
@@ -44,51 +82,55 @@ export default class EventStore {
         }
     }
 
-    reduceEvents(): Array<any> /* TODO */ {
-        return this.goodEvents.reduce((prev: Array<any> /* TODO */, element: any /* TODO */): Array<any> /* TODO */ => {
-            if (!element.type) {
-                prev.forEach(p => {
-                    p.push({});
-                });
-                return prev;
-            }
-
-            if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
-                let last = prev[element.layer][prev[element.layer].length - 1];
-                if (last && last.type === element.type && last.strokeWidth === element.strokeWidth && last.strokeColor === element.strokeColor) {
-                    last.values.push(element.point);
-                } else {
-                    prev[element.layer].push({
-                        type: element.type,
-                        strokeWidth: element.strokeWidth,
-                        strokeColor: element.strokeColor,
-                        values: [element.point],
+    reduceEvents(): Array<AnyReducedEventType> {
+        return this.goodEvents.reduce((prev: Array<Array<AnyReducedEventType>>, element: AnyEventType): Array<Array<AnyReducedEventType>> => {
+                if (!element.type) {
+                    prev.forEach(p => {
+                        p.push({});
                     });
+                    return prev;
                 }
-                return prev;
 
-            } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
-                prev[element.layer].push({
-                    type: element.type,
-                    values: [element.image],
-                });
-                return prev;
+                if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
+                    let last = prev[element.layer][prev[element.layer].length - 1];
+                    if (last && last.type === Constants.SVG_ELEMENT_TYPE.LINE && last.strokeWidth === element.strokeWidth && last.strokeColor === element.strokeColor) {
+                        last.values.push(element.point);
+                    } else {
+                        const event: ReducedLineEventType = {
+                            type: element.type,
+                            strokeWidth: element.strokeWidth,
+                            strokeColor: element.strokeColor,
+                            values: [element.point]
+                        };
+                        prev[element.layer].push(event);
+                    }
+                    return prev;
 
-            } else {
-                return prev;
-            }
+                } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+                    const event: ReducedImageEventType = {
+                        type: element.type,
+                        image: element.image
+                    };
+                    prev[element.layer].push(event);
+                    return prev;
 
-        }, this.renderableLayers.map(() => [])).filter((element: any /* TODO */, index: number): boolean => {
+                } else {
+                    return prev;
+                }
+
+            }, this.renderableLayers.map(() => [])
+        ).filter((element: Array<AnyReducedEventType>, index: number): boolean => {
             return this.renderableLayers[index];
 
-        }).reduce((prev: Array<any> /* TODO */, element: any /* TODO */): Array<any> /* TODO */ => {
-            return prev.concat(element);
+        }).reduce((prev: Array<AnyReducedEventType>, element: Array<AnyReducedEventType>): Array<AnyReducedEventType> => {
+                return prev.concat(element);
 
-        }, []).filter((element: any /* TODO */): boolean => {
+            }, []
+        ).filter((element: AnyReducedEventType): boolean => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                 return element.values.length > 1;
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
-                return element.values.length === 1;
+                return true;
             } else {
                 return true;
             }
@@ -119,11 +161,12 @@ export default class EventStore {
     }
 
     pasteImage(image: ImageType) {
-        this.goodEvents.push({
+        const event: ImageEventType = {
             type: Constants.SVG_ELEMENT_TYPE.IMAGE,
             layer: this.selectedLayer,
             image: image
-        });
+        };
+        this.goodEvents.push(event);
         this.undoEvents = [];
     }
 
@@ -176,13 +219,14 @@ export default class EventStore {
     }
 
     pushPoint(strokeWidth: number, strokeColor: string, point: PointType) {
-        this.goodEvents.push({
+        const event: PointEventType = {
             type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
-            point: point,
-        });
+            point: point
+        };
+        this.goodEvents.push(event);
         this.undoEvents = [];
     }
 

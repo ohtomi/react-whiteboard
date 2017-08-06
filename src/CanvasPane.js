@@ -4,7 +4,7 @@ import React from 'react';
 
 import * as Constants from './Constants';
 import EventStore from "./EventStore";
-import type {ImageType, PointType} from "./EventStore";
+import type {AnyReducedEventType, ImageType, PointType} from "./EventStore";
 
 
 type propsType = {
@@ -56,7 +56,7 @@ export default class CanvasPane extends React.Component {
     }
 
     drawWhiteboardCanvas(): Array<?React$Element<any>> {
-        return this.props.eventStore.reduceEvents().map((element: any /* TODO */, index: number): ?React$Element<any> => {
+        return this.props.eventStore.reduceEvents().map((element: AnyReducedEventType, index: number): ?React$Element<any> => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                 const key = index;
                 const d = element.values.map((point: PointType, index: number) => {
@@ -73,7 +73,7 @@ export default class CanvasPane extends React.Component {
 
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
                 const key = index;
-                const image: ImageType = element.values[0];
+                const image: ImageType = element.image;
 
                 return (
                     <image key={key} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>
