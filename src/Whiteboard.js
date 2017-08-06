@@ -56,7 +56,7 @@ export default class Whiteboard extends React.Component {
             mode: Constants.MODE.HAND,
             layer: 0,
             strokeWidth: 5,
-            strokeColor: 'black',
+            strokeColor: 'black'
         };
 
         this.canvas = null;
@@ -136,7 +136,7 @@ export default class Whiteboard extends React.Component {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             mode: Constants.MODE.DRAW_LINE,
-            eventStore: this.state.eventStore,
+            eventStore: this.state.eventStore
         });
     }
 
@@ -144,7 +144,7 @@ export default class Whiteboard extends React.Component {
         this.state.eventStore.stopDrawing();
         this.setState({
             mode: Constants.MODE.HAND,
-            eventStore: this.state.eventStore,
+            eventStore: this.state.eventStore
         });
     }
 
@@ -152,7 +152,7 @@ export default class Whiteboard extends React.Component {
         this.state.eventStore.stopDrawing();
         this.setState({
             strokeWidth: width,
-            eventStore: this.state.eventStore,
+            eventStore: this.state.eventStore
         });
     }
 
@@ -160,7 +160,7 @@ export default class Whiteboard extends React.Component {
         this.state.eventStore.stopDrawing();
         this.setState({
             strokeColor: color,
-            eventStore: this.state.eventStore,
+            eventStore: this.state.eventStore
         });
     }
 
@@ -168,34 +168,26 @@ export default class Whiteboard extends React.Component {
         this.state.eventStore.selectLayer(layer);
         this.setState({
             layer: layer,
-            eventStore: this.state.eventStore,
+            eventStore: this.state.eventStore
         });
     }
 
     addLayer() {
         this.state.eventStore.addLayer();
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     pasteImage(image: ImageType) {
         this.state.eventStore.pasteImage(image);
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     startDragging() {
-        this.setState({
-            mode: Constants.MODE.DRAG_IMAGE,
-        });
+        this.setState({mode: Constants.MODE.DRAG_IMAGE});
     }
 
     stopDragging() {
-        this.setState({
-            mode: Constants.MODE.HAND,
-        });
+        this.setState({mode: Constants.MODE.HAND});
     }
 
     dragImage(move: MoveType) {
@@ -204,29 +196,21 @@ export default class Whiteboard extends React.Component {
         }
 
         this.state.eventStore.dragImage(move);
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     startResizing(resizeType: ResizeType) {
-        this.setState({
-            mode: resizeType,
-        });
+        this.setState({mode: resizeType});
     }
 
     stopResizing() {
-        this.setState({
-            mode: Constants.MODE.HAND,
-        });
+        this.setState({mode: Constants.MODE.HAND});
     }
 
     resizeImage(move: MoveType) {
         if (this.state.mode === Constants.MODE.NW_RESIZE_IMAGE) {
             this.state.eventStore.nwResizeImage(move);
-            this.setState({
-                eventStore: this.state.eventStore,
-            });
+            this.setState({eventStore: this.state.eventStore});
         } else if (this.state.mode === Constants.MODE.NE_RESIZE_IMAGE) {
             this.state.eventStore.neResizeImage(move);
             this.setState({
@@ -239,45 +223,35 @@ export default class Whiteboard extends React.Component {
             });
         } else if (this.state.mode === Constants.MODE.SW_RESIZE_IMAGE) {
             this.state.eventStore.swResizeImage(move);
-            this.setState({
-                eventStore: this.state.eventStore,
-            });
+            this.setState({eventStore: this.state.eventStore});
         }
     }
 
     pushPoint(point: PointType) {
         this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     undo() {
         this.state.eventStore.undo();
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     redo() {
         this.state.eventStore.redo();
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     clear() {
         this.state.eventStore.clear();
-        this.setState({
-            eventStore: this.state.eventStore,
-        });
+        this.setState({eventStore: this.state.eventStore});
     }
 
     render() {
         const wrapperStyle = {
             position: 'relative',
             width: this.props.width,
-            height: this.props.height,
+            height: this.props.height
         };
 
         // TODO use object type spread?

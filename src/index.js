@@ -12,5 +12,5 @@ module.exports = {
     EventStream,
     EventStore,
     SvgConverter,
-    Constants,
+    Constants
 };
