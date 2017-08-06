@@ -23,14 +23,6 @@ export default class EventStream {
         this.emitter.on(name, listener);
     }
 
-    startDrawing(x: number, y: number) {
-        this.emitter.emit('start', {x: x, y: y});
-    }
-
-    stopDrawing() {
-        this.emitter.emit('stop');
-    }
-
     selectLayer(layer: number) {
         this.emitter.emit('selectLayer', layer);
     }
@@ -39,12 +31,24 @@ export default class EventStream {
         this.emitter.emit('addLayer');
     }
 
+    startDrawing(x: number, y: number) {
+        this.emitter.emit('start', {x: x, y: y});
+    }
+
+    stopDrawing() {
+        this.emitter.emit('stop');
+    }
+
     changeStrokeWidth(width: number) {
         this.emitter.emit('set', {key: 'strokeWidth', value: width});
     }
 
     changeStrokeColor(color: string) {
         this.emitter.emit('set', {key: 'strokeColor', value: color});
+    }
+
+    pushPoint(x: number, y: number) {
+        this.emitter.emit('push', {x: x, y: y});
     }
 
     pasteImage(x: number, y: number, width: number, height: number, dataUrl: string) {
@@ -73,10 +77,6 @@ export default class EventStream {
 
     resizeImage(x: number, y: number) {
         this.emitter.emit('resize', {x: x, y: y});
-    }
-
-    pushPoint(x: number, y: number) {
-        this.emitter.emit('push', {x: x, y: y});
     }
 
     undo() {

@@ -73,6 +73,13 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
+        this.props.events.on('selectLayer', (layer: number) => {
+            this.selectLayer(layer);
+        });
+        this.props.events.on('addLayer', () => {
+            this.addLayer();
+        });
+
         this.props.events.on('start', (point: PointType) => {
             this.startDrawing(point);
         });
@@ -89,11 +96,8 @@ export default class Whiteboard extends React.Component {
             }
         });
 
-        this.props.events.on('selectLayer', (layer: number) => {
-            this.selectLayer(layer);
-        });
-        this.props.events.on('addLayer', () => {
-            this.addLayer();
+        this.props.events.on('push', (point: PointType) => {
+            this.pushPoint(point);
         });
 
         this.props.events.on('paste', (image: ImageType) => {
@@ -117,9 +121,6 @@ export default class Whiteboard extends React.Component {
         this.props.events.on('resize', (move: MoveType) => {
             this.resizeImage(move);
         });
-        this.props.events.on('push', (point: PointType) => {
-            this.pushPoint(point);
-        });
 
         this.props.events.on('undo', () => {
             this.undo();
@@ -130,6 +131,19 @@ export default class Whiteboard extends React.Component {
         this.props.events.on('clear', () => {
             this.clear();
         });
+    }
+
+    selectLayer(layer: number) {
+        this.state.eventStore.selectLayer(layer);
+        this.setState({
+            layer: layer,
+            eventStore: this.state.eventStore
+        });
+    }
+
+    addLayer() {
+        this.state.eventStore.addLayer();
+        this.setState({eventStore: this.state.eventStore});
     }
 
     startDrawing(point: PointType) {
@@ -164,16 +178,8 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    selectLayer(layer: number) {
-        this.state.eventStore.selectLayer(layer);
-        this.setState({
-            layer: layer,
-            eventStore: this.state.eventStore
-        });
-    }
-
-    addLayer() {
-        this.state.eventStore.addLayer();
+    pushPoint(point: PointType) {
+        this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({eventStore: this.state.eventStore});
     }
 
@@ -225,11 +231,6 @@ export default class Whiteboard extends React.Component {
             this.state.eventStore.swResizeImage(move);
             this.setState({eventStore: this.state.eventStore});
         }
-    }
-
-    pushPoint(point: PointType) {
-        this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
-        this.setState({eventStore: this.state.eventStore});
     }
 
     undo() {
