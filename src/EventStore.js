@@ -3,12 +3,12 @@
 import * as Constants from './Constants';
 
 
-export type PointType = {
+export type PointDataType = {
     x: number,
     y: number
 };
 
-export type ImageType = {
+export type ImageDataType = {
     x?: number,
     y?: number,
     width: number,
@@ -16,7 +16,7 @@ export type ImageType = {
     dataUrl: string
 };
 
-export type MoveType = {
+export type MoveDataType = {
     x: number,
     y: number
 };
@@ -26,13 +26,13 @@ export type PointEventType = {
     layer: number,
     strokeWidth: number,
     strokeColor: string,
-    point: PointType
+    point: PointDataType
 };
 
 export type ImageEventType = {
     type: typeof Constants.SVG_ELEMENT_TYPE.IMAGE,
     layer: number,
-    image: ImageType
+    image: ImageDataType
 };
 
 export type StopEventType = {
@@ -45,12 +45,12 @@ export type ReducedLineEventType = {
     type: typeof Constants.SVG_ELEMENT_TYPE.LINE,
     strokeWidth: number,
     strokeColor: string,
-    values: Array<PointType>
+    values: Array<PointDataType>
 };
 
 export type ReducedImageEventType = {
     type: typeof Constants.SVG_ELEMENT_TYPE.IMAGE,
-    image: ImageType
+    image: ImageDataType
 };
 
 export type ReducedStopEventType = {
@@ -73,7 +73,7 @@ export default class EventStore {
         this.undoEvents = [];
     }
 
-    lastImage(): ?ImageType {
+    lastImage(): ?ImageDataType {
         const last = this.goodEvents[this.goodEvents.length - 1];
         if (last && last.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
             return last.image;
@@ -137,20 +137,6 @@ export default class EventStore {
         });
     }
 
-    startDrawing(strokeWidth: number, strokeColor: string, point: PointType) {
-        this.goodEvents.push({
-            type: Constants.SVG_ELEMENT_TYPE.LINE,
-            layer: this.selectedLayer,
-            strokeWidth: strokeWidth,
-            strokeColor: strokeColor,
-            point: point,
-        });
-    }
-
-    stopDrawing() {
-        this.goodEvents.push({});
-    }
-
     selectLayer(layer: number) {
         this.goodEvents.push({});
         this.selectedLayer = layer;
@@ -160,65 +146,21 @@ export default class EventStore {
         this.renderableLayers.push(true);
     }
 
-    pasteImage(image: ImageType) {
-        const event: ImageEventType = {
-            type: Constants.SVG_ELEMENT_TYPE.IMAGE,
+    startDrawing(strokeWidth: number, strokeColor: string, point: PointDataType) {
+        this.goodEvents.push({
+            type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
-            image: image
-        };
-        this.goodEvents.push(event);
-        this.undoEvents = [];
+            strokeWidth: strokeWidth,
+            strokeColor: strokeColor,
+            point: point
+        });
     }
 
-    dragImage(move: MoveType) {
-        const lastImage = this.lastImage();
-        if (lastImage) {
-            lastImage.x = lastImage.x + move.x;
-            lastImage.y = lastImage.y + move.y;
-        }
+    stopDrawing() {
+        this.goodEvents.push({});
     }
 
-    nwResizeImage(move: MoveType) {
-        const lastImage = this.lastImage();
-        if (lastImage) {
-            lastImage.x = lastImage.x + move.x;
-            lastImage.y = lastImage.y + move.y;
-            lastImage.width = lastImage.width - move.x;
-            lastImage.height = lastImage.height - move.y;
-        }
-    }
-
-    neResizeImage(move: MoveType) {
-        const lastImage = this.lastImage();
-        if (lastImage) {
-            // lastImage.x = lastImage.x + move.x;
-            lastImage.y = lastImage.y + move.y;
-            lastImage.width = lastImage.width + move.x;
-            lastImage.height = lastImage.height - move.y;
-        }
-    }
-
-    seResizeImage(move: MoveType) {
-        const lastImage = this.lastImage();
-        if (lastImage) {
-            // lastImage.x = lastImage.x + move.x;
-            // lastImage.y = lastImage.y + move.y;
-            lastImage.width = lastImage.width + move.x;
-            lastImage.height = lastImage.height + move.y;
-        }
-    }
-
-    swResizeImage(move: MoveType) {
-        const lastImage = this.lastImage();
-        if (lastImage) {
-            lastImage.x = lastImage.x + move.x;
-            // lastImage.y = lastImage.y + move.y;
-            lastImage.width = lastImage.width - move.x;
-            lastImage.height = lastImage.height + move.y;
-        }
-    }
-
-    pushPoint(strokeWidth: number, strokeColor: string, point: PointType) {
+    pushPoint(strokeWidth: number, strokeColor: string, point: PointDataType) {
         const event: PointEventType = {
             type: Constants.SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
@@ -228,6 +170,64 @@ export default class EventStore {
         };
         this.goodEvents.push(event);
         this.undoEvents = [];
+    }
+
+    pasteImage(image: ImageDataType) {
+        const event: ImageEventType = {
+            type: Constants.SVG_ELEMENT_TYPE.IMAGE,
+            layer: this.selectedLayer,
+            image: image
+        };
+        this.goodEvents.push(event);
+        this.undoEvents = [];
+    }
+
+    dragImage(move: MoveDataType) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            lastImage.x = lastImage.x + move.x;
+            lastImage.y = lastImage.y + move.y;
+        }
+    }
+
+    nwResizeImage(move: MoveDataType) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            lastImage.x = lastImage.x + move.x;
+            lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width - move.x;
+            lastImage.height = lastImage.height - move.y;
+        }
+    }
+
+    neResizeImage(move: MoveDataType) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            // lastImage.x = lastImage.x + move.x;
+            lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width + move.x;
+            lastImage.height = lastImage.height - move.y;
+        }
+    }
+
+    seResizeImage(move: MoveDataType) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            // lastImage.x = lastImage.x + move.x;
+            // lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width + move.x;
+            lastImage.height = lastImage.height + move.y;
+        }
+    }
+
+    swResizeImage(move: MoveDataType) {
+        const lastImage = this.lastImage();
+        if (lastImage) {
+            lastImage.x = lastImage.x + move.x;
+            // lastImage.y = lastImage.y + move.y;
+            lastImage.width = lastImage.width - move.x;
+            lastImage.height = lastImage.height + move.y;
+        }
     }
 
     undo() {

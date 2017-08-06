@@ -4,7 +4,7 @@ import React from 'react';
 
 import * as Constants from './Constants';
 import EventStore from "./EventStore";
-import type {AnyReducedEventType, ImageType, PointType} from "./EventStore";
+import type {AnyReducedEventType, ImageDataType, PointDataType} from "./EventStore";
 
 
 type propsType = {
@@ -39,7 +39,7 @@ export default class CanvasPane extends React.Component {
         const canvasLayerStyle = {
             position: 'absolute',
             width: this.props.width,
-            height: this.props.height,
+            height: this.props.height
         };
 
         return (
@@ -59,7 +59,7 @@ export default class CanvasPane extends React.Component {
         return this.props.eventStore.reduceEvents().map((element: AnyReducedEventType, index: number): ?React$Element<any> => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
                 const key = index;
-                const d = element.values.map((point: PointType, index: number) => {
+                const d = element.values.map((point: PointDataType, index: number) => {
                     if (index === 0) {
                         return 'M ' + point.x + ' ' + point.y;
                     } else {
@@ -73,7 +73,7 @@ export default class CanvasPane extends React.Component {
 
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
                 const key = index;
-                const image: ImageType = element.image;
+                const image: ImageDataType = element.image;
 
                 return (
                     <image key={key} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>

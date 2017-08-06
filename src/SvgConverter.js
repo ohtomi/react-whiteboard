@@ -1,6 +1,6 @@
 // @flow
 
-import type {ImageType} from "./EventStore";
+import type {ImageDataType} from "./EventStore";
 
 
 export default class SvgConverter {
@@ -49,19 +49,19 @@ export default class SvgConverter {
         });
     }
 
-    static fromPngImage(imageUrl: string): Promise<ImageType> {
+    static fromPngImage(imageUrl: string): Promise<ImageDataType> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/png');
     }
 
-    static fromJpegImage(imageUrl: string): Promise<ImageType> {
+    static fromJpegImage(imageUrl: string): Promise<ImageDataType> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/jpeg');
     }
 
-    static fromGifImage(imageUrl: string): Promise<ImageType> {
+    static fromGifImage(imageUrl: string): Promise<ImageDataType> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/gif');
     }
 
-    static fromImageUrl(imageUrl: string, imageType: string): Promise<ImageType> {
+    static fromImageUrl(imageUrl: string, imageType: string): Promise<ImageDataType> {
         return new Promise(resolve => {
             let imageNode = new window.Image();
             imageNode.onload = () => {

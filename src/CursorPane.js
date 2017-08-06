@@ -6,7 +6,7 @@ import * as Constants from './Constants';
 import EventStream from './EventStream';
 import EventStore from "./EventStore";
 import type {ModeType, ResizeType} from "./Constants";
-import type {PointType} from "./EventStore";
+import type {PointDataType} from "./EventStore";
 
 
 type propsType = {
@@ -20,8 +20,8 @@ type propsType = {
 };
 
 type stateType = {
-    dragStart: ?PointType,
-    resizeStart: ?PointType
+    dragStart: ?PointDataType,
+    resizeStart: ?PointDataType
 };
 
 type mouseEventType = SyntheticMouseEvent & {

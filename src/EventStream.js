@@ -2,13 +2,19 @@
 
 import EventEmitter from 'events';
 import type {ResizeType} from "./Constants";
+import type {ImageDataType, MoveDataType, PointDataType} from "./EventStore";
 
 
 type listenerType = (any) => void;
 
-export type KeyValuePairType = {
-    key: string,
-    value: any
+export type StrokeWidthType = {
+    key: 'strokeWidth',
+    value: number
+};
+
+export type StrokeColorType = {
+    key: 'strokeColor',
+    value: string
 };
 
 export default class EventStream {
@@ -40,19 +46,23 @@ export default class EventStream {
     }
 
     changeStrokeWidth(width: number) {
-        this.emitter.emit('set', {key: 'strokeWidth', value: width});
+        const change: StrokeWidthType = {key: 'strokeWidth', value: width};
+        this.emitter.emit('set', change);
     }
 
     changeStrokeColor(color: string) {
-        this.emitter.emit('set', {key: 'strokeColor', value: color});
+        const change: StrokeColorType = {key: 'strokeColor', value: color};
+        this.emitter.emit('set', change);
     }
 
     pushPoint(x: number, y: number) {
-        this.emitter.emit('push', {x: x, y: y});
+        const point: PointDataType = {x: x, y: y};
+        this.emitter.emit('push', point);
     }
 
     pasteImage(x: number, y: number, width: number, height: number, dataUrl: string) {
-        this.emitter.emit('paste', {x: x, y: y, width: width, height: height, dataUrl: dataUrl});
+        const image: ImageDataType = {x: x, y: y, width: width, height: height, dataUrl: dataUrl};
+        this.emitter.emit('paste', image);
     }
 
     startDragging() {
@@ -64,7 +74,8 @@ export default class EventStream {
     }
 
     dragImage(x: number, y: number) {
-        this.emitter.emit('drag', {x: x, y: y});
+        const move: MoveDataType = {x: x, y: y};
+        this.emitter.emit('drag', move);
     }
 
     startResizing(resizeType: ResizeType) {
@@ -76,7 +87,8 @@ export default class EventStream {
     }
 
     resizeImage(x: number, y: number) {
-        this.emitter.emit('resize', {x: x, y: y});
+        const move: MoveDataType = {x: x, y: y};
+        this.emitter.emit('resize', move);
     }
 
     undo() {

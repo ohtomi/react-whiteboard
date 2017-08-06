@@ -8,8 +8,8 @@ import EventStore from './EventStore';
 import CursorPane from './CursorPane';
 import CanvasPane from './CanvasPane';
 import type {ModeType, ResizeType} from "./Constants";
-import type {KeyValuePairType} from "./EventStream";
-import type {ImageType, MoveType, PointType} from "./EventStore";
+import type {StrokeColorType, StrokeWidthType} from "./EventStream";
+import type {ImageDataType, MoveDataType, PointDataType} from "./EventStore";
 
 
 type defaultPropsType = {
@@ -73,21 +73,13 @@ export default class Whiteboard extends React.Component {
     }
 
     setupEventHandler() {
-        this.props.events.on('selectLayer', (layer: number) => {
-            this.selectLayer(layer);
-        });
-        this.props.events.on('addLayer', () => {
-            this.addLayer();
-        });
+        this.props.events.on('selectLayer', this.selectLayer.bind(this));
+        this.props.events.on('addLayer', this.addLayer.bind(this));
 
-        this.props.events.on('start', (point: PointType) => {
-            this.startDrawing(point);
-        });
-        this.props.events.on('stop', () => {
-            this.stopDrawing();
-        });
+        this.props.events.on('start', this.startDrawing.bind(this));
+        this.props.events.on('stop', this.stopDrawing.bind(this));
 
-        this.props.events.on('set', (event: KeyValuePairType) => {
+        this.props.events.on('set', (event: StrokeWidthType | StrokeColorType) => {
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value);
             }
@@ -96,41 +88,19 @@ export default class Whiteboard extends React.Component {
             }
         });
 
-        this.props.events.on('push', (point: PointType) => {
-            this.pushPoint(point);
-        });
+        this.props.events.on('push', this.pushPoint.bind(this));
 
-        this.props.events.on('paste', (image: ImageType) => {
-            this.pasteImage(image);
-        });
-        this.props.events.on('startDragging', () => {
-            this.startDragging();
-        });
-        this.props.events.on('stopDragging', () => {
-            this.stopDragging();
-        });
-        this.props.events.on('drag', (move: MoveType) => {
-            this.dragImage(move);
-        });
-        this.props.events.on('startResizing', (resizeType: ResizeType) => {
-            this.startResizing(resizeType);
-        });
-        this.props.events.on('stopResizing', () => {
-            this.stopResizing();
-        });
-        this.props.events.on('resize', (move: MoveType) => {
-            this.resizeImage(move);
-        });
+        this.props.events.on('paste', this.pasteImage.bind(this));
+        this.props.events.on('startDragging', this.startDragging.bind(this));
+        this.props.events.on('stopDragging', this.stopDragging.bind(this));
+        this.props.events.on('drag', this.dragImage.bind(this));
+        this.props.events.on('startResizing', this.startResizing.bind(this));
+        this.props.events.on('stopResizing', this.stopResizing.bind(this));
+        this.props.events.on('resize', this.resizeImage.bind(this));
 
-        this.props.events.on('undo', () => {
-            this.undo();
-        });
-        this.props.events.on('redo', () => {
-            this.redo();
-        });
-        this.props.events.on('clear', () => {
-            this.clear();
-        });
+        this.props.events.on('undo', this.undo.bind(this));
+        this.props.events.on('redo', this.redo.bind(this));
+        this.props.events.on('clear', this.clear.bind(this));
     }
 
     selectLayer(layer: number) {
@@ -146,7 +116,7 @@ export default class Whiteboard extends React.Component {
         this.setState({eventStore: this.state.eventStore});
     }
 
-    startDrawing(point: PointType) {
+    startDrawing(point: PointDataType) {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({
             mode: Constants.MODE.DRAW_LINE,
@@ -178,12 +148,12 @@ export default class Whiteboard extends React.Component {
         });
     }
 
-    pushPoint(point: PointType) {
+    pushPoint(point: PointDataType) {
         this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point);
         this.setState({eventStore: this.state.eventStore});
     }
 
-    pasteImage(image: ImageType) {
+    pasteImage(image: ImageDataType) {
         this.state.eventStore.pasteImage(image);
         this.setState({eventStore: this.state.eventStore});
     }
@@ -196,7 +166,7 @@ export default class Whiteboard extends React.Component {
         this.setState({mode: Constants.MODE.HAND});
     }
 
-    dragImage(move: MoveType) {
+    dragImage(move: MoveDataType) {
         if (this.state.mode !== Constants.MODE.DRAG_IMAGE) {
             return;
         }
@@ -213,7 +183,7 @@ export default class Whiteboard extends React.Component {
         this.setState({mode: Constants.MODE.HAND});
     }
 
-    resizeImage(move: MoveType) {
+    resizeImage(move: MoveDataType) {
         if (this.state.mode === Constants.MODE.NW_RESIZE_IMAGE) {
             this.state.eventStore.nwResizeImage(move);
             this.setState({eventStore: this.state.eventStore});
