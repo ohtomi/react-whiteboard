@@ -225,15 +225,12 @@ export default class Whiteboard extends React.Component {
             height: this.props.height
         };
 
-        // TODO use object type spread?
+        const props = Object.assign({}, this.props, this.state);
+
         return (
             <div style={wrapperStyle}>
-                <CursorPane events={this.props.events} eventStore={this.state.eventStore}
-                            width={this.props.width} height={this.props.height}
-                            mode={this.state.mode} strokeColor={this.state.strokeColor} strokeWidth={this.state.strokeWidth}/>
-                <CanvasPane ref={canvas => this.canvas = canvas}
-                            eventStore={this.state.eventStore}
-                            width={this.props.width} height={this.props.height} style={this.props.style}/>
+                <CursorPane {...props}/>
+                <CanvasPane ref={canvas => this.canvas = canvas} {...props}/>
             </div>
         );
     }
