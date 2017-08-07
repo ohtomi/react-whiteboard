@@ -1,6 +1,5 @@
 ## Demo
 
-<div id="root></div>
 <script src="js/demo.js"></script>
 
 - To draw line, click the canvas and move the mouse cursor in tha canvas.
