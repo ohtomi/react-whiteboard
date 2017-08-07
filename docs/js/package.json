@@ -1,0 +1,20 @@
+{
+  "name": "@ohtomi/react-whiteboard-demo",
+  "version": "1.0.0",
+  "description": "A demo for @ohtomi/react-whiteboard.",
+  "scripts": {
+    "compile": "webpack --progress --profile"
+  },
+  "author": "Kenichi Ohtomi",
+  "license": "MIT",
+  "devDependencies": {
+    "@ohtomi/react-whiteboard": "^0.1.0",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "webpack": "^3.4.1"
+  }
+}
