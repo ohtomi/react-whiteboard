@@ -9799,7 +9799,12 @@ var Demo = function (_React$Component) {
     return Demo;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(Demo, null), document.getElementById('root'));
+var main = document.querySelector('.main-content');
+var heading = document.getElementById('demo');
+var container = document.createElement('div');
+main.insertBefore(container, heading.nextSibling);
+
+_reactDom2.default.render(_react2.default.createElement(Demo, null), container);
 
 /***/ }),
 /* 83 */

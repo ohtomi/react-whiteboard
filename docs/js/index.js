@@ -25,4 +25,9 @@ class Demo extends React.Component {
 }
 
 
-ReactDOM.render(<Demo/>, document.getElementById('root'));
+const main = document.querySelector('.main-content');
+const heading = document.getElementById('demo');
+const container = document.createElement('div');
+main.insertBefore(container, heading.nextSibling);
+
+ReactDOM.render(<Demo/>, container);
