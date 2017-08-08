@@ -43,7 +43,6 @@
 
 ```javascript
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import {Whiteboard, EventStream, EventStore} from '@ohtomi/react-whiteboard';
 
