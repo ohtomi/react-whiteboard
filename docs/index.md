@@ -1,5 +1,9 @@
 # Demo
 
+- To draw a line, click the `whiteboard` and move the mouse cursor in the `whiteboard`.
+- To change line width and line color, select choices.
+- To paste an image on the `whiteboard`, type an URL of the image in the text box and press the paste button.
+
 <div>
     <div id="root"></div>
     <label>
@@ -35,9 +39,7 @@
 </div>
 <script src="js/demo.js"></script>
 
-- To draw a line, click the `whiteboard` and move the mouse cursor in the `whiteboard`.
-- To change line width and line color, select choices.
-- To paste an image on the `whiteboard`, type an URL of the image in the text box and press the paste button.
+## source code
 
 ```javascript
 import React from 'react';
@@ -62,7 +64,8 @@ class Demo extends React.Component {
 
     render() {
         return (
-            <Whiteboard events={this.events} eventStore={this.eventStore} width={this.width} height={this.height} style={this.style}/>
+            <Whiteboard events={this.events} eventStore={this.eventStore}
+                        width={this.width} height={this.height} style={this.style}/>
         );
     }
 }

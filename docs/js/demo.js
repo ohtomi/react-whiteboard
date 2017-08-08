@@ -9780,31 +9780,62 @@ var Demo = function (_React$Component) {
 
         _this.events = new _reactWhiteboard.EventStream();
         _this.eventStore = new _reactWhiteboard.EventStore();
-        _this.width = 800;
-        _this.height = 600;
+        _this.width = 450;
+        _this.height = 400;
+        _this.style = {
+            backgroundColor: 'lightyellow'
+        };
+
+        _this.initializeHandler();
         return _this;
     }
 
     _createClass(Demo, [{
+        key: 'initializeHandler',
+        value: function initializeHandler() {
+            var _this2 = this;
+
+            this.props.widthEl.onchange = function () {
+                _this2.events.changeStrokeWidth(_this2.props.widthEl.value);
+            };
+            this.props.colorEl.onchange = function () {
+                _this2.events.changeStrokeColor(_this2.props.colorEl.value);
+            };
+            this.props.pasteEl.onclick = function () {
+                var url = _this2.props.imageEl.value;
+                if (url.endsWith('.png')) {
+                    _reactWhiteboard.SvgConverter.fromPngImage(url).then(function (image) {
+                        _this2.events.pasteImage(0, 0, image.width, image.height, image.dataUrl);
+                    });
+                } else if (url.endsWith('.jpeg') || url.endsWith('.jpg')) {
+                    _reactWhiteboard.SvgConverter.fromJpegImage(url).then(function (image) {
+                        _this2.events.pasteImage(0, 0, image.width, image.height, image.dataUrl);
+                    });
+                } else if (url.endsWith('.gif')) {
+                    _reactWhiteboard.SvgConverter.fromGifImage(url).then(function (image) {
+                        _this2.events.pasteImage(0, 0, image.width, image.height, image.dataUrl);
+                    });
+                }
+            };
+        }
+    }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(_reactWhiteboard.Whiteboard, { events: this.events, eventStore: this.eventStore, width: this.width, height: this.height })
-            );
+            return _react2.default.createElement(_reactWhiteboard.Whiteboard, { events: this.events, eventStore: this.eventStore,
+                width: this.width, height: this.height, style: this.style });
         }
     }]);
 
     return Demo;
 }(_react2.default.Component);
 
-var main = document.querySelector('.main-content');
-var heading = document.getElementById('demo');
-var container = document.createElement('div');
-main.insertBefore(container, heading.nextSibling);
+var containerEl = document.getElementById('root');
+var widthEl = document.getElementById('width');
+var colorEl = document.getElementById('color');
+var imageEl = document.getElementById('image');
+var pasteEl = document.getElementById('paste');
 
-_reactDom2.default.render(_react2.default.createElement(Demo, null), container);
+_reactDom2.default.render(_react2.default.createElement(Demo, { widthEl: widthEl, colorEl: colorEl, imageEl: imageEl, pasteEl: pasteEl }), containerEl);
 
 /***/ }),
 /* 83 */
