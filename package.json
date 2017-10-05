@@ -1,6 +1,6 @@
 {
   "name": "@ohtomi/react-whiteboard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A whiteboard React component using SVG",
   "author": "Kenichi Ohtomi",
   "license": "MIT",
