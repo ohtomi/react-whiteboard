@@ -23,5 +23,6 @@ module.exports = {
         contentBase: path.resolve(__dirname + '/dist'),
         publicPath: '/',
         watchContentBase: true
-    }
+    },
+    devtool: 'source-map'
 };
