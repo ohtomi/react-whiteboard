@@ -20,7 +20,7 @@ render() {
 }
 ```
 
-See [examples](examples).
+See [examples](stories).
 
 ## How to build
 
