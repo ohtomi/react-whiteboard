@@ -24,14 +24,14 @@ type stateType = {
     resizeStart: ?PointDataType
 };
 
-type mouseEventType = SyntheticMouseEvent & {
+type mouseEventType = {
     nativeEvent: {
         offsetX: number,
         offsetY: number
     }
-};
+} & SyntheticMouseEvent<HTMLDivElement>;
 
-export default class CursorPane extends React.Component {
+export default class CursorPane extends React.Component<propsType, stateType> {
 
     props: propsType;
     state: stateType;
@@ -152,7 +152,7 @@ export default class CursorPane extends React.Component {
 
         return (
             <div role="presentation" style={cursorLayerStyle}
-                 onClick={this.onClickCursorLayer.bind(this)} onMouseMove={this.onMouseMoveCursorLayer.bind(this)}>
+                onClick={this.onClickCursorLayer.bind(this)} onMouseMove={this.onMouseMoveCursorLayer.bind(this)}>
                 {this.renderImageHandle()}
             </div>
         );
@@ -234,15 +234,15 @@ export default class CursorPane extends React.Component {
 
         return ([
             <div key="drag" role="presentation" style={dragHandleStyle}
-                 ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
+                ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
             <div key="nw-resize" role="presentation" style={nwResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
+                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
             <div key="ne-resize" role="presentation" style={neResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>,
+                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>,
             <div key="se-resize" role="presentation" style={seResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SE_RESIZE_IMAGE)}/>,
+                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SE_RESIZE_IMAGE)}/>,
             <div key="sw-resize" role="presentation" style={swResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SW_RESIZE_IMAGE)}/>
+                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SW_RESIZE_IMAGE)}/>
         ]);
     }
 }

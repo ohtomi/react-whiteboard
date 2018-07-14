@@ -18,12 +18,12 @@ type propsType = {
 
 type stateType = {};
 
-export default class CanvasPane extends React.Component {
+export default class CanvasPane extends React.Component<propsType, stateType> {
 
     props: propsType;
     state: stateType;
 
-    svgElement: ?HTMLElement;
+    svgElement: ?Element;
 
     constructor(props: propsType) {
         super(props);
@@ -31,7 +31,7 @@ export default class CanvasPane extends React.Component {
         this.svgElement = null;
     }
 
-    getSvgElement(): ?HTMLElement {
+    getSvgElement(): ?Element {
         return this.svgElement;
     }
 

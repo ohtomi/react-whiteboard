@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "run-s lint compile test",
+    "build": "run-s lint flow compile test",
     "clear": "rimraf dist coverage .nyc_output",
     "flow": "flow",
     "lint": "eslint src/ test/",

@@ -40,7 +40,7 @@ type stateType = {
     strokeColor: string
 };
 
-export default class Whiteboard extends React.Component {
+export default class Whiteboard extends React.Component<propsType, stateType> {
 
     static defaultProps: defaultPropsType;
     props: propsType;
@@ -62,7 +62,7 @@ export default class Whiteboard extends React.Component {
         this.canvas = null;
     }
 
-    getSvgElement(): ?HTMLElement {
+    getSvgElement(): ?Element {
         if (this.canvas) {
             return this.canvas.getSvgElement();
         }
