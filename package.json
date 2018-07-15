@@ -2,29 +2,38 @@
   "name": "@ohtomi/react-whiteboard",
   "version": "0.1.1",
   "description": "A whiteboard React component using SVG",
-  "author": "Kenichi Ohtomi",
+  "keywords": [
+    "react",
+    "svg",
+    "whiteboard"
+  ],
+  "homepage": "https://github.com/ohtomi/react-whiteboard",
+  "bugs": {
+    "url": "https://github.com/ohtomi/react-whiteboard/issues"
+  },
   "license": "MIT",
-  "main": "dist/index.js",
+  "author": "Kenichi Ohtomi",
   "files": [
     "dist"
   ],
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ohtomi/react-whiteboard.git"
+  },
   "scripts": {
     "build": "run-s lint flow compile test",
     "clear": "rimraf dist coverage .nyc_output",
+    "compile": "cross-env NODE_ENV=production webpack --mode production --progress --profile",
+    "cover": "nyc --reporter=html --reporter=text npm run test",
     "flow": "flow",
     "lint": "eslint src/ test/",
-    "compile": "cross-env NODE_ENV=production webpack --mode production --progress --profile",
-    "test": "cross-env NODE_ENV=test ava --verbose",
-    "cover": "nyc --reporter=html --reporter=text npm run test",
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "storybook": "start-storybook -p 9080",
+    "test": "cross-env NODE_ENV=test ava --verbose",
     "watch": "run-p watch:*",
     "watch:src": "chokidar src/**/*.js -c \"npm run compile\"",
     "watch:test": "chokidar test/**/*.js -c \"cross-env NODE_ENV=test ava --tap {path} | tap-notify\""
-  },
-  "peerDependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
   },
   "dependencies": {},
   "devDependencies": {
@@ -64,6 +73,10 @@
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4"
   },
+  "peerDependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
   "ava": {
     "files": [
       "test/**/*.test.js"
@@ -73,18 +86,5 @@
     ],
     "require": [],
     "babel": "inherit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ohtomi/react-whiteboard.git"
-  },
-  "keywords": [
-    "react",
-    "svg",
-    "whiteboard"
-  ],
-  "bugs": {
-    "url": "https://github.com/ohtomi/react-whiteboard/issues"
-  },
-  "homepage": "https://github.com/ohtomi/react-whiteboard"
+  }
 }
