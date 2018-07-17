@@ -19,10 +19,9 @@ module.exports = {
         'react': 'react',
         'react-dom': 'react-dom'
     },
-    devServer: {
-        contentBase: path.resolve(__dirname + '/dist'),
-        publicPath: '/',
-        watchContentBase: true
-    },
-    devtool: 'source-map'
+    mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
+    devtool: 'source-map',
+    serve: {
+        content: path.resolve(__dirname + '/dist')
+    }
 };

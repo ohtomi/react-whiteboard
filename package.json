@@ -24,11 +24,11 @@
   "scripts": {
     "build": "run-s lint flow compile test",
     "clear": "rimraf dist coverage .nyc_output",
-    "compile": "cross-env NODE_ENV=production webpack --mode production --progress --profile",
+    "compile": "cross-env webpack --progress --profile",
     "cover": "nyc --reporter=html --reporter=text npm run test",
     "flow": "flow",
     "lint": "eslint src/ test/",
-    "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "start": "cross-env webpack-serve --config ./webpack.config.js",
     "storybook": "start-storybook -p 9080",
     "test": "cross-env NODE_ENV=test ava --verbose",
     "watch": "run-p watch:*",
@@ -71,7 +71,7 @@
     "tap-notify": "^1.0.0",
     "webpack": "^4.16.0",
     "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-serve": "^2.0.2"
   },
   "peerDependencies": {
     "react": "^15.5.4",
