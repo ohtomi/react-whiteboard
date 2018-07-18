@@ -20,8 +20,5 @@ module.exports = {
         'react-dom': 'react-dom'
     },
     mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
-    devtool: 'source-map',
-    serve: {
-        content: path.resolve(__dirname + '/dist')
-    }
+    devtool: 'source-map'
 };
