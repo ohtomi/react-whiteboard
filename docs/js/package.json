@@ -2,11 +2,11 @@
   "name": "@ohtomi/react-whiteboard-demo",
   "version": "1.0.0",
   "description": "A demo for @ohtomi/react-whiteboard.",
+  "license": "MIT",
+  "author": "Kenichi Ohtomi",
   "scripts": {
     "compile": "webpack --progress --profile"
   },
-  "author": "Kenichi Ohtomi",
-  "license": "MIT",
   "devDependencies": {
     "@ohtomi/react-whiteboard": "^0.1.0",
     "babel-core": "^6.25.0",
