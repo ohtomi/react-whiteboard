@@ -4,10 +4,11 @@ module.exports = {
         filename: 'demo.js'
     },
     module: {
-        loaders: [{
+        rules: [{
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loader: 'babel-loader'
         }]
-    }
+    },
+    mode: process.env.WEBPACK_SERVE ? 'development' : 'production'
 };
