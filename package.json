@@ -73,8 +73,8 @@
     "webpack-cli": "^3.0.8"
   },
   "peerDependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "ava": {
     "files": [
