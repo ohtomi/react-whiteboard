@@ -10,7 +10,9 @@ module.exports = {
         rules: [{
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader: 'babel-loader'
+            use: {
+                loader: 'babel-loader'
+            }
         }]
     },
     mode: process.env.WEBPACK_SERVE ? 'development' : 'production'
