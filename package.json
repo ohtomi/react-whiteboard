@@ -45,7 +45,7 @@
     "@babel/preset-react": "^7.0.0",
     "@storybook/react": "^3.3.9",
     "ava": "^1.0.0-beta.7",
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.2",
     "chokidar-cli": "^1.2.0",
     "cross-env": "^5.1.3",
