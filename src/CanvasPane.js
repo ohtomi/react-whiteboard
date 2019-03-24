@@ -4,7 +4,7 @@ import React from 'react'
 
 import * as Constants from './Constants'
 import type {AnyReducedEventType, ImageDataType, PointDataType} from './EventStore'
-import EventStore from './EventStore'
+import {EventStore} from './EventStore'
 
 
 type propsType = {
@@ -18,7 +18,7 @@ type propsType = {
 
 type stateType = {};
 
-export default class CanvasPane extends React.Component<propsType, stateType> {
+export class CanvasPane extends React.Component<propsType, stateType> {
 
     props: propsType
     state: stateType

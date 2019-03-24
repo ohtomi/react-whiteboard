@@ -3,7 +3,7 @@
 import type {ImageDataType} from './EventStore'
 
 
-export default class SvgConverter {
+export class SvgConverter {
 
     static toSvgData(sourceNode: HTMLElement): Promise<string> {
         let htmlText = sourceNode.outerHTML

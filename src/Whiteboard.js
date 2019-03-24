@@ -5,11 +5,11 @@ import React from 'react'
 import type {ModeType, ResizeType} from './Constants'
 import * as Constants from './Constants'
 import type {StrokeColorType, StrokeWidthType} from './EventStream'
-import EventStream from './EventStream'
+import {EventStream} from './EventStream'
 import type {ImageDataType, MoveDataType, PointDataType} from './EventStore'
-import EventStore from './EventStore'
-import CursorPane from './CursorPane'
-import CanvasPane from './CanvasPane'
+import {EventStore} from './EventStore'
+import {CursorPane} from './CursorPane'
+import {CanvasPane} from './CanvasPane'
 
 
 type defaultPropsType = {
@@ -40,7 +40,7 @@ type stateType = {
     strokeColor: string
 };
 
-export default class Whiteboard extends React.Component<propsType, stateType> {
+export class Whiteboard extends React.Component<propsType, stateType> {
 
     static defaultProps: defaultPropsType
     props: propsType

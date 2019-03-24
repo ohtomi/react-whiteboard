@@ -17,7 +17,7 @@ export type StrokeColorType = {
     value: string
 };
 
-export default class EventStream {
+export class EventStream {
 
     emitter: EventEmitter
 

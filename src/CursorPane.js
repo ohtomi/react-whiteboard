@@ -4,9 +4,9 @@ import React from 'react'
 
 import type {ModeType, ResizeType} from './Constants'
 import * as Constants from './Constants'
-import EventStream from './EventStream'
+import {EventStream} from './EventStream'
 import type {PointDataType} from './EventStore'
-import EventStore from './EventStore'
+import {EventStore} from './EventStore'
 
 
 type propsType = {
@@ -31,7 +31,7 @@ type mouseEventType = {
     }
 } & SyntheticMouseEvent<HTMLDivElement>;
 
-export default class CursorPane extends React.Component<propsType, stateType> {
+export class CursorPane extends React.Component<propsType, stateType> {
 
     props: propsType
     state: stateType

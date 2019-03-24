@@ -59,7 +59,7 @@ export type ReducedStopEventType = {
 
 export type AnyReducedEventType = ReducedLineEventType | ReducedImageEventType | ReducedStopEventType;
 
-export default class EventStore {
+export class EventStore {
 
     selectedLayer: number
     renderableLayers: Array<boolean>
