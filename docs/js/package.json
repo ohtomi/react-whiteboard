@@ -8,16 +8,16 @@
     "compile": "webpack --progress --profile"
   },
   "devDependencies": {
-    "@ohtomi/react-whiteboard": "^0.1.0",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
+    "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "webpack": "^4.28.4",
-    "webpack-cli": "^3.1.0"
+    "@ohtomi/react-whiteboard": "file:../..",
+    "babel-loader": "^8.0.5",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }
