@@ -1,12 +1,12 @@
 // @flow
 
-import React from 'react';
+import React from 'react'
 
-import * as Constants from './Constants';
-import EventStream from './EventStream';
-import EventStore from "./EventStore";
-import type {ModeType, ResizeType} from "./Constants";
-import type {PointDataType} from "./EventStore";
+import type {ModeType, ResizeType} from './Constants'
+import * as Constants from './Constants'
+import EventStream from './EventStream'
+import type {PointDataType} from './EventStore'
+import EventStore from './EventStore'
 
 
 type propsType = {
@@ -33,111 +33,111 @@ type mouseEventType = {
 
 export default class CursorPane extends React.Component<propsType, stateType> {
 
-    props: propsType;
-    state: stateType;
+    props: propsType
+    state: stateType
 
-    dragHandle: ?HTMLElement;
+    dragHandle: ?HTMLElement
 
     constructor(props: propsType) {
-        super(props);
+        super(props)
 
         this.state = {
             dragStart: null,
-            resizeStart: null,
-        };
+            resizeStart: null
+        }
     }
 
     onClickCursorLayer(ev: mouseEventType) {
         let eventToPoint = (ev: mouseEventType): Array<number> => {
-            const x = ev.nativeEvent.offsetX - 2;
-            const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3));
-            return [x, y];
-        };
+            const x = ev.nativeEvent.offsetX - 2
+            const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3))
+            return [x, y]
+        }
 
         if (this.props.mode === Constants.MODE.HAND) {
-            this.props.events.startDrawing(...eventToPoint(ev));
+            this.props.events.startDrawing(...eventToPoint(ev))
         } else {
-            this.props.events.stopDrawing();
+            this.props.events.stopDrawing()
         }
     }
 
     onMouseMoveCursorLayer(ev: mouseEventType) {
         let eventToPoint = (ev: mouseEventType): Array<number> => {
-            const x = ev.nativeEvent.offsetX - 2;
-            const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3));
-            return [x, y];
-        };
+            const x = ev.nativeEvent.offsetX - 2
+            const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3))
+            return [x, y]
+        }
 
         if (this.props.mode === Constants.MODE.DRAW_LINE) {
-            this.props.events.pushPoint(...eventToPoint(ev));
+            this.props.events.pushPoint(...eventToPoint(ev))
         } else if (this.props.mode === Constants.MODE.DRAG_IMAGE) {
             if (ev.target !== this.dragHandle) {
-                return;
+                return
             }
 
-            const lastImage = this.props.eventStore.lastImage();
+            const lastImage = this.props.eventStore.lastImage()
             if (!lastImage) {
-                return;
+                return
             }
 
             if (this.state.dragStart) {
-                const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height;
-                const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
+                const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height
+                const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20
 
-                const moveX = lastImage.x + unit < 0 ? ev.nativeEvent.offsetX - this.state.dragStart.x - (lastImage.x + unit) : ev.nativeEvent.offsetX - this.state.dragStart.x;
-                const moveY = lastImage.y + unit < 0 ? ev.nativeEvent.offsetY - this.state.dragStart.y - (lastImage.y + unit) : ev.nativeEvent.offsetY - this.state.dragStart.y;
+                const moveX = lastImage.x + unit < 0 ? ev.nativeEvent.offsetX - this.state.dragStart.x - (lastImage.x + unit) : ev.nativeEvent.offsetX - this.state.dragStart.x
+                const moveY = lastImage.y + unit < 0 ? ev.nativeEvent.offsetY - this.state.dragStart.y - (lastImage.y + unit) : ev.nativeEvent.offsetY - this.state.dragStart.y
 
-                this.props.events.dragImage(moveX, moveY);
+                this.props.events.dragImage(moveX, moveY)
             }
         } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE || this.props.mode === Constants.MODE.NE_RESIZE_IMAGE || this.props.mode === Constants.MODE.SE_RESIZE_IMAGE || this.props.mode === Constants.MODE.SW_RESIZE_IMAGE) {
-            const lastImage = this.props.eventStore.lastImage();
+            const lastImage = this.props.eventStore.lastImage()
             if (!lastImage) {
-                return;
+                return
             }
 
             if (this.state.resizeStart) {
-                const moveX = ev.pageX - this.state.resizeStart.x;
-                const moveY = ev.pageY - this.state.resizeStart.y;
+                const moveX = ev.pageX - this.state.resizeStart.x
+                const moveY = ev.pageY - this.state.resizeStart.y
 
                 // do nothing if cannot resize image
-                if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height - moveY < 0 )) {
-                    return;
-                } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height - moveY < 0 )) {
-                    return;
-                } else if (this.props.mode === Constants.MODE.SE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height + moveY < 0 )) {
-                    return;
-                } else if (this.props.mode === Constants.MODE.SW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height + moveY < 0 )) {
-                    return;
+                if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height - moveY < 0)) {
+                    return
+                } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height - moveY < 0)) {
+                    return
+                } else if (this.props.mode === Constants.MODE.SE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height + moveY < 0)) {
+                    return
+                } else if (this.props.mode === Constants.MODE.SW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height + moveY < 0)) {
+                    return
                 }
 
-                this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
-                this.props.events.resizeImage(moveX, moveY);
+                this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}})
+                this.props.events.resizeImage(moveX, moveY)
             }
         }
     }
 
     onClickDragHandle(ev: mouseEventType) {
         if (this.props.mode === Constants.MODE.HAND) {
-            this.setState({dragStart: {x: ev.nativeEvent.offsetX, y: ev.nativeEvent.offsetY}});
-            this.props.events.startDragging();
+            this.setState({dragStart: {x: ev.nativeEvent.offsetX, y: ev.nativeEvent.offsetY}})
+            this.props.events.startDragging()
         } else {
-            this.setState({dragStart: null});
-            this.props.events.stopDragging();
+            this.setState({dragStart: null})
+            this.props.events.stopDragging()
         }
-        ev.preventDefault();
-        ev.stopPropagation();
+        ev.preventDefault()
+        ev.stopPropagation()
     }
 
     onClickResizeHandle(resizeType: ResizeType, ev: mouseEventType) {
         if (this.props.mode === Constants.MODE.HAND) {
-            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}});
-            this.props.events.startResizing(resizeType);
+            this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}})
+            this.props.events.startResizing(resizeType)
         } else {
-            this.setState({resizeStart: null});
-            this.props.events.stopResizing();
+            this.setState({resizeStart: null})
+            this.props.events.stopResizing()
         }
-        ev.preventDefault();
-        ev.stopPropagation();
+        ev.preventDefault()
+        ev.stopPropagation()
     }
 
     render() {
@@ -147,40 +147,40 @@ export default class CursorPane extends React.Component<propsType, stateType> {
             width: this.props.width,
             height: this.props.height,
             borderStyle: 'none none solid none',
-            borderColor: this.props.strokeColor,
-        };
+            borderColor: this.props.strokeColor
+        }
 
         return (
             <div role="presentation" style={cursorLayerStyle}
-                onClick={this.onClickCursorLayer.bind(this)} onMouseMove={this.onMouseMoveCursorLayer.bind(this)}>
+                 onClick={this.onClickCursorLayer.bind(this)} onMouseMove={this.onMouseMoveCursorLayer.bind(this)}>
                 {this.renderImageHandle()}
             </div>
-        );
+        )
     }
 
     renderImageHandle(): ?Array<React$Element<any>> {
-        const lastImage = this.props.eventStore.lastImage();
+        const lastImage = this.props.eventStore.lastImage()
         if (!lastImage) {
-            return null;
+            return null
         }
 
-        const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height;
-        const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20;
+        const base = (lastImage.width < lastImage.height) ? lastImage.width : lastImage.height
+        const unit = (base / 8) < 20 ? Math.ceil(base / 8) : 20
 
         const mathMinOrMax = (min: number, max: number, value: number): number => {
             if (value < min) {
-                return min;
+                return min
             } else if (value > max) {
-                return max;
+                return max
             } else {
-                return value;
+                return value
             }
-        };
+        }
 
-        const top = mathMinOrMax(0, this.props.height, lastImage.y + unit);
-        const bottom = mathMinOrMax(0, this.props.height, lastImage.y + lastImage.height - unit);
-        const left = mathMinOrMax(0, this.props.width, lastImage.x + unit);
-        const right = mathMinOrMax(0, this.props.width, lastImage.x + lastImage.width - unit);
+        const top = mathMinOrMax(0, this.props.height, lastImage.y + unit)
+        const bottom = mathMinOrMax(0, this.props.height, lastImage.y + lastImage.height - unit)
+        const left = mathMinOrMax(0, this.props.width, lastImage.x + unit)
+        const right = mathMinOrMax(0, this.props.width, lastImage.x + lastImage.width - unit)
 
         const dragHandleStyle = {
             position: 'absolute',
@@ -189,8 +189,8 @@ export default class CursorPane extends React.Component<propsType, stateType> {
             left: left,
             width: right - left,
             height: bottom - top,
-            cursor: 'move',
-        };
+            cursor: 'move'
+        }
 
         const nwResizeHandleStyle = {
             position: 'absolute',
@@ -199,8 +199,8 @@ export default class CursorPane extends React.Component<propsType, stateType> {
             left: mathMinOrMax(0, this.props.width, left - unit),
             width: left - mathMinOrMax(0, this.props.width, left - unit),
             height: top - mathMinOrMax(0, this.props.height, top - unit),
-            cursor: 'nw-resize',
-        };
+            cursor: 'nw-resize'
+        }
 
         const neResizeHandleStyle = {
             position: 'absolute',
@@ -209,8 +209,8 @@ export default class CursorPane extends React.Component<propsType, stateType> {
             left: right,
             width: mathMinOrMax(0, this.props.width, right + unit) - right,
             height: top - mathMinOrMax(0, this.props.height, top - unit),
-            cursor: 'ne-resize',
-        };
+            cursor: 'ne-resize'
+        }
 
         const seResizeHandleStyle = {
             position: 'absolute',
@@ -219,8 +219,8 @@ export default class CursorPane extends React.Component<propsType, stateType> {
             left: right,
             width: mathMinOrMax(0, this.props.width, right + unit) - right,
             height: mathMinOrMax(0, this.props.height, bottom + unit) - bottom,
-            cursor: 'se-resize',
-        };
+            cursor: 'se-resize'
+        }
 
         const swResizeHandleStyle = {
             position: 'absolute',
@@ -229,20 +229,20 @@ export default class CursorPane extends React.Component<propsType, stateType> {
             left: mathMinOrMax(0, this.props.width, left - unit),
             width: left - mathMinOrMax(0, this.props.width, left - unit),
             height: mathMinOrMax(0, this.props.height, bottom + unit) - bottom,
-            cursor: 'sw-resize',
-        };
+            cursor: 'sw-resize'
+        }
 
         return ([
             <div key="drag" role="presentation" style={dragHandleStyle}
-                ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
+                 ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
             <div key="nw-resize" role="presentation" style={nwResizeHandleStyle}
-                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
             <div key="ne-resize" role="presentation" style={neResizeHandleStyle}
-                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>,
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>,
             <div key="se-resize" role="presentation" style={seResizeHandleStyle}
-                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SE_RESIZE_IMAGE)}/>,
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SE_RESIZE_IMAGE)}/>,
             <div key="sw-resize" role="presentation" style={swResizeHandleStyle}
-                onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SW_RESIZE_IMAGE)}/>
-        ]);
+                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SW_RESIZE_IMAGE)}/>
+        ])
     }
 }

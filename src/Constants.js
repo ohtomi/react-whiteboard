@@ -8,12 +8,12 @@ export const MODE = {
     NE_RESIZE_IMAGE: 'NE_RESIZE_IMAGE',
     SE_RESIZE_IMAGE: 'SE_RESIZE_IMAGE',
     SW_RESIZE_IMAGE: 'SW_RESIZE_IMAGE'
-};
+}
 
 export const SVG_ELEMENT_TYPE = {
     LINE: 'LINE',
     IMAGE: 'IMAGE'
-};
+}
 
 export type ModeType =
     typeof MODE.HAND |

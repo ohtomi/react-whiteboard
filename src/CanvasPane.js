@@ -1,10 +1,10 @@
 // @flow
 
-import React from 'react';
+import React from 'react'
 
-import * as Constants from './Constants';
-import EventStore from "./EventStore";
-import type {AnyReducedEventType, ImageDataType, PointDataType} from "./EventStore";
+import * as Constants from './Constants'
+import type {AnyReducedEventType, ImageDataType, PointDataType} from './EventStore'
+import EventStore from './EventStore'
 
 
 type propsType = {
@@ -20,19 +20,19 @@ type stateType = {};
 
 export default class CanvasPane extends React.Component<propsType, stateType> {
 
-    props: propsType;
-    state: stateType;
+    props: propsType
+    state: stateType
 
-    svgElement: ?Element;
+    svgElement: ?Element
 
     constructor(props: propsType) {
-        super(props);
+        super(props)
 
-        this.svgElement = null;
+        this.svgElement = null
     }
 
     getSvgElement(): ?Element {
-        return this.svgElement;
+        return this.svgElement
     }
 
     render() {
@@ -40,7 +40,7 @@ export default class CanvasPane extends React.Component<propsType, stateType> {
             position: 'absolute',
             width: this.props.width,
             height: this.props.height
-        };
+        }
 
         return (
             <div style={canvasLayerStyle}>
@@ -52,48 +52,48 @@ export default class CanvasPane extends React.Component<propsType, stateType> {
                     {this.drawImageBorder()}
                 </svg>
             </div>
-        );
+        )
     }
 
     drawWhiteboardCanvas(): Array<?React$Element<any>> {
         return this.props.eventStore.reduceEvents().map((element: AnyReducedEventType, index: number): ?React$Element<any> => {
             if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
-                const key = index;
+                const key = index
                 const d = element.values.map((point: PointDataType, index: number) => {
                     if (index === 0) {
-                        return 'M ' + point.x + ' ' + point.y;
+                        return 'M ' + point.x + ' ' + point.y
                     } else {
-                        return 'L ' + point.x + ' ' + point.y;
+                        return 'L ' + point.x + ' ' + point.y
                     }
-                });
+                })
 
                 return (
                     <path key={key} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}/>
-                );
+                )
 
             } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
-                const key = index;
-                const image: ImageDataType = element.image;
+                const key = index
+                const image: ImageDataType = element.image
 
                 return (
                     <image key={key} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>
-                );
+                )
 
             } else {
-                return null;
+                return null
             }
-        });
+        })
     }
 
     drawImageBorder(): ?React$Element<any> {
-        const lastImage = this.props.eventStore.lastImage();
+        const lastImage = this.props.eventStore.lastImage()
         if (!lastImage) {
-            return null;
+            return null
         }
 
         return (
             <rect x={lastImage.x} y={lastImage.y} width={lastImage.width} height={lastImage.height}
                   fill={'none'} stroke={'black'} strokeDasharray={'5,5'}/>
-        );
+        )
     }
 }
