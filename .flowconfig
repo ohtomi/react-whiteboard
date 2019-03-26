@@ -8,3 +8,4 @@ test
 
 [options]
 module.system.node.resolve_dirname=node_modules
+esproposal.export_star_as=enable
