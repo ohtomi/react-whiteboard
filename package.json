@@ -51,7 +51,7 @@
     "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
-    "eslint": "^5.15.3",
+    "eslint": "^5.16.0",
     "eslint-import-resolver-node": "^0.3.2",
     "eslint-plugin-ava": "^6.0.0",
     "eslint-plugin-flowtype": "^3.4.2",
