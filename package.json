@@ -43,7 +43,7 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/react": "^5.1.7",
+    "@storybook/react": "^5.1.8",
     "ava": "^2.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
