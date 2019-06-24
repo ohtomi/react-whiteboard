@@ -58,7 +58,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-promise": "^4.0.0",
-    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-security": "^1.4.0",
     "flow-bin": "^0.101.0",
     "flow-typed": "^2.5.1",
