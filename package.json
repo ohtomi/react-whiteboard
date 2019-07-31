@@ -47,7 +47,7 @@
     "ava": "^2.1.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
-    "chokidar-cli": "^1.2.2",
+    "chokidar-cli": "^2.0.0",
     "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
