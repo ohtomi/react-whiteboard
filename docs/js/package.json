@@ -13,7 +13,7 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.2.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
-    "@ohtomi/react-whiteboard": "file:../..",
+    "@ohtomi/react-whiteboard": "^0.1.2",
     "babel-loader": "^8.0.5",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
