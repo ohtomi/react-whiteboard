@@ -1,12 +1,10 @@
-// @flow
+import * as React from 'react'
 
-import React from 'react'
-
-import type {ModeType, ResizeType} from './Constants'
+import  {ModeType, ResizeType} from './Constants'
 import * as Constants from './Constants'
-import type {StrokeColorType, StrokeWidthType} from './EventStream'
+import  {StrokeColorType, StrokeWidthType} from './EventStream'
 import {EventStream} from './EventStream'
-import type {ImageDataType, MoveDataType, PointDataType} from './EventStore'
+import  {ImageDataType, MoveDataType, PointDataType} from './EventStore'
 import {EventStore} from './EventStore'
 import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
@@ -20,7 +18,7 @@ type defaultPropsType = {
     style: {
         backgroundColor: string
     }
-};
+}
 
 type propsType = {
     events: EventStream,
@@ -30,7 +28,7 @@ type propsType = {
     style: {
         backgroundColor: string
     }
-};
+}
 
 type stateType = {
     eventStore: EventStore,
@@ -38,7 +36,7 @@ type stateType = {
     layer: number,
     strokeWidth: number,
     strokeColor: string
-};
+}
 
 export class Whiteboard extends React.Component<propsType, stateType> {
 
@@ -46,7 +44,7 @@ export class Whiteboard extends React.Component<propsType, stateType> {
     props: propsType
     state: stateType
 
-    canvas: ?CanvasPane
+    canvas?: CanvasPane
 
     constructor(props: propsType) {
         super(props)
@@ -62,7 +60,7 @@ export class Whiteboard extends React.Component<propsType, stateType> {
         this.canvas = null
     }
 
-    getSvgElement(): ?Element {
+    getSvgElement(): Element | undefined {
         if (this.canvas) {
             return this.canvas.getSvgElement()
         }

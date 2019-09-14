@@ -1,9 +1,6 @@
-// @flow
+import * as  React from 'react'
 
-import React from 'react'
-
-import * as Constants from './Constants'
-import type {AnyReducedEventType, ImageDataType, PointDataType} from './EventStore'
+import {AnyReducedEventType, ImageDataType, PointDataType, isReducedLineEvent, isReducedImageEvent} from './EventStore'
 import {EventStore} from './EventStore'
 
 
@@ -14,16 +11,16 @@ type propsType = {
     style: {
         backgroundColor: string
     }
-};
+}
 
-type stateType = {};
+type stateType = {}
 
 export class CanvasPane extends React.Component<propsType, stateType> {
 
     props: propsType
     state: stateType
 
-    svgElement: ?Element
+    svgElement?: Element
 
     constructor(props: propsType) {
         super(props)
@@ -31,7 +28,7 @@ export class CanvasPane extends React.Component<propsType, stateType> {
         this.svgElement = null
     }
 
-    getSvgElement(): ?Element {
+    getSvgElement(): Element | undefined {
         return this.svgElement
     }
 
@@ -55,9 +52,9 @@ export class CanvasPane extends React.Component<propsType, stateType> {
         )
     }
 
-    drawWhiteboardCanvas(): Array<?React$Element<any>> {
-        return this.props.eventStore.reduceEvents().map((element: AnyReducedEventType, index: number): ?React$Element<any> => {
-            if (element.type === Constants.SVG_ELEMENT_TYPE.LINE) {
+    drawWhiteboardCanvas(): Array<React.ComponentElement<any, any> | undefined> {
+        return this.props.eventStore.reduceEvents().map((element: AnyReducedEventType, index: number): React.ComponentElement<any, any> | undefined => {
+            if (isReducedLineEvent(element)) {
                 const key = index
                 const d = element.values.map((point: PointDataType, index: number) => {
                     if (index === 0) {
@@ -71,7 +68,7 @@ export class CanvasPane extends React.Component<propsType, stateType> {
                     <path key={key} d={d.join(' ')} fill="none" stroke={element.strokeColor} strokeWidth={element.strokeWidth}/>
                 )
 
-            } else if (element.type === Constants.SVG_ELEMENT_TYPE.IMAGE) {
+            } else if (isReducedImageEvent(element)) {
                 const key = index
                 const image: ImageDataType = element.image
 
@@ -85,7 +82,7 @@ export class CanvasPane extends React.Component<propsType, stateType> {
         })
     }
 
-    drawImageBorder(): ?React$Element<any> {
+    drawImageBorder(): React.ComponentElement<any, any> | undefined {
         const lastImage = this.props.eventStore.lastImage()
         if (!lastImage) {
             return null

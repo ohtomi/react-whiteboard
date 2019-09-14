@@ -1,5 +1,3 @@
-// @flow
-
 export const MODE = {
     HAND: 'HAND',
     DRAW_LINE: 'DRAW_LINE',
@@ -22,10 +20,10 @@ export type ModeType =
     typeof MODE.NW_RESIZE_IMAGE |
     typeof MODE.NE_RESIZE_IMAGE |
     typeof MODE.SE_RESIZE_IMAGE |
-    typeof MODE.SW_RESIZE_IMAGE;
+    typeof MODE.SW_RESIZE_IMAGE
 
 export type ResizeType =
     typeof MODE.NW_RESIZE_IMAGE |
     typeof MODE.NE_RESIZE_IMAGE |
     typeof MODE.SE_RESIZE_IMAGE |
-    typeof MODE.SW_RESIZE_IMAGE;
+    typeof MODE.SW_RESIZE_IMAGE

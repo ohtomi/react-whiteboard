@@ -1,6 +1,4 @@
-// @flow
-
-import type {ImageDataType} from './EventStore'
+import {ImageDataType} from './EventStore'
 
 
 export class SvgConverter {

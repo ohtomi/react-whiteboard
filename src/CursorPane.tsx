@@ -1,11 +1,9 @@
-// @flow
+import * as React from 'react'
 
-import React from 'react'
-
-import type {ModeType, ResizeType} from './Constants'
+import {ModeType, ResizeType} from './Constants'
 import * as Constants from './Constants'
 import {EventStream} from './EventStream'
-import type {PointDataType} from './EventStore'
+import {PointDataType} from './EventStore'
 import {EventStore} from './EventStore'
 
 
@@ -17,26 +15,19 @@ type propsType = {
     mode: ModeType,
     strokeWidth: number,
     strokeColor: string
-};
+}
 
 type stateType = {
-    dragStart: ?PointDataType,
-    resizeStart: ?PointDataType
-};
-
-type mouseEventType = {
-    nativeEvent: {
-        offsetX: number,
-        offsetY: number
-    }
-} & SyntheticMouseEvent<HTMLDivElement>;
+    dragStart?: PointDataType,
+    resizeStart?: PointDataType
+}
 
 export class CursorPane extends React.Component<propsType, stateType> {
 
     props: propsType
     state: stateType
 
-    dragHandle: ?HTMLElement
+    dragHandle?: HTMLElement
 
     constructor(props: propsType) {
         super(props)
@@ -47,29 +38,31 @@ export class CursorPane extends React.Component<propsType, stateType> {
         }
     }
 
-    onClickCursorLayer(ev: mouseEventType) {
-        let eventToPoint = (ev: mouseEventType): Array<number> => {
+    onClickCursorLayer(ev: React.MouseEvent<HTMLDivElement>) {
+        let eventToPoint = (ev: React.MouseEvent<HTMLDivElement>): Array<number> => {
             const x = ev.nativeEvent.offsetX - 2
             const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3))
             return [x, y]
         }
 
         if (this.props.mode === Constants.MODE.HAND) {
-            this.props.events.startDrawing(...eventToPoint(ev))
+            const [x, y] = eventToPoint(ev)
+            this.props.events.startDrawing(x, y)
         } else {
             this.props.events.stopDrawing()
         }
     }
 
-    onMouseMoveCursorLayer(ev: mouseEventType) {
-        let eventToPoint = (ev: mouseEventType): Array<number> => {
+    onMouseMoveCursorLayer(ev: React.MouseEvent<HTMLDivElement>) {
+        let eventToPoint = (ev: React.MouseEvent<HTMLDivElement>): Array<number> => {
             const x = ev.nativeEvent.offsetX - 2
             const y = ev.nativeEvent.offsetY + (2 * (this.props.strokeWidth / 3))
             return [x, y]
         }
 
         if (this.props.mode === Constants.MODE.DRAW_LINE) {
-            this.props.events.pushPoint(...eventToPoint(ev))
+            const [x, y] = eventToPoint(ev)
+            this.props.events.pushPoint(x, y)
         } else if (this.props.mode === Constants.MODE.DRAG_IMAGE) {
             if (ev.target !== this.dragHandle) {
                 return
@@ -116,7 +109,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         }
     }
 
-    onClickDragHandle(ev: mouseEventType) {
+    onClickDragHandle(ev: React.MouseEvent<HTMLDivElement>) {
         if (this.props.mode === Constants.MODE.HAND) {
             this.setState({dragStart: {x: ev.nativeEvent.offsetX, y: ev.nativeEvent.offsetY}})
             this.props.events.startDragging()
@@ -128,7 +121,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         ev.stopPropagation()
     }
 
-    onClickResizeHandle(resizeType: ResizeType, ev: mouseEventType) {
+    onClickResizeHandle(resizeType: ResizeType, ev: React.MouseEvent<HTMLDivElement>) {
         if (this.props.mode === Constants.MODE.HAND) {
             this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}})
             this.props.events.startResizing(resizeType)
@@ -158,7 +151,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         )
     }
 
-    renderImageHandle(): ?Array<React$Element<any>> {
+    renderImageHandle(): Array<React.ComponentElement<any, any>> | undefined {
         const lastImage = this.props.eventStore.lastImage()
         if (!lastImage) {
             return null

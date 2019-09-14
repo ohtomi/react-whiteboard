@@ -1,21 +1,19 @@
-// @flow
-
 import EventEmitter from 'events'
-import type {ResizeType} from './Constants'
-import type {ImageDataType, MoveDataType, PointDataType} from './EventStore'
+import {ResizeType} from './Constants'
+import {ImageDataType, MoveDataType, PointDataType} from './EventStore'
 
 
-type listenerType = (any) => void;
+type listenerType = (value: any) => void
 
 export type StrokeWidthType = {
     key: 'strokeWidth',
     value: number
-};
+}
 
 export type StrokeColorType = {
     key: 'strokeColor',
     value: string
-};
+}
 
 export class EventStream {
 
