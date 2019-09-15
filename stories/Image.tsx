@@ -81,7 +81,7 @@ storiesOf('Image', module)
             backgroundColor: 'lightyellow'
         }
 
-        let whiteboardEl, linkEl
+        let whiteboardEl: Whiteboard, linkEl: HTMLAnchorElement
 
         requestAnimationFrame(() => {
             SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')

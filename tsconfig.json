@@ -6,6 +6,9 @@
     "module": "es6",
     "target": "es5",
     "jsx": "react",
+    "moduleResolution": "node",
+    "rootDirs": ["src", "stories"],
+    "baseUrl": "src",
     "allowJs": true,
     "allowSyntheticDefaultImports": true
   },
