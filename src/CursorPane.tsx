@@ -135,7 +135,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
 
     render() {
         const cursorLayerStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             zIndex: 2000,
             width: this.props.width,
             height: this.props.height,
@@ -176,7 +176,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         const right = mathMinOrMax(0, this.props.width, lastImage.x + lastImage.width - unit)
 
         const dragHandleStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             zIndex: 2500,
             top: top,
             left: left,
@@ -186,7 +186,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         }
 
         const nwResizeHandleStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             zIndex: 2500,
             top: mathMinOrMax(0, this.props.height, top - unit),
             left: mathMinOrMax(0, this.props.width, left - unit),
@@ -196,7 +196,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         }
 
         const neResizeHandleStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             zIndex: 2500,
             top: mathMinOrMax(0, this.props.height, top - unit),
             left: right,
@@ -206,7 +206,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         }
 
         const seResizeHandleStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             zIndex: 2500,
             top: bottom,
             left: right,
@@ -216,7 +216,7 @@ export class CursorPane extends React.Component<propsType, stateType> {
         }
 
         const swResizeHandleStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             zIndex: 2500,
             top: bottom,
             left: mathMinOrMax(0, this.props.width, left - unit),

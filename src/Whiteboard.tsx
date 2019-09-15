@@ -60,7 +60,7 @@ export class Whiteboard extends React.Component<propsType, stateType> {
         this.canvas = null
     }
 
-    getSvgElement(): Element | undefined {
+    getSvgElement(): SVGSVGElement | undefined {
         if (this.canvas) {
             return this.canvas.getSvgElement()
         }
@@ -218,7 +218,7 @@ export class Whiteboard extends React.Component<propsType, stateType> {
 
     render() {
         const wrapperStyle = {
-            position: 'relative',
+            position: 'relative' as 'relative',
             width: this.props.width,
             height: this.props.height
         }

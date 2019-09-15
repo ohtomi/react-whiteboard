@@ -20,7 +20,7 @@ export class CanvasPane extends React.Component<propsType, stateType> {
     props: propsType
     state: stateType
 
-    svgElement?: Element
+    svgElement?: SVGSVGElement
 
     constructor(props: propsType) {
         super(props)
@@ -28,13 +28,13 @@ export class CanvasPane extends React.Component<propsType, stateType> {
         this.svgElement = null
     }
 
-    getSvgElement(): Element | undefined {
+    getSvgElement(): SVGSVGElement | undefined {
         return this.svgElement
     }
 
     render() {
         const canvasLayerStyle = {
-            position: 'absolute',
+            position: 'absolute' as 'absolute',
             width: this.props.width,
             height: this.props.height
         }

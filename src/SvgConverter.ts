@@ -3,7 +3,7 @@ import {ImageDataType} from './EventStore'
 
 export class SvgConverter {
 
-    static toSvgData(sourceNode: HTMLElement): Promise<string> {
+    static toSvgData(sourceNode: SVGSVGElement): Promise<string> {
         let htmlText = sourceNode.outerHTML
         let base64EncodedText = window.btoa(
             window.encodeURIComponent(htmlText)
@@ -14,15 +14,15 @@ export class SvgConverter {
         })
     }
 
-    static toPngData(sourceNode: HTMLElement): Promise<string> {
+    static toPngData(sourceNode: SVGSVGElement): Promise<string> {
         return SvgConverter.toDataUrl(sourceNode, 'image/png')
     }
 
-    static toJpegData(sourceNode: HTMLElement): Promise<string> {
+    static toJpegData(sourceNode: SVGSVGElement): Promise<string> {
         return SvgConverter.toDataUrl(sourceNode, 'image/jpeg')
     }
 
-    static toDataUrl(sourceNode: HTMLElement, imageType: string): Promise<string> {
+    static toDataUrl(sourceNode: SVGSVGElement, imageType: string): Promise<string> {
         return new Promise(resolve => {
             SvgConverter.toSvgData(sourceNode).then((svgdata: string) => {
                 let {width, height} = sourceNode.getBoundingClientRect()
