@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {storiesOf} from '@storybook/react'
 
 import {Constants, EventStore, EventStream, SvgConverter, Whiteboard} from '../src/index'
@@ -13,7 +13,7 @@ storiesOf('Image', module)
         }
 
         requestAnimationFrame(() => {
-            SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
+            SvgConverter.fromPngImage('https://1.bp.blogspot.com/-NlhJeKz_gSw/XDXbeB_k76I/AAAAAAABRAc/PYHD0v4-K3gs8iQB44UmL0LDn0OtRLeQQCLcBGAs/s800/dj_table.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
                 })
