@@ -24,6 +24,6 @@ module.exports = {
         'react': 'react',
         'react-dom': 'react-dom'
     },
-    mode: process.env.WEBPACK_SERVE ? 'development' : 'production',
+    mode: 'production',
     devtool: 'source-map'
 };
