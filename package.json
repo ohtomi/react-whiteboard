@@ -24,7 +24,7 @@
   "scripts": {
     "build": "run-s compile test",
     "clear": "rimraf dist coverage .nyc_output",
-    "compile": "cross-env webpack --progress --profile",
+    "compile": "webpack --progress --profile",
     "cover": "nyc --reporter=html --reporter=text npm run test",
     "start": "run-s storybook",
     "storybook": "start-storybook -p 9080",
@@ -42,7 +42,6 @@
     "@types/react-dom": "^16.9.0",
     "@types/storybook__react": "^4.0.2",
     "chokidar-cli": "^2.0.0",
-    "cross-env": "^5.2.0",
     "jest": "^24.9.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.0.0",
