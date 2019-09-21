@@ -27,9 +27,9 @@
     "compile": "webpack --progress --profile",
     "start": "run-s storybook",
     "storybook": "start-storybook -p 9080",
-    "test": "jest --coverage --notify --notifyMode failure",
+    "test": "jest --coverage",
     "watch": "run-p watch:*",
-    "watch:src": "chokidar src/**/*.ts* -i src/**/*.test.ts* -c \"npm run compile\"",
+    "watch:src": "webpack --watch",
     "watch:test": "jest --watch --onlyChanged --notify --notifyMode failure"
   },
   "dependencies": {},
