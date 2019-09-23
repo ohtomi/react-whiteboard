@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import  {ModeType, ResizeType} from './Constants'
+import {ModeType, ResizeType} from './Constants'
 import * as Constants from './Constants'
-import  {StrokeColorType, StrokeWidthType} from './EventStream'
+import {StrokeColorType, StrokeWidthType} from './EventStream'
 import {EventStream} from './EventStream'
-import  {ImageDataType, MoveDataType, PointDataType} from './EventStore'
+import {ImageDataType, MoveDataType, PointDataType} from './EventStore'
 import {EventStore} from './EventStore'
 import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
