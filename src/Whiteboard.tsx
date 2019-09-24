@@ -10,16 +10,6 @@ import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
 
 
-type defaultPropsType = {
-    events: EventStream,
-    eventStore: EventStore,
-    width: number,
-    height: number,
-    style: {
-        backgroundColor: string
-    }
-}
-
 type propsType = {
     events: EventStream,
     eventStore: EventStore,
@@ -40,7 +30,15 @@ type stateType = {
 
 export class Whiteboard extends React.Component<propsType, stateType> {
 
-    static defaultProps: defaultPropsType
+    static defaultProps = {
+        events: new EventStream(),
+        eventStore: new EventStore(),
+        width: 400,
+        height: 400,
+        style: {
+            backgroundColor: 'none'
+        }
+    }
     props: propsType
     state: stateType
 
@@ -231,15 +229,5 @@ export class Whiteboard extends React.Component<propsType, stateType> {
                 <CanvasPane ref={canvas => this.canvas = canvas} {...props}/>
             </div>
         )
-    }
-}
-
-Whiteboard.defaultProps = {
-    events: new EventStream(),
-    eventStore: new EventStore(),
-    width: 400,
-    height: 400,
-    style: {
-        backgroundColor: 'none'
     }
 }
