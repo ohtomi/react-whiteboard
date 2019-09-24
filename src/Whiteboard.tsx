@@ -10,7 +10,7 @@ import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
 
 
-type propsType = {
+type Props = {
     events: EventStream,
     eventStore: EventStore,
     width: number,
@@ -20,7 +20,7 @@ type propsType = {
     }
 }
 
-type stateType = {
+type State = {
     eventStore: EventStore,
     mode: ModeType,
     layer: number,
@@ -28,7 +28,7 @@ type stateType = {
     strokeColor: string
 }
 
-export class Whiteboard extends React.Component<propsType, stateType> {
+export class Whiteboard extends React.Component<Props, State> {
 
     static defaultProps = {
         events: new EventStream(),
@@ -39,12 +39,12 @@ export class Whiteboard extends React.Component<propsType, stateType> {
             backgroundColor: 'none'
         }
     }
-    props: propsType
-    state: stateType
+    props: Props
+    state: State
 
     canvas?: CanvasPane
 
-    constructor(props: propsType) {
+    constructor(props: Props) {
         super(props)
 
         this.state = {

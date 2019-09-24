@@ -4,7 +4,7 @@ import {AnyReducedEventType, ImageDataType, PointDataType, isReducedLineEvent, i
 import {EventStore} from './EventStore'
 
 
-type propsType = {
+type Props = {
     eventStore: EventStore,
     width: number,
     height: number,
@@ -13,16 +13,16 @@ type propsType = {
     }
 }
 
-type stateType = {}
+type State = {}
 
-export class CanvasPane extends React.Component<propsType, stateType> {
+export class CanvasPane extends React.Component<Props, State> {
 
-    props: propsType
-    state: stateType
+    props: Props
+    state: State
 
     svgElement?: SVGSVGElement
 
-    constructor(props: propsType) {
+    constructor(props: Props) {
         super(props)
 
         this.svgElement = null

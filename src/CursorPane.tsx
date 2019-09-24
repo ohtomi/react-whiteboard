@@ -7,7 +7,7 @@ import {PointDataType} from './EventStore'
 import {EventStore} from './EventStore'
 
 
-type propsType = {
+type Props = {
     events: EventStream,
     eventStore: EventStore,
     width: number,
@@ -17,19 +17,19 @@ type propsType = {
     strokeColor: string
 }
 
-type stateType = {
+type State = {
     dragStart?: PointDataType,
     resizeStart?: PointDataType
 }
 
-export class CursorPane extends React.Component<propsType, stateType> {
+export class CursorPane extends React.Component<Props, State> {
 
-    props: propsType
-    state: stateType
+    props: Props
+    state: State
 
     dragHandle?: HTMLElement
 
-    constructor(props: propsType) {
+    constructor(props: Props) {
         super(props)
 
         this.state = {
