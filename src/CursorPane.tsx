@@ -1,10 +1,8 @@
 import * as React from 'react'
 
-import {ModeType, ResizeType} from './Constants'
-import * as Constants from './Constants'
+import {MODE, ModeType, ResizeType} from './Constants'
 import {EventStream} from './EventStream'
-import {PointDataType} from './EventStore'
-import {EventStore} from './EventStore'
+import {EventStore, PointDataType} from './EventStore'
 
 
 type Props = {
@@ -45,7 +43,7 @@ export class CursorPane extends React.Component<Props, State> {
             return [x, y]
         }
 
-        if (this.props.mode === Constants.MODE.HAND) {
+        if (this.props.mode === MODE.HAND) {
             const [x, y] = eventToPoint(ev)
             this.props.events.startDrawing(x, y)
         } else {
@@ -60,10 +58,10 @@ export class CursorPane extends React.Component<Props, State> {
             return [x, y]
         }
 
-        if (this.props.mode === Constants.MODE.DRAW_LINE) {
+        if (this.props.mode === MODE.DRAW_LINE) {
             const [x, y] = eventToPoint(ev)
             this.props.events.pushPoint(x, y)
-        } else if (this.props.mode === Constants.MODE.DRAG_IMAGE) {
+        } else if (this.props.mode === MODE.DRAG_IMAGE) {
             if (ev.target !== this.dragHandle) {
                 return
             }
@@ -82,7 +80,7 @@ export class CursorPane extends React.Component<Props, State> {
 
                 this.props.events.dragImage(moveX, moveY)
             }
-        } else if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE || this.props.mode === Constants.MODE.NE_RESIZE_IMAGE || this.props.mode === Constants.MODE.SE_RESIZE_IMAGE || this.props.mode === Constants.MODE.SW_RESIZE_IMAGE) {
+        } else if (this.props.mode === MODE.NW_RESIZE_IMAGE || this.props.mode === MODE.NE_RESIZE_IMAGE || this.props.mode === MODE.SE_RESIZE_IMAGE || this.props.mode === MODE.SW_RESIZE_IMAGE) {
             const lastImage = this.props.eventStore.lastImage()
             if (!lastImage) {
                 return
@@ -93,13 +91,13 @@ export class CursorPane extends React.Component<Props, State> {
                 const moveY = ev.pageY - this.state.resizeStart.y
 
                 // do nothing if cannot resize image
-                if (this.props.mode === Constants.MODE.NW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height - moveY < 0)) {
+                if (this.props.mode === MODE.NW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height - moveY < 0)) {
                     return
-                } else if (this.props.mode === Constants.MODE.NE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height - moveY < 0)) {
+                } else if (this.props.mode === MODE.NE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height - moveY < 0)) {
                     return
-                } else if (this.props.mode === Constants.MODE.SE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height + moveY < 0)) {
+                } else if (this.props.mode === MODE.SE_RESIZE_IMAGE && (lastImage.width + moveX < 0 || lastImage.height + moveY < 0)) {
                     return
-                } else if (this.props.mode === Constants.MODE.SW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height + moveY < 0)) {
+                } else if (this.props.mode === MODE.SW_RESIZE_IMAGE && (lastImage.width - moveX < 0 || lastImage.height + moveY < 0)) {
                     return
                 }
 
@@ -110,7 +108,7 @@ export class CursorPane extends React.Component<Props, State> {
     }
 
     onClickDragHandle(ev: React.MouseEvent<HTMLDivElement>) {
-        if (this.props.mode === Constants.MODE.HAND) {
+        if (this.props.mode === MODE.HAND) {
             this.setState({dragStart: {x: ev.nativeEvent.offsetX, y: ev.nativeEvent.offsetY}})
             this.props.events.startDragging()
         } else {
@@ -122,7 +120,7 @@ export class CursorPane extends React.Component<Props, State> {
     }
 
     onClickResizeHandle(resizeType: ResizeType, ev: React.MouseEvent<HTMLDivElement>) {
-        if (this.props.mode === Constants.MODE.HAND) {
+        if (this.props.mode === MODE.HAND) {
             this.setState({resizeStart: {x: ev.pageX, y: ev.pageY}})
             this.props.events.startResizing(resizeType)
         } else {
@@ -229,13 +227,13 @@ export class CursorPane extends React.Component<Props, State> {
             <div key="drag" role="presentation" style={dragHandleStyle}
                  ref={dragHandle => this.dragHandle = dragHandle} onClick={this.onClickDragHandle.bind(this)}/>,
             <div key="nw-resize" role="presentation" style={nwResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NW_RESIZE_IMAGE)}/>,
+                 onClick={this.onClickResizeHandle.bind(this, MODE.NW_RESIZE_IMAGE)}/>,
             <div key="ne-resize" role="presentation" style={neResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.NE_RESIZE_IMAGE)}/>,
+                 onClick={this.onClickResizeHandle.bind(this, MODE.NE_RESIZE_IMAGE)}/>,
             <div key="se-resize" role="presentation" style={seResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SE_RESIZE_IMAGE)}/>,
+                 onClick={this.onClickResizeHandle.bind(this, MODE.SE_RESIZE_IMAGE)}/>,
             <div key="sw-resize" role="presentation" style={swResizeHandleStyle}
-                 onClick={this.onClickResizeHandle.bind(this, Constants.MODE.SW_RESIZE_IMAGE)}/>
+                 onClick={this.onClickResizeHandle.bind(this, MODE.SW_RESIZE_IMAGE)}/>
         ])
     }
 }

@@ -1,11 +1,8 @@
 import * as React from 'react'
 
-import {ModeType, ResizeType} from './Constants'
-import * as Constants from './Constants'
-import {StrokeColorType, StrokeWidthType} from './EventStream'
-import {EventStream} from './EventStream'
-import {ImageDataType, MoveDataType, PointDataType} from './EventStore'
-import {EventStore} from './EventStore'
+import {MODE, ModeType, ResizeType} from './Constants'
+import {EventStream, StrokeColorType, StrokeWidthType} from './EventStream'
+import {EventStore, ImageDataType, MoveDataType, PointDataType} from './EventStore'
 import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
 
@@ -49,7 +46,7 @@ export class Whiteboard extends React.Component<Props, State> {
 
         this.state = {
             eventStore: props.eventStore,
-            mode: Constants.MODE.HAND,
+            mode: MODE.HAND,
             layer: 0,
             strokeWidth: 5,
             strokeColor: 'black'
@@ -115,7 +112,7 @@ export class Whiteboard extends React.Component<Props, State> {
     startDrawing(point: PointDataType) {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point)
         this.setState({
-            mode: Constants.MODE.DRAW_LINE,
+            mode: MODE.DRAW_LINE,
             eventStore: this.state.eventStore
         })
     }
@@ -123,7 +120,7 @@ export class Whiteboard extends React.Component<Props, State> {
     stopDrawing() {
         this.state.eventStore.stopDrawing()
         this.setState({
-            mode: Constants.MODE.HAND,
+            mode: MODE.HAND,
             eventStore: this.state.eventStore
         })
     }
@@ -155,15 +152,15 @@ export class Whiteboard extends React.Component<Props, State> {
     }
 
     startDragging() {
-        this.setState({mode: Constants.MODE.DRAG_IMAGE})
+        this.setState({mode: MODE.DRAG_IMAGE})
     }
 
     stopDragging() {
-        this.setState({mode: Constants.MODE.HAND})
+        this.setState({mode: MODE.HAND})
     }
 
     dragImage(move: MoveDataType) {
-        if (this.state.mode !== Constants.MODE.DRAG_IMAGE) {
+        if (this.state.mode !== MODE.DRAG_IMAGE) {
             return
         }
 
@@ -176,24 +173,24 @@ export class Whiteboard extends React.Component<Props, State> {
     }
 
     stopResizing() {
-        this.setState({mode: Constants.MODE.HAND})
+        this.setState({mode: MODE.HAND})
     }
 
     resizeImage(move: MoveDataType) {
-        if (this.state.mode === Constants.MODE.NW_RESIZE_IMAGE) {
+        if (this.state.mode === MODE.NW_RESIZE_IMAGE) {
             this.state.eventStore.nwResizeImage(move)
             this.setState({eventStore: this.state.eventStore})
-        } else if (this.state.mode === Constants.MODE.NE_RESIZE_IMAGE) {
+        } else if (this.state.mode === MODE.NE_RESIZE_IMAGE) {
             this.state.eventStore.neResizeImage(move)
             this.setState({
                 eventStore: this.state.eventStore
             })
-        } else if (this.state.mode === Constants.MODE.SE_RESIZE_IMAGE) {
+        } else if (this.state.mode === MODE.SE_RESIZE_IMAGE) {
             this.state.eventStore.seResizeImage(move)
             this.setState({
                 eventStore: this.state.eventStore
             })
-        } else if (this.state.mode === Constants.MODE.SW_RESIZE_IMAGE) {
+        } else if (this.state.mode === MODE.SW_RESIZE_IMAGE) {
             this.state.eventStore.swResizeImage(move)
             this.setState({eventStore: this.state.eventStore})
         }

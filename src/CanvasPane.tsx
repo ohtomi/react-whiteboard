@@ -1,7 +1,6 @@
 import * as  React from 'react'
 
-import {AnyReducedEventType, ImageDataType, PointDataType, isReducedLineEvent, isReducedImageEvent} from './EventStore'
-import {EventStore} from './EventStore'
+import {AnyReducedEventType, EventStore, ImageDataType, isReducedImageEvent, isReducedLineEvent, PointDataType} from './EventStore'
 
 
 type Props = {

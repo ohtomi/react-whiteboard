@@ -1,4 +1,4 @@
-import * as Constants from './Constants'
+import {SVG_ELEMENT_TYPE} from './Constants'
 
 
 export type PointDataType = {
@@ -20,7 +20,7 @@ export type MoveDataType = {
 }
 
 export type PointEventType = {
-    type: typeof Constants.SVG_ELEMENT_TYPE.LINE,
+    type: typeof SVG_ELEMENT_TYPE.LINE,
     layer: number,
     strokeWidth: number,
     strokeColor: string,
@@ -28,7 +28,7 @@ export type PointEventType = {
 }
 
 export type ImageEventType = {
-    type: typeof Constants.SVG_ELEMENT_TYPE.IMAGE,
+    type: typeof SVG_ELEMENT_TYPE.IMAGE,
     layer: number,
     image: ImageDataType
 }
@@ -40,14 +40,14 @@ export type StopEventType = {
 export type AnyEventType = PointEventType | ImageEventType | StopEventType
 
 export type ReducedLineEventType = {
-    type: typeof Constants.SVG_ELEMENT_TYPE.LINE,
+    type: typeof SVG_ELEMENT_TYPE.LINE,
     strokeWidth: number,
     strokeColor: string,
     values: Array<PointDataType>
 }
 
 export type ReducedImageEventType = {
-    type: typeof Constants.SVG_ELEMENT_TYPE.IMAGE,
+    type: typeof SVG_ELEMENT_TYPE.IMAGE,
     image: ImageDataType
 }
 
@@ -58,20 +58,20 @@ export type ReducedStopEventType = {
 export type AnyReducedEventType = ReducedLineEventType | ReducedImageEventType | ReducedStopEventType
 
 export const isPointEvent = (arg: AnyEventType): arg is PointEventType => {
-    return arg.type === Constants.SVG_ELEMENT_TYPE.LINE
+    return arg.type === SVG_ELEMENT_TYPE.LINE
 }
 
 export const isImageEvent = (arg: AnyEventType): arg is ImageEventType => {
-    return arg.type === Constants.SVG_ELEMENT_TYPE.IMAGE
+    return arg.type === SVG_ELEMENT_TYPE.IMAGE
 }
 
 
 export const isReducedLineEvent = (arg: AnyReducedEventType): arg is ReducedLineEventType => {
-    return arg.type === Constants.SVG_ELEMENT_TYPE.LINE
+    return arg.type === SVG_ELEMENT_TYPE.LINE
 }
 
 export const isReducedImageEvent = (arg: AnyReducedEventType): arg is ReducedImageEventType => {
-    return arg.type === Constants.SVG_ELEMENT_TYPE.IMAGE
+    return arg.type === SVG_ELEMENT_TYPE.IMAGE
 }
 
 export class EventStore {
@@ -163,7 +163,7 @@ export class EventStore {
 
     startDrawing(strokeWidth: number, strokeColor: string, point: PointDataType) {
         this.goodEvents.push({
-            type: Constants.SVG_ELEMENT_TYPE.LINE,
+            type: SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
@@ -177,7 +177,7 @@ export class EventStore {
 
     pushPoint(strokeWidth: number, strokeColor: string, point: PointDataType) {
         const event: PointEventType = {
-            type: Constants.SVG_ELEMENT_TYPE.LINE,
+            type: SVG_ELEMENT_TYPE.LINE,
             layer: this.selectedLayer,
             strokeWidth: strokeWidth,
             strokeColor: strokeColor,
@@ -189,7 +189,7 @@ export class EventStore {
 
     pasteImage(image: ImageDataType) {
         const event: ImageEventType = {
-            type: Constants.SVG_ELEMENT_TYPE.IMAGE,
+            type: SVG_ELEMENT_TYPE.IMAGE,
             layer: this.selectedLayer,
             image: image
         }
