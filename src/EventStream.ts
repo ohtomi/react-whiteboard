@@ -1,16 +1,17 @@
 import EventEmitter from 'events'
+
 import {ResizeType} from './Constants'
 import {ImageDataType, MoveDataType, PointDataType} from './EventStore'
 
 
-type listenerType = (value: any) => void
+export type EventListener = (value: any) => void
 
-export type StrokeWidthType = {
+export type ChangeStrokeWidth = {
     key: 'strokeWidth',
     value: number
 }
 
-export type StrokeColorType = {
+export type ChangeStrokeColor = {
     key: 'strokeColor',
     value: string
 }
@@ -23,7 +24,7 @@ export class EventStream {
         this.emitter = new EventEmitter()
     }
 
-    on(name: string, listener: listenerType) {
+    on(name: string, listener: EventListener) {
         this.emitter.on(name, listener)
     }
 
@@ -44,12 +45,12 @@ export class EventStream {
     }
 
     changeStrokeWidth(width: number) {
-        const change: StrokeWidthType = {key: 'strokeWidth', value: width}
+        const change: ChangeStrokeWidth = {key: 'strokeWidth', value: width}
         this.emitter.emit('set', change)
     }
 
     changeStrokeColor(color: string) {
-        const change: StrokeColorType = {key: 'strokeColor', value: color}
+        const change: ChangeStrokeColor = {key: 'strokeColor', value: color}
         this.emitter.emit('set', change)
     }
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import {MODE, ModeType, ResizeType} from './Constants'
-import {EventStream, StrokeColorType, StrokeWidthType} from './EventStream'
+import {ChangeStrokeColor, ChangeStrokeWidth, EventStream} from './EventStream'
 import {EventStore, ImageDataType, MoveDataType, PointDataType} from './EventStore'
 import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
@@ -72,7 +72,7 @@ export class Whiteboard extends React.Component<Props, State> {
         this.props.events.on('start', this.startDrawing.bind(this))
         this.props.events.on('stop', this.stopDrawing.bind(this))
 
-        this.props.events.on('set', (event: StrokeWidthType | StrokeColorType) => {
+        this.props.events.on('set', (event: ChangeStrokeWidth | ChangeStrokeColor) => {
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value)
             }
