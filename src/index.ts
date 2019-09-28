@@ -1,7 +1,7 @@
 import * as Constants from './Constants'
 
 export {Whiteboard} from './Whiteboard'
-export {EventStream} from './EventStream'
-export {EventStore} from './EventStore'
+export {ChangeStrokeColor, ChangeStrokeWidth, EventStream, EventListener} from './EventStream'
+export {EventStore, ImageDataType, ImageEventType, MoveDataType, PointDataType, PointEventType, StopEventType} from './EventStore'
 export {SvgConverter} from './SvgConverter'
 export {Constants}
