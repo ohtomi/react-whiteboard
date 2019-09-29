@@ -13,7 +13,7 @@ storiesOf('Image', module)
         }
 
         requestAnimationFrame(() => {
-            SvgConverter.fromPngImage('https://1.bp.blogspot.com/-NlhJeKz_gSw/XDXbeB_k76I/AAAAAAABRAc/PYHD0v4-K3gs8iQB44UmL0LDn0OtRLeQQCLcBGAs/s800/dj_table.png')
+            SvgConverter.fromPngImage('https://4.bp.blogspot.com/-add9p_TiRII/V9PE77mE44I/AAAAAAAA9kk/1JeafQlm6-QFxt--xA5gMWrPl2EZyKTMgCLcB/s400/kjhou_board.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
                 })
@@ -33,7 +33,7 @@ storiesOf('Image', module)
         }
 
         requestAnimationFrame(() => {
-            SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
+            SvgConverter.fromPngImage('https://4.bp.blogspot.com/-add9p_TiRII/V9PE77mE44I/AAAAAAAA9kk/1JeafQlm6-QFxt--xA5gMWrPl2EZyKTMgCLcB/s400/kjhou_board.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
                     events.startResizing(ModeEnum.NW_RESIZE_IMAGE)
@@ -56,7 +56,7 @@ storiesOf('Image', module)
         }
 
         requestAnimationFrame(() => {
-            SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
+            SvgConverter.fromPngImage('https://4.bp.blogspot.com/-add9p_TiRII/V9PE77mE44I/AAAAAAAA9kk/1JeafQlm6-QFxt--xA5gMWrPl2EZyKTMgCLcB/s400/kjhou_board.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
                     events.startResizing(ModeEnum.NW_RESIZE_IMAGE)
@@ -84,7 +84,7 @@ storiesOf('Image', module)
         let whiteboardEl: Whiteboard, linkEl: HTMLAnchorElement
 
         requestAnimationFrame(() => {
-            SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
+            SvgConverter.fromPngImage('https://4.bp.blogspot.com/-add9p_TiRII/V9PE77mE44I/AAAAAAAA9kk/1JeafQlm6-QFxt--xA5gMWrPl2EZyKTMgCLcB/s400/kjhou_board.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
                     events.startResizing(ModeEnum.NW_RESIZE_IMAGE)
