@@ -37,7 +37,7 @@ export class EventStream {
     }
 
     startDrawing(x: number, y: number) {
-        this.emitter.emit('start', {x: x, y: y})
+        this.emitter.emit('start', {x, y})
     }
 
     stopDrawing() {
@@ -55,12 +55,12 @@ export class EventStream {
     }
 
     pushPoint(x: number, y: number) {
-        const point: PointDataType = {x: x, y: y}
+        const point: PointDataType = {x, y}
         this.emitter.emit('push', point)
     }
 
     pasteImage(x: number, y: number, width: number, height: number, dataUrl: string) {
-        const image: ImageDataType = {x: x, y: y, width: width, height: height, dataUrl: dataUrl}
+        const image: ImageDataType = {x, y, width, height, dataUrl}
         this.emitter.emit('paste', image)
     }
 
@@ -73,7 +73,7 @@ export class EventStream {
     }
 
     dragImage(x: number, y: number) {
-        const move: MoveDataType = {x: x, y: y}
+        const move: MoveDataType = {x, y}
         this.emitter.emit('drag', move)
     }
 
@@ -86,7 +86,7 @@ export class EventStream {
     }
 
     resizeImage(x: number, y: number) {
-        const move: MoveDataType = {x: x, y: y}
+        const move: MoveDataType = {x, y}
         this.emitter.emit('resize', move)
     }
 
