@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import {MODE, ModeType, ResizeType} from './Constants'
+import {ModeEnum, ResizeImageDirection} from './Constants'
 import {ChangeStrokeColor, ChangeStrokeWidth, EventStream} from './EventStream'
 import {EventStore, ImageDataType, MoveDataType, PointDataType} from './EventStore'
 import {CursorPane} from './CursorPane'
@@ -19,7 +19,7 @@ type Props = {
 
 type State = {
     eventStore: EventStore,
-    mode: ModeType,
+    mode: ModeEnum,
     layer: number,
     strokeWidth: number,
     strokeColor: string
@@ -46,7 +46,7 @@ export class Whiteboard extends React.Component<Props, State> {
 
         this.state = {
             eventStore: props.eventStore,
-            mode: MODE.HAND,
+            mode: ModeEnum.HAND,
             layer: 0,
             strokeWidth: 5,
             strokeColor: 'black'
@@ -112,7 +112,7 @@ export class Whiteboard extends React.Component<Props, State> {
     startDrawing(point: PointDataType) {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point)
         this.setState({
-            mode: MODE.DRAW_LINE,
+            mode: ModeEnum.DRAW_LINE,
             eventStore: this.state.eventStore
         })
     }
@@ -120,7 +120,7 @@ export class Whiteboard extends React.Component<Props, State> {
     stopDrawing() {
         this.state.eventStore.stopDrawing()
         this.setState({
-            mode: MODE.HAND,
+            mode: ModeEnum.HAND,
             eventStore: this.state.eventStore
         })
     }
@@ -152,15 +152,15 @@ export class Whiteboard extends React.Component<Props, State> {
     }
 
     startDragging() {
-        this.setState({mode: MODE.DRAG_IMAGE})
+        this.setState({mode: ModeEnum.DRAG_IMAGE})
     }
 
     stopDragging() {
-        this.setState({mode: MODE.HAND})
+        this.setState({mode: ModeEnum.HAND})
     }
 
     dragImage(move: MoveDataType) {
-        if (this.state.mode !== MODE.DRAG_IMAGE) {
+        if (this.state.mode !== ModeEnum.DRAG_IMAGE) {
             return
         }
 
@@ -168,29 +168,25 @@ export class Whiteboard extends React.Component<Props, State> {
         this.setState({eventStore: this.state.eventStore})
     }
 
-    startResizing(resizeType: ResizeType) {
-        this.setState({mode: resizeType})
+    startResizing(direction: ResizeImageDirection) {
+        this.setState({mode: direction})
     }
 
     stopResizing() {
-        this.setState({mode: MODE.HAND})
+        this.setState({mode: ModeEnum.HAND})
     }
 
     resizeImage(move: MoveDataType) {
-        if (this.state.mode === MODE.NW_RESIZE_IMAGE) {
+        if (this.state.mode === ModeEnum.NW_RESIZE_IMAGE) {
             this.state.eventStore.nwResizeImage(move)
             this.setState({eventStore: this.state.eventStore})
-        } else if (this.state.mode === MODE.NE_RESIZE_IMAGE) {
+        } else if (this.state.mode === ModeEnum.NE_RESIZE_IMAGE) {
             this.state.eventStore.neResizeImage(move)
-            this.setState({
-                eventStore: this.state.eventStore
-            })
-        } else if (this.state.mode === MODE.SE_RESIZE_IMAGE) {
+            this.setState({eventStore: this.state.eventStore})
+        } else if (this.state.mode === ModeEnum.SE_RESIZE_IMAGE) {
             this.state.eventStore.seResizeImage(move)
-            this.setState({
-                eventStore: this.state.eventStore
-            })
-        } else if (this.state.mode === MODE.SW_RESIZE_IMAGE) {
+            this.setState({eventStore: this.state.eventStore})
+        } else if (this.state.mode === ModeEnum.SW_RESIZE_IMAGE) {
             this.state.eventStore.swResizeImage(move)
             this.setState({eventStore: this.state.eventStore})
         }

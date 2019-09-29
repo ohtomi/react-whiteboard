@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 
-import {ResizeType} from './Constants'
+import {ResizeImageDirection} from './Constants'
 import {ImageDataType, MoveDataType, PointDataType} from './EventStore'
 
 
@@ -77,8 +77,8 @@ export class EventStream {
         this.emitter.emit('drag', move)
     }
 
-    startResizing(resizeType: ResizeType) {
-        this.emitter.emit('startResizing', resizeType)
+    startResizing(direction: ResizeImageDirection) {
+        this.emitter.emit('startResizing', direction)
     }
 
     stopResizing() {
