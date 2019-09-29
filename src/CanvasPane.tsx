@@ -1,4 +1,4 @@
-import * as  React from 'react'
+import * as React from 'react'
 
 import {AnyReducedEventType, EventStore, ImageDataType, isReducedImageEvent, isReducedLineEvent, PointDataType} from './EventStore'
 
