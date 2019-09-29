@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {storiesOf} from '@storybook/react'
 
-import {Constants, EventStore, EventStream, SvgConverter, Whiteboard} from '../src/index'
+import {EventStore, EventStream, ModeEnum, SvgConverter, Whiteboard} from '../src/index'
 
 
 storiesOf('Image', module)
@@ -36,7 +36,7 @@ storiesOf('Image', module)
             SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
-                    events.startResizing(Constants.ModeEnum.NW_RESIZE_IMAGE)
+                    events.startResizing(ModeEnum.NW_RESIZE_IMAGE)
                     events.resizeImage(150, 150)
                     events.stopResizing()
                 })
@@ -59,7 +59,7 @@ storiesOf('Image', module)
             SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
-                    events.startResizing(Constants.ModeEnum.NW_RESIZE_IMAGE)
+                    events.startResizing(ModeEnum.NW_RESIZE_IMAGE)
                     events.resizeImage(150, 150)
                     events.stopResizing()
                     events.startDragging()
@@ -87,7 +87,7 @@ storiesOf('Image', module)
             SvgConverter.fromPngImage('https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png')
                 .then(image => {
                     events.pasteImage(50, 50, image.width, image.height, image.dataUrl)
-                    events.startResizing(Constants.ModeEnum.NW_RESIZE_IMAGE)
+                    events.startResizing(ModeEnum.NW_RESIZE_IMAGE)
                     events.resizeImage(150, 150)
                     events.stopResizing()
                     events.startDragging()
