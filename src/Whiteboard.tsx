@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import {ModeEnum, ResizeImageDirection} from './Constants'
 import {ChangeStrokeColor, ChangeStrokeWidth, EventStream} from './EventStream'
-import {EventStore, ImageDataType, MoveDataType, PointDataType} from './EventStore'
+import {EventStore, ImageData, MouseMoveData, PointData} from './EventStore'
 import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
 
@@ -109,7 +109,7 @@ export class Whiteboard extends React.Component<Props, State> {
         this.setState({eventStore: this.state.eventStore})
     }
 
-    startDrawing(point: PointDataType) {
+    startDrawing(point: PointData) {
         this.state.eventStore.startDrawing(this.state.strokeWidth, this.state.strokeColor, point)
         this.setState({
             mode: ModeEnum.DRAW_LINE,
@@ -141,12 +141,12 @@ export class Whiteboard extends React.Component<Props, State> {
         })
     }
 
-    pushPoint(point: PointDataType) {
+    pushPoint(point: PointData) {
         this.state.eventStore.pushPoint(this.state.strokeWidth, this.state.strokeColor, point)
         this.setState({eventStore: this.state.eventStore})
     }
 
-    pasteImage(image: ImageDataType) {
+    pasteImage(image: ImageData) {
         this.state.eventStore.pasteImage(image)
         this.setState({eventStore: this.state.eventStore})
     }
@@ -159,7 +159,7 @@ export class Whiteboard extends React.Component<Props, State> {
         this.setState({mode: ModeEnum.HAND})
     }
 
-    dragImage(move: MoveDataType) {
+    dragImage(move: MouseMoveData) {
         if (this.state.mode !== ModeEnum.DRAG_IMAGE) {
             return
         }
@@ -176,7 +176,7 @@ export class Whiteboard extends React.Component<Props, State> {
         this.setState({mode: ModeEnum.HAND})
     }
 
-    resizeImage(move: MoveDataType) {
+    resizeImage(move: MouseMoveData) {
         if (this.state.mode === ModeEnum.NW_RESIZE_IMAGE) {
             this.state.eventStore.nwResizeImage(move)
             this.setState({eventStore: this.state.eventStore})

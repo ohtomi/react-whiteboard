@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import {ModeEnum, ResizeImageDirection} from './Constants'
 import {EventStream} from './EventStream'
-import {EventStore, PointDataType} from './EventStore'
+import {EventStore, PointData} from './EventStore'
 
 
 type Props = {
@@ -16,8 +16,8 @@ type Props = {
 }
 
 type State = {
-    dragStart?: PointDataType,
-    resizeStart?: PointDataType
+    dragStart?: PointData,
+    resizeStart?: PointData
 }
 
 export class CursorPane extends React.Component<Props, State> {

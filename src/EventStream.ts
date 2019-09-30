@@ -1,7 +1,7 @@
 import EventEmitter from 'events'
 
 import {ResizeImageDirection} from './Constants'
-import {ImageDataType, MoveDataType, PointDataType} from './EventStore'
+import {ImageData, MouseMoveData, PointData} from './EventStore'
 
 
 export type EventListener = (value: any) => void
@@ -55,12 +55,12 @@ export class EventStream {
     }
 
     pushPoint(x: number, y: number) {
-        const point: PointDataType = {x, y}
+        const point: PointData = {x, y}
         this.emitter.emit('push', point)
     }
 
     pasteImage(x: number, y: number, width: number, height: number, dataUrl: string) {
-        const image: ImageDataType = {x, y, width, height, dataUrl}
+        const image: ImageData = {x, y, width, height, dataUrl}
         this.emitter.emit('paste', image)
     }
 
@@ -73,7 +73,7 @@ export class EventStream {
     }
 
     dragImage(x: number, y: number) {
-        const move: MoveDataType = {x, y}
+        const move: MouseMoveData = {x, y}
         this.emitter.emit('drag', move)
     }
 
@@ -86,7 +86,7 @@ export class EventStream {
     }
 
     resizeImage(x: number, y: number) {
-        const move: MoveDataType = {x, y}
+        const move: MouseMoveData = {x, y}
         this.emitter.emit('resize', move)
     }
 

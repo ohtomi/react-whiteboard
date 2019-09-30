@@ -1,12 +1,12 @@
 import {SvgElementEnum} from './Constants'
 
 
-export type PointDataType = {
+export type PointData = {
     x: number,
     y: number
 }
 
-export type ImageDataType = {
+export type ImageData = {
     x?: number,
     y?: number,
     width: number,
@@ -14,63 +14,63 @@ export type ImageDataType = {
     dataUrl: string
 }
 
-export type MoveDataType = {
+export type MouseMoveData = {
     x: number,
     y: number
 }
 
-export type PointEventType = {
+export type PointEvent = {
     type: typeof SvgElementEnum.LINE,
     layer: number,
     strokeWidth: number,
     strokeColor: string,
-    point: PointDataType
+    point: PointData
 }
 
-export type ImageEventType = {
+export type ImageEvent = {
     type: typeof SvgElementEnum.IMAGE,
     layer: number,
-    image: ImageDataType
+    image: ImageData
 }
 
-export type StopEventType = {
+export type StopEvent = {
     type: null
 }
 
-export type AnyEventType = PointEventType | ImageEventType | StopEventType
+export type AnyEvent = PointEvent | ImageEvent | StopEvent
 
-export type ReducedLineEventType = {
+export type ReducedLineEvent = {
     type: typeof SvgElementEnum.LINE,
     strokeWidth: number,
     strokeColor: string,
-    values: Array<PointDataType>
+    values: Array<PointData>
 }
 
-export type ReducedImageEventType = {
+export type ReducedImageEvent = {
     type: typeof SvgElementEnum.IMAGE,
-    image: ImageDataType
+    image: ImageData
 }
 
-export type ReducedStopEventType = {
+export type ReducedStopEvent = {
     type?: null
 }
 
-export type AnyReducedEventType = ReducedLineEventType | ReducedImageEventType | ReducedStopEventType
+export type AnyReducedEvent = ReducedLineEvent | ReducedImageEvent | ReducedStopEvent
 
-export const isPointEvent = (arg: AnyEventType): arg is PointEventType => {
+export const isPointEvent = (arg: AnyEvent): arg is PointEvent => {
     return arg.type === SvgElementEnum.LINE
 }
 
-export const isImageEvent = (arg: AnyEventType): arg is ImageEventType => {
+export const isImageEvent = (arg: AnyEvent): arg is ImageEvent => {
     return arg.type === SvgElementEnum.IMAGE
 }
 
 
-export const isReducedLineEvent = (arg: AnyReducedEventType): arg is ReducedLineEventType => {
+export const isReducedLineEvent = (arg: AnyReducedEvent): arg is ReducedLineEvent => {
     return arg.type === SvgElementEnum.LINE
 }
 
-export const isReducedImageEvent = (arg: AnyReducedEventType): arg is ReducedImageEventType => {
+export const isReducedImageEvent = (arg: AnyReducedEvent): arg is ReducedImageEvent => {
     return arg.type === SvgElementEnum.IMAGE
 }
 
@@ -78,8 +78,8 @@ export class EventStore {
 
     selectedLayer: number
     renderableLayers: Array<boolean>
-    goodEvents: Array<AnyEventType>
-    undoEvents: Array<AnyEventType>
+    goodEvents: Array<AnyEvent>
+    undoEvents: Array<AnyEvent>
 
     constructor() {
         this.selectedLayer = 0
@@ -88,7 +88,7 @@ export class EventStore {
         this.undoEvents = []
     }
 
-    lastImage(): ImageDataType | undefined {
+    lastImage(): ImageData | undefined {
         const last = this.goodEvents[this.goodEvents.length - 1]
         if (last && isImageEvent(last)) {
             return last.image
@@ -97,8 +97,8 @@ export class EventStore {
         }
     }
 
-    reduceEvents(): Array<AnyReducedEventType> {
-        return this.goodEvents.reduce((prev: Array<Array<AnyReducedEventType>>, element: AnyEventType): Array<Array<AnyReducedEventType>> => {
+    reduceEvents(): Array<AnyReducedEvent> {
+        return this.goodEvents.reduce((prev: Array<Array<AnyReducedEvent>>, element: AnyEvent): Array<Array<AnyReducedEvent>> => {
                 if (!element.type) {
                     prev.forEach(p => {
                         p.push({})
@@ -111,7 +111,7 @@ export class EventStore {
                     if (last && isReducedLineEvent(last) && last.strokeWidth === element.strokeWidth && last.strokeColor === element.strokeColor) {
                         last.values.push(element.point)
                     } else {
-                        const event: ReducedLineEventType = {
+                        const event: ReducedLineEvent = {
                             type: element.type,
                             strokeWidth: element.strokeWidth,
                             strokeColor: element.strokeColor,
@@ -122,7 +122,7 @@ export class EventStore {
                     return prev
 
                 } else if (isImageEvent(element)) {
-                    const event: ReducedImageEventType = {
+                    const event: ReducedImageEvent = {
                         type: element.type,
                         image: element.image
                     }
@@ -134,14 +134,14 @@ export class EventStore {
                 }
 
             }, this.renderableLayers.map(() => [])
-        ).filter((element: Array<AnyReducedEventType>, index: number): boolean => {
+        ).filter((element: Array<AnyReducedEvent>, index: number): boolean => {
             return this.renderableLayers[index]
 
-        }).reduce((prev: Array<AnyReducedEventType>, element: Array<AnyReducedEventType>): Array<AnyReducedEventType> => {
+        }).reduce((prev: Array<AnyReducedEvent>, element: Array<AnyReducedEvent>): Array<AnyReducedEvent> => {
                 return prev.concat(element)
 
             }, []
-        ).filter((element: AnyReducedEventType): boolean => {
+        ).filter((element: AnyReducedEvent): boolean => {
             if (isReducedLineEvent(element)) {
                 return element.values.length > 1
             } else if (isReducedImageEvent(element)) {
@@ -161,7 +161,7 @@ export class EventStore {
         this.renderableLayers.push(true)
     }
 
-    startDrawing(strokeWidth: number, strokeColor: string, point: PointDataType) {
+    startDrawing(strokeWidth: number, strokeColor: string, point: PointData) {
         this.goodEvents.push({
             type: SvgElementEnum.LINE,
             layer: this.selectedLayer,
@@ -175,8 +175,8 @@ export class EventStore {
         this.goodEvents.push({type: null})
     }
 
-    pushPoint(strokeWidth: number, strokeColor: string, point: PointDataType) {
-        const event: PointEventType = {
+    pushPoint(strokeWidth: number, strokeColor: string, point: PointData) {
+        const event: PointEvent = {
             type: SvgElementEnum.LINE,
             layer: this.selectedLayer,
             strokeWidth: strokeWidth,
@@ -187,8 +187,8 @@ export class EventStore {
         this.undoEvents = []
     }
 
-    pasteImage(image: ImageDataType) {
-        const event: ImageEventType = {
+    pasteImage(image: ImageData) {
+        const event: ImageEvent = {
             type: SvgElementEnum.IMAGE,
             layer: this.selectedLayer,
             image: image
@@ -197,7 +197,7 @@ export class EventStore {
         this.undoEvents = []
     }
 
-    dragImage(move: MoveDataType) {
+    dragImage(move: MouseMoveData) {
         const lastImage = this.lastImage()
         if (lastImage) {
             lastImage.x = lastImage.x + move.x
@@ -205,7 +205,7 @@ export class EventStore {
         }
     }
 
-    nwResizeImage(move: MoveDataType) {
+    nwResizeImage(move: MouseMoveData) {
         const lastImage = this.lastImage()
         if (lastImage) {
             lastImage.x = lastImage.x + move.x
@@ -215,7 +215,7 @@ export class EventStore {
         }
     }
 
-    neResizeImage(move: MoveDataType) {
+    neResizeImage(move: MouseMoveData) {
         const lastImage = this.lastImage()
         if (lastImage) {
             // lastImage.x = lastImage.x + move.x;
@@ -225,7 +225,7 @@ export class EventStore {
         }
     }
 
-    seResizeImage(move: MoveDataType) {
+    seResizeImage(move: MouseMoveData) {
         const lastImage = this.lastImage()
         if (lastImage) {
             // lastImage.x = lastImage.x + move.x;
@@ -235,7 +235,7 @@ export class EventStore {
         }
     }
 
-    swResizeImage(move: MoveDataType) {
+    swResizeImage(move: MouseMoveData) {
         const lastImage = this.lastImage()
         if (lastImage) {
             lastImage.x = lastImage.x + move.x

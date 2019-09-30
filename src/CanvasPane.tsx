@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import {AnyReducedEventType, EventStore, ImageDataType, isReducedImageEvent, isReducedLineEvent, PointDataType} from './EventStore'
+import {AnyReducedEvent, EventStore, ImageData, isReducedImageEvent, isReducedLineEvent, PointData} from './EventStore'
 
 
 type Props = {
@@ -52,10 +52,10 @@ export class CanvasPane extends React.Component<Props, State> {
     }
 
     drawWhiteboardCanvas(): Array<React.ComponentElement<any, any> | undefined> {
-        return this.props.eventStore.reduceEvents().map((element: AnyReducedEventType, index: number): React.ComponentElement<any, any> | undefined => {
+        return this.props.eventStore.reduceEvents().map((element: AnyReducedEvent, index: number): React.ComponentElement<any, any> | undefined => {
             if (isReducedLineEvent(element)) {
                 const key = index
-                const d = element.values.map((point: PointDataType, index: number) => {
+                const d = element.values.map((point: PointData, index: number) => {
                     if (index === 0) {
                         return 'M ' + point.x + ' ' + point.y
                     } else {
@@ -69,7 +69,7 @@ export class CanvasPane extends React.Component<Props, State> {
 
             } else if (isReducedImageEvent(element)) {
                 const key = index
-                const image: ImageDataType = element.image
+                const image: ImageData = element.image
 
                 return (
                     <image key={key} x={image.x} y={image.y} width={image.width} height={image.height} xlinkHref={image.dataUrl}/>

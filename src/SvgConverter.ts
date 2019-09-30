@@ -1,4 +1,4 @@
-import {ImageDataType} from './EventStore'
+import {ImageData} from './EventStore'
 
 
 export class SvgConverter {
@@ -47,19 +47,19 @@ export class SvgConverter {
         })
     }
 
-    static fromPngImage(imageUrl: string): Promise<ImageDataType> {
+    static fromPngImage(imageUrl: string): Promise<ImageData> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/png')
     }
 
-    static fromJpegImage(imageUrl: string): Promise<ImageDataType> {
+    static fromJpegImage(imageUrl: string): Promise<ImageData> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/jpeg')
     }
 
-    static fromGifImage(imageUrl: string): Promise<ImageDataType> {
+    static fromGifImage(imageUrl: string): Promise<ImageData> {
         return SvgConverter.fromImageUrl(imageUrl, 'image/gif')
     }
 
-    static fromImageUrl(imageUrl: string, imageType: string): Promise<ImageDataType> {
+    static fromImageUrl(imageUrl: string, imageType: string): Promise<ImageData> {
         return new Promise(resolve => {
             let imageNode = new window.Image()
             imageNode.onload = () => {
