@@ -16,6 +16,25 @@ export type ChangeStrokeColor = {
     value: string
 }
 
+export enum EventNameEnum {
+    SELECT_LAYER = 'selectLayer',
+    ADD_LAYER = 'addLayer',
+    START = 'start',
+    STOP = 'stop',
+    SET = 'set',
+    PUSH = 'push',
+    PASTE = 'paste',
+    START_DRAGGING = 'startDragging',
+    STOP_DRAGGING = 'stopDragging',
+    DRAG = 'drag',
+    START_RESIZING = 'startResizing',
+    STOP_RESIZING = 'stopResizing',
+    RESIZE = 'resize',
+    UNDO = 'undo',
+    REDO = 'redo',
+    CLEAR = 'clear'
+}
+
 export class EventStream {
 
     emitter: EventEmitter
@@ -24,7 +43,7 @@ export class EventStream {
         this.emitter = new EventEmitter()
     }
 
-    on(name: string, listener: EventListener) {
+    on(name: EventNameEnum, listener: EventListener) {
         this.emitter.on(name, listener)
     }
 

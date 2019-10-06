@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import {ModeEnum, ResizeImageDirection} from './Constants'
-import {ChangeStrokeColor, ChangeStrokeWidth, EventStream} from './EventStream'
+import {ChangeStrokeColor, ChangeStrokeWidth, EventNameEnum, EventStream} from './EventStream'
 import {EventStore, ImageData, MouseMoveData, PointData} from './EventStore'
 import {CursorPane} from './CursorPane'
 import {CanvasPane} from './CanvasPane'
@@ -66,13 +66,13 @@ export class Whiteboard extends React.Component<Props, State> {
     }
 
     setupEventHandler() {
-        this.props.events.on('selectLayer', this.selectLayer.bind(this))
-        this.props.events.on('addLayer', this.addLayer.bind(this))
+        this.props.events.on(EventNameEnum.SELECT_LAYER, this.selectLayer.bind(this))
+        this.props.events.on(EventNameEnum.ADD_LAYER, this.addLayer.bind(this))
 
-        this.props.events.on('start', this.startDrawing.bind(this))
-        this.props.events.on('stop', this.stopDrawing.bind(this))
+        this.props.events.on(EventNameEnum.START, this.startDrawing.bind(this))
+        this.props.events.on(EventNameEnum.STOP, this.stopDrawing.bind(this))
 
-        this.props.events.on('set', (event: ChangeStrokeWidth | ChangeStrokeColor) => {
+        this.props.events.on(EventNameEnum.SET, (event: ChangeStrokeWidth | ChangeStrokeColor) => {
             if (event.key === 'strokeWidth') {
                 this.changeStrokeWidth(event.value)
             }
@@ -81,19 +81,19 @@ export class Whiteboard extends React.Component<Props, State> {
             }
         })
 
-        this.props.events.on('push', this.pushPoint.bind(this))
+        this.props.events.on(EventNameEnum.PUSH, this.pushPoint.bind(this))
 
-        this.props.events.on('paste', this.pasteImage.bind(this))
-        this.props.events.on('startDragging', this.startDragging.bind(this))
-        this.props.events.on('stopDragging', this.stopDragging.bind(this))
-        this.props.events.on('drag', this.dragImage.bind(this))
-        this.props.events.on('startResizing', this.startResizing.bind(this))
-        this.props.events.on('stopResizing', this.stopResizing.bind(this))
-        this.props.events.on('resize', this.resizeImage.bind(this))
+        this.props.events.on(EventNameEnum.PASTE, this.pasteImage.bind(this))
+        this.props.events.on(EventNameEnum.START_DRAGGING, this.startDragging.bind(this))
+        this.props.events.on(EventNameEnum.STOP_DRAGGING, this.stopDragging.bind(this))
+        this.props.events.on(EventNameEnum.DRAG, this.dragImage.bind(this))
+        this.props.events.on(EventNameEnum.START_RESIZING, this.startResizing.bind(this))
+        this.props.events.on(EventNameEnum.STOP_RESIZING, this.stopResizing.bind(this))
+        this.props.events.on(EventNameEnum.RESIZE, this.resizeImage.bind(this))
 
-        this.props.events.on('undo', this.undo.bind(this))
-        this.props.events.on('redo', this.redo.bind(this))
-        this.props.events.on('clear', this.clear.bind(this))
+        this.props.events.on(EventNameEnum.UNDO, this.undo.bind(this))
+        this.props.events.on(EventNameEnum.REDO, this.redo.bind(this))
+        this.props.events.on(EventNameEnum.CLEAR, this.clear.bind(this))
     }
 
     selectLayer(layer: number) {
