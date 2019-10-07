@@ -65,7 +65,6 @@ export const isImageEvent = (arg: AnyEvent): arg is ImageEvent => {
     return arg.type === SvgElementEnum.IMAGE
 }
 
-
 export const isReducedLineEvent = (arg: AnyReducedEvent): arg is ReducedLineEvent => {
     return arg.type === SvgElementEnum.LINE
 }
@@ -74,7 +73,43 @@ export const isReducedImageEvent = (arg: AnyReducedEvent): arg is ReducedImageEv
     return arg.type === SvgElementEnum.IMAGE
 }
 
-export class EventStore {
+export interface EventStoreProtocol {
+
+    lastImage(): ImageData | undefined
+
+    reduceEvents(): Array<AnyReducedEvent>
+
+    selectLayer(layer: number): void
+
+    addLayer(): void
+
+    startDrawing(strokeWidth: number, strokeColor: string, point: PointData): void
+
+    stopDrawing(): void
+
+    pushPoint(strokeWidth: number, strokeColor: string, point: PointData): void
+
+    pasteImage(image: ImageData): void
+
+    dragImage(move: MouseMoveData): void
+
+    nwResizeImage(move: MouseMoveData): void
+
+    neResizeImage(move: MouseMoveData): void
+
+    seResizeImage(move: MouseMoveData): void
+
+    swResizeImage(move: MouseMoveData): void
+
+    undo(): void
+
+    redo(): void
+
+    clear(): void
+}
+
+
+export class EventStore implements EventStoreProtocol {
 
     selectedLayer: number
     renderableLayers: Array<boolean>
