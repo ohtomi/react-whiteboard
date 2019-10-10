@@ -1,7 +1,7 @@
 import {ModeEnum, SvgElementEnum} from './Constants'
 
 export {Whiteboard} from './Whiteboard'
-export {ChangeStrokeColor, ChangeStrokeWidth, EventListener, EventNameEnum, EventStream} from './EventStream'
+export {ChangeStrokeColor, ChangeStrokeWidth, EventListener, EventNameEnum, EventStream, EventStreamProtocol} from './EventStream'
 export {
     EventStore,
     EventStoreProtocol,

@@ -35,7 +35,48 @@ export enum EventNameEnum {
     CLEAR = 'clear'
 }
 
-export class EventStream {
+export interface EventStreamProtocol {
+
+    on(name: EventNameEnum, listener: EventListener): void
+
+    selectLayer(layer: number): void
+
+    addLayer(): void
+
+    startDrawing(x: number, y: number): void
+
+    stopDrawing(): void
+
+    changeStrokeWidth(width: number): void
+
+    changeStrokeColor(color: string): void
+
+    pushPoint(x: number, y: number): void
+
+    pasteImage(x: number, y: number, width: number, height: number, dataUrl: string): void
+
+    startDragging(): void
+
+    stopDragging(): void
+
+    dragImage(x: number, y: number): void
+
+    startResizing(direction: ResizeImageDirection): void
+
+    stopResizing(): void
+
+    resizeImage(x: number, y: number): void
+
+    undo(): void
+
+    redo(): void
+
+    clear(): void
+
+}
+
+
+export class EventStream implements EventStreamProtocol {
 
     emitter: EventEmitter
 
