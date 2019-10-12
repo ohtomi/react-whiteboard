@@ -214,7 +214,7 @@ export class Whiteboard extends React.Component<Props, State> {
             height: this.props.height
         }
 
-        const props = Object.assign({}, this.props, this.state)
+        const props = {...this.props, ...this.state}
 
         return (
             <div style={wrapperStyle}>
